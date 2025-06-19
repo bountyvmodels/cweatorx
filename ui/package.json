@@ -16,7 +16,7 @@
     "@iconify/react": "^5.0.2",
     "@mui/icons-material": "^7.0.1",
     "@mui/lab": "^7.0.0-beta.10",
-    "@mui/material": "^7.1.1",
+    "@mui/material": "^5.15.0",
     "@mui/material-nextjs": "6.1.1",
     "@mui/x-date-pickers": "7.18.0",
     "@next/font": "^14.2.15",
