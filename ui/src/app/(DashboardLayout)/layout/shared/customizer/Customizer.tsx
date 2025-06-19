@@ -107,14 +107,20 @@ const Customizer: FC = () => {
 
       {/* side drawer */}
       <Drawer
-        anchor="right"
-        open={showDrawer}
-        onClose={() => setShowDrawer(false)}
-        slotProps={{
-          /** 🟢 `slotProps.paper` (lower-case) was the source of the earlier error */
-          paper: { sx: { width: SidebarWidth } },
-        }}
-      >
+  anchor="right"
+  open={openCustomizer}
+  onClose={handleCustomizerClose}
+  variant="temporary"
+  ModalProps={{ keepMounted: true }}
+  slotProps={{
+    Paper: {
+      sx: {
+        width: SidebarWidth,
+      },
+    },
+  }}
+>
+
         <Scrollbar sx={{ height: 'calc(100vh - 5px)' }}>
           {/* header */}
           <Box p={2} display="flex" justifyContent="space-between" alignItems="center">
