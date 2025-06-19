@@ -42,14 +42,21 @@ export default function Register() {
               position: 'relative',
               zIndex: 2,
             }}>
-              <Image
-                src="/images/textlogo.png"
-                alt="Cweators logo"
-                width={280}
-                height={70}
-                priority
-                style={{ objectFit: 'contain' }}
-              />
+              <Typography variant="h2" sx={{ 
+                fontWeight: 600, 
+                fontSize: '36px',
+                letterSpacing: '0.1em',
+              }}>
+                <Box component="span" sx={{ color: '#ff9edb' }}>C</Box>
+                <Box component="span" sx={{ color: '#000' }}>W</Box>
+                <Box component="span" sx={{ color: '#ff9edb' }}>E</Box>
+                <Box component="span" sx={{ color: '#000' }}>A</Box>
+                <Box component="span" sx={{ color: '#ff9edb' }}>T</Box>
+                <Box component="span" sx={{ color: '#000' }}>O</Box>
+                <Box component="span" sx={{ color: '#ff9edb' }}>R</Box>
+                <Box component="span" sx={{ color: '#000' }}>S</Box>
+                <Box component="span" sx={{ color: '#000', fontSize: '28px' }}>.com</Box>
+              </Typography>
               <Image
                 src="/images/cweatorlogo.png"
                 alt="Cweators woman logo"
