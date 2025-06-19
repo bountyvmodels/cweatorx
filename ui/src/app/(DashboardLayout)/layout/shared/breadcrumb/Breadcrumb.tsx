@@ -1,9 +1,8 @@
-"use client"
+"use client";
 import React, { useContext } from "react";
 import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import {Grid} from '@mui/material';
-import { Theme } from '@mui/material/styles';
+import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import NextLink from "next/link";
 import { CustomizerContext } from "@/app/context/customizerContext";
@@ -18,7 +17,7 @@ interface BreadCrumbType {
 }
 
 const Breadcrumb = ({ subtitle, items, title, children }: BreadCrumbType) => {
-  const { isBorderRadius } = useContext(CustomizerContext)
+  const { isBorderRadius } = useContext(CustomizerContext);
 
   return (
     <Grid
@@ -32,13 +31,7 @@ const Breadcrumb = ({ subtitle, items, title, children }: BreadCrumbType) => {
         overflow: "hidden",
       }}
     >
-      <Grid
-        mb={1}
-        size={{
-          xs: 12,
-          sm: 6,
-          lg: 8
-        }}>
+      <Grid item xs={12} sm={6} lg={8} mb={1}>
         <Typography variant="h4">{title}</Typography>
         <Typography
           color="textSecondary"
@@ -63,27 +56,21 @@ const Breadcrumb = ({ subtitle, items, title, children }: BreadCrumbType) => {
         >
           {items
             ? items.map((item) => (
-              <div key={item.title}>
-                {item.to ? (
-                  <NextLink href={item.to} passHref>
-                    <Typography color="textSecondary">{item.title}</Typography>
-                  </NextLink>
-                ) : (
-                  <Typography color="textPrimary">{item.title}</Typography>
-                )}
-              </div>
-            ))
+                <div key={item.title}>
+                  {item.to ? (
+                    <NextLink href={item.to} passHref>
+                      <Typography color="textSecondary">{item.title}</Typography>
+                    </NextLink>
+                  ) : (
+                    <Typography color="textPrimary">{item.title}</Typography>
+                  )}
+                </div>
+              ))
             : ""}
         </Breadcrumbs>
       </Grid>
-      <Grid
-        display="flex"
-        alignItems="flex-end"
-        size={{
-          xs: 12,
-          sm: 6,
-          lg: 4
-        }}>
+
+      <Grid item xs={12} sm={6} lg={4} display="flex" alignItems="flex-end">
         <Box
           sx={{
             display: { xs: "none", md: "block", lg: "flex" },
@@ -95,23 +82,21 @@ const Breadcrumb = ({ subtitle, items, title, children }: BreadCrumbType) => {
           {children ? (
             <Box sx={{ top: "0px", position: "absolute" }}>{children}</Box>
           ) : (
-            <>
-              <Box sx={{ top: "0px", position: "absolute" }}>
-                <Image
-                  src="/images/breadcrumb/ChatBc.png"
-                  alt={'breadcrumbImg'}
-                  width="165"
-                  height="165"
-                  style={{ width: '165px', height: '165px' }}
-                  priority
-                />
-              </Box>
-            </>
+            <Box sx={{ top: "0px", position: "absolute" }}>
+              <Image
+                src="/images/breadcrumb/ChatBc.png"
+                alt="breadcrumbImg"
+                width={165}
+                height={165}
+                style={{ width: '165px', height: '165px' }}
+                priority
+              />
+            </Box>
           )}
         </Box>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
 export default Breadcrumb;
