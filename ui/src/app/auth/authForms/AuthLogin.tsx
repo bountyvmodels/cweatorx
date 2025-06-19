@@ -37,13 +37,12 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
     try {
       await signin(email, password);
       
-      // Add a small delay to ensure authentication state is updated
-      setTimeout(() => {
-        router.push("/Agency");
-        router.refresh(); // Force a refresh to ensure state is updated
-      }, 100);
+      // Force navigation to Agency page
+      console.log('Login successful, redirecting to /Agency');
+      router.push("/Agency");
       
     } catch (err: any) {
+      console.error('Login error:', err);
       setError(err.message);
       setIsLoading(false);
     }

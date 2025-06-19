@@ -22,6 +22,7 @@ const initialState: InitialStateType = {
 const reducer = (state: InitialStateType, action: any) => {
     switch (action.type) {
         case 'AUTH_STATE_CHANGED':
+            console.log('AUTH_STATE_CHANGED:', action.payload);
             return { ...state, ...action.payload, isInitialized: true };
         case 'SET_PLATFORM':
             return { ...state, platform: action.payload };
@@ -44,19 +45,46 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const { data: session, status } = useSession();
 
-
     const setPlatform = (platform: 'Firebase' | 'Supabase' | 'NextAuth') => {
         dispatch({ type: 'SET_PLATFORM', payload: platform });
     };
 
-
     useEffect(() => {
-        if (state.platform === 'Firebase') {
+        console.log('AuthProvider useEffect - platform:', state.platform, 'session status:', status);
+        
+        if (state.platform === 'NextAuth') {
+            if (status === 'loading') {
+                console.log('NextAuth session loading...');
+                return;
+            }
 
+            if (session?.user) {
+                console.log('NextAuth user found:', session.user);
+                dispatch({
+                    type: 'AUTH_STATE_CHANGED',
+                    payload: {
+                        isAuthenticated: true,
+                        user: {
+                            id: session.user,
+                            email: session.user.email,
+                            displayName: session.user.name || session.user.email,
+                        },
+                        platform: 'NextAuth',
+                    },
+                });
+            } else {
+                console.log('No NextAuth user found');
+                dispatch({
+                    type: 'AUTH_STATE_CHANGED',
+                    payload: { isAuthenticated: false, user: null, platform: 'NextAuth' },
+                });
+            }
+        }
+        // Keep the Firebase and Supabase logic as before...
+        else if (state.platform === 'Firebase') {
             const unsubscribeFirebase = firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
                     const fullName = user.displayName
-
                     dispatch({
                         type: 'AUTH_STATE_CHANGED',
                         payload: {
@@ -76,14 +104,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                     });
                 }
             });
-
             return () => unsubscribeFirebase();
         } else if (state.platform === 'Supabase') {
-            // Restore Supabase session
             const restoreSession = async () => {
                 const { data: { session } } = await supabase.auth.getSession();
                 if (session?.user) {
-
                     const fullName = session.user.user_metadata?.full_name || session.user.email;
                     dispatch({
                         type: 'AUTH_STATE_CHANGED',
@@ -134,30 +159,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 authListener?.subscription?.unsubscribe();
             };
         }
-        else if (state.platform === 'NextAuth') {
-            if (session?.user) {
-                dispatch({
-                    type: 'AUTH_STATE_CHANGED',
-                    payload: {
-                        isAuthenticated: true,
-                        user: {
-                            id: session.user,
-                            email: session.user.email,
-                            displayName: session.user.name || session.user.email,
-                        },
-                        platform: 'NextAuth',
-                    },
-                });
-            } else {
-                dispatch({
-                    type: 'AUTH_STATE_CHANGED',
-                    payload: { isAuthenticated: false, user: null, platform: 'NextAuth' },
-                });
-            }
-        }
-    }, [state.platform, session]);
-
-
+    }, [state.platform, session, status]);
 
     const loginWithProvider = async (provider: 'google' | 'github') => {
         if (state.platform === 'Firebase') {
@@ -189,26 +191,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const signup = async (email: string, password: string, userName: string) => {
         if (state.platform === 'Firebase') {
             try {
-
                 const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
                 const user = userCredential.user;
-
-
                 if (user) {
                     await user.updateProfile({
                         displayName: userName,
                     });
                     await user.reload();
-
                 }
             } catch (error: any) {
                 console.error('Error signing up with Firebase:', error);
                 throw new Error(error.message);
             }
-
         } else if (state.platform === 'Supabase') {
-
-
             try {
                 const { user, error }: any = await supabase.auth.signUp({
                     email,
@@ -217,11 +212,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                         data: { full_name: userName },
                     },
                 });
-
                 if (error) {
                     throw error;
                 }
-
                 console.log('User registered successfully, confirmation email sent');
             } catch (error: any) {
                 console.error('Error signing up with Supabase:', error);
@@ -231,11 +224,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return null;
     };
 
-
-
-
-
     const signin = async (email: string, password: string) => {
+        console.log('Signing in with platform:', state.platform);
+        
         if (state.platform === 'Firebase') {
             return firebase.auth().signInWithEmailAndPassword(email, password);
         } else if (state.platform === 'Supabase') {
@@ -246,13 +237,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 });
                 console.log(error);
                 if (error) throw error;
-
             } catch (error: any) {
                 throw new Error(error.message);
             }
         }
         else if (state.platform === 'NextAuth') {
-            return signIn('credentials', { email, password });
+            const result = await signIn('credentials', { 
+                email, 
+                password, 
+                redirect: false 
+            });
+            console.log('NextAuth signin result:', result);
+            
+            if (result?.error) {
+                throw new Error('Invalid credentials');
+            }
+            
+            return result;
         }
         return null;
     };
@@ -264,7 +265,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             await supabase.auth.signOut();
         }
         else if (state.platform === 'NextAuth') {
-            await signOut();
+            await signOut({ redirect: false });
         }
     };
 
