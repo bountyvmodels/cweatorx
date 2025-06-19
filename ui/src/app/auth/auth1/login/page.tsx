@@ -4,7 +4,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useContext } from 'react';
 
-import { Grid, Box, Stack, Typography } from '@mui/material';
+// ✅ Importing MUI components individually to preserve proper typing
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+
 import PageContainer from '@/app/components/container/PageContainer';
 import Logo from '@/app/(DashboardLayout)/layout/shared/logo/Logo';
 import AuthLogin from '../../authForms/AuthLogin';
