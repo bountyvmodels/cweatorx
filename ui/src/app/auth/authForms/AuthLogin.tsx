@@ -32,7 +32,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
     e.preventDefault();
     try {
       await signin(email, password);
-      router.push("/");
+      router.push("/Agency");
     } catch (err: any) {
       setError(err.message);
     }
