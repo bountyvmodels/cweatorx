@@ -65,8 +65,8 @@ import {
   IconAppWindow,
   IconDashboard,
   IconUsers,
-  IconTasks,
-  IconCash,
+  IconChecklist,
+  IconWallet,
 } from "@tabler/icons-react";
 
 const Menuitems: MenuitemsType[] = [
@@ -102,13 +102,13 @@ const Menuitems: MenuitemsType[] = [
   {
     id: uniqueId(),
     title: "Task Management",
-    icon: IconTasks,
+    icon: IconChecklist,
     href: "/tasks",
   },
   {
     id: uniqueId(),
     title: "Payments",
-    icon: IconCurrencyDollar,
+    icon: IconWallet,
     href: "/payments",
   },
   {
