@@ -1,15 +1,17 @@
 /* app/(DashboardLayout)/layout/vertical/header/Navigation.tsx */
+'use client';
+
 import { useState } from 'react';
-import Box          from '@mui/material/Box';
-import Button       from '@mui/material/Button';
-import Divider      from '@mui/material/Divider';
-import Grid         from '@mui/material/Unstable_Grid2';   // ← Grid v2
-import Menu         from '@mui/material/Menu';
-import Typography   from '@mui/material/Typography';
-import Link         from 'next/link';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Unstable_Grid2'; // ← Grid v2
+import Menu from '@mui/material/Menu';
+import Typography from '@mui/material/Typography';
+import Link from 'next/link';
 import { IconChevronDown, IconHelp } from '@tabler/icons-react';
 
-import AppLinks   from './AppLinks';
+import AppLinks from './AppLinks';
 import QuickLinks from './QuickLinks';
 
 const AppDD = () => {
@@ -31,10 +33,13 @@ const AppDD = () => {
           onClick={handleClick2}
           sx={{
             bgcolor: anchorEl2 ? 'primary.light' : '',
-            color:  anchorEl2 ? 'primary.main'
-                              : (theme) => theme.palette.text.secondary,
+            color: anchorEl2
+              ? 'primary.main'
+              : (theme) => theme.palette.text.secondary,
           }}
-          endIcon={<IconChevronDown size={15} sx={{ ml: -0.5, mt: 0.25 }} />}
+          endIcon={
+            <Box component={IconChevronDown} size={15} sx={{ ml: -0.5, mt: 0.25 }} />
+          }
         >
           Apps
         </Button>
@@ -46,8 +51,8 @@ const AppDD = () => {
           open={Boolean(anchorEl2)}
           onClose={handleClose2}
           keepMounted
-          anchorOrigin={{ horizontal: 'left',  vertical: 'bottom' }}
-          transformOrigin={{ horizontal: 'left',  vertical: 'top' }}
+          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+          transformOrigin={{ horizontal: 'left', vertical: 'top' }}
           sx={{
             '& .MuiMenu-paper': { width: 850 },
             '& .MuiMenu-paper ul': { p: 0 },
