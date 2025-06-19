@@ -7,13 +7,11 @@ import {
   Drawer,
   Fab,
   IconButton,
-  Slider,
   Stack,
   Tooltip,
   Typography,
+  Slider,
 } from '@mui/material';
-
-/** 👉 We switch to the Grid utility that supports the prop names `xs / sm / lg`  */
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { styled } from '@mui/material/styles';
@@ -29,15 +27,11 @@ import AspectRatioTwoToneIcon from '@mui/icons-material/AspectRatioTwoTone';
 import CallToActionTwoToneIcon from '@mui/icons-material/CallToActionTwoTone';
 import ViewSidebarTwoToneIcon from '@mui/icons-material/ViewSidebarTwoTone';
 import WebAssetTwoToneIcon from '@mui/icons-material/WebAssetTwoTone';
-import {
-  ViewComfyTwoTone,
-  PaddingTwoTone,
-  BorderOuter,
-} from '@mui/icons-material';
+import { ViewComfyTwoTone, PaddingTwoTone, BorderOuter } from '@mui/icons-material';
 
 import config from '@/app/context/config';
 
-const SidebarWidth = '320px';
+const SidebarWidth = 320; // ← numeric makes calc easier later
 
 interface ThemeColor {
   id: number;
@@ -78,7 +72,6 @@ const Customizer: FC = () => {
     '&:hover': { transform: 'scale(1.05)' },
   }));
 
-  /** helper for live‐switching the colour theme */
   const addAttributeToBody = (val: string | undefined) =>
     val && document.body.setAttribute('data-color-theme', val);
 
@@ -107,20 +100,13 @@ const Customizer: FC = () => {
 
       {/* side drawer */}
       <Drawer
-  anchor="right"
-  open={showDrawer}
-  onClose={() => setShowDrawer(false)}
-  variant="temporary"
-  ModalProps={{ keepMounted: true }}
-  slotProps={{
-    paper: {
-      sx: {
-        width: SidebarWidth,
-      },
-    },
-  }}
->
-
+        anchor="right"
+        open={showDrawer}
+        onClose={() => setShowDrawer(false)}
+        variant="temporary"
+        ModalProps={{ keepMounted: true }}
+        sx={{ '& .MuiDrawer-paper': { width: SidebarWidth } }}   {/* ✅ fixed */}
+      >
         <Scrollbar sx={{ height: 'calc(100vh - 5px)' }}>
           {/* header */}
           <Box p={2} display="flex" justifyContent="space-between" alignItems="center">
@@ -132,7 +118,7 @@ const Customizer: FC = () => {
           <Divider />
 
           <Box p={3}>
-            {/* --- Theme Option (light / dark) --- */}
+            {/* --- Theme option (light / dark) --- */}
             <Typography variant="h6" gutterBottom>
               Theme option
             </Typography>
@@ -174,7 +160,7 @@ const Customizer: FC = () => {
             <Grid container spacing={2}>
               {thColors.map(({ id, bgColor, disp }) => (
                 <Grid key={id} xs={4}>
-                  <StyledBox onClick={() => addAttributeToBody(disp)}>
+                  <StyledBox onClick={() => addAttributeToBody(disp)} sx={{ p: 0 }}>
                     <Tooltip title={disp} placement="top">
                       <Box
                         sx={{
@@ -197,7 +183,7 @@ const Customizer: FC = () => {
               ))}
             </Grid>
 
-            {/* … the remainder of the file was unchanged and compiles without Grid warnings … */}
+            {/* … rest of file unchanged … */}
           </Box>
         </Scrollbar>
       </Drawer>
