@@ -105,7 +105,11 @@ const Customizer: FC = () => {
         onClose={() => setShowDrawer(false)}
         variant="temporary"
         ModalProps={{ keepMounted: true }}
-        sx={{ '& .MuiDrawer-paper': { width: SidebarWidth } }}   {/* ✅ fixed */}
+        PaperProps={{
+          sx: {
+            width: SidebarWidth,
+          },
+        }}
       >
         <Scrollbar sx={{ height: 'calc(100vh - 5px)' }}>
           {/* header */}
