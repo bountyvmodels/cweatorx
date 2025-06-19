@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import Grid from '@mui/material/Unstable_Grid2';      // ← NEW Grid2 import
+import Grid from '@mui/material/Grid';
 import { Box, Stack, Typography } from '@mui/material';
 
 import PageContainer from '@/app/components/container/PageContainer';
@@ -19,11 +19,9 @@ export default function Login() {
   return (
     <GuestGuard>
       <PageContainer title="Login | CWEATORS" description="Create. Discover. Earn.">
-        {/* ------------ Entire viewport grid ------------ */}
         <Grid container sx={{ height: '100vh' }}>
-
-          {/* ---------- Left branding pane ---------- */}
           <Grid
+            item
             xs={12}
             lg={7}
             sx={{
@@ -33,12 +31,10 @@ export default function Login() {
               bgcolor: '#fdfbfe',
             }}
           >
-            {/* Logo */}
             <Box px={3} py={2}>
               <Logo />
             </Box>
 
-            {/* Phones + tagline */}
             <Box
               sx={{
                 flexGrow: 1,
@@ -49,24 +45,22 @@ export default function Login() {
                 gap: 4,
               }}
             >
-              {/* three phone mock-ups */}
               <Box sx={{ display: 'flex', gap: 2 }}>
-                <Image src="/images/iphone-subs.png"  alt="Increase Subs"  width={110} height={220} />
-                <Image src="/images/iphone-learn.png" alt="Learn"          width={110} height={220} />
-                <Image src="/images/iphone-tasks.png" alt="Tasks & Links"  width={110} height={220} />
+                <Image src="/images/iphone-subs.png" alt="Increase Subs" width={110} height={220} />
+                <Image src="/images/iphone-learn.png" alt="Learn" width={110} height={220} />
+                <Image src="/images/iphone-tasks.png" alt="Tasks & Links" width={110} height={220} />
               </Box>
 
-              {/* tagline */}
               <Typography variant="h4" sx={{ textAlign: 'center', fontWeight: 600 }}>
                 <Box component="span" sx={{ color: '#ff9edb' }}>Create.</Box>{' '}
-                Discover.{` `}
+                Discover.{' '}
                 <Box component="span" sx={{ color: '#ff9edb' }}>Earn.</Box>
               </Typography>
             </Box>
           </Grid>
 
-          {/* ---------- Right auth pane ---------- */}
           <Grid
+            item
             xs={12}
             lg={5}
             sx={{
@@ -102,7 +96,6 @@ export default function Login() {
               />
             </Box>
           </Grid>
-
         </Grid>
       </PageContainer>
     </GuestGuard>
