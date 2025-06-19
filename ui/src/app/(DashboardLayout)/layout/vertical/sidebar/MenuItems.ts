@@ -82,12 +82,6 @@ const Menuitems: MenuitemsType[] = [
     chip: "New",
     chipColor: "secondary",
   },
-  {
-    id: uniqueId(),
-    title: "Sample Page",
-    icon: IconAperture,
-    href: "/",
-  },
 
   {
     navlabel: true,
@@ -95,21 +89,21 @@ const Menuitems: MenuitemsType[] = [
   },
   {
     id: uniqueId(),
-    title: "View Cweators",
+    title: "CWEATORHUB",
     icon: IconUsers,
     href: "/cweators",
   },
   {
     id: uniqueId(),
-    title: "Task Management",
+    title: "Cweator University",
     icon: IconChecklist,
-    href: "/tasks",
+    href: "/university",
   },
   {
     id: uniqueId(),
-    title: "Payments",
+    title: "Billing & Settings",
     icon: IconWallet,
-    href: "/payments",
+    href: "/billing",
   },
   {
     id: uniqueId(),
@@ -120,94 +114,28 @@ const Menuitems: MenuitemsType[] = [
 
   {
     navlabel: true,
-    subheader: "Other",
+    subheader: "Services",
   },
   {
     id: uniqueId(),
-    title: "Menu Level",
-    icon: IconBoxMultiple,
-    href: "/menulevel/",
-    children: [
-      {
-        id: uniqueId(),
-        title: "Level 1",
-        icon: IconPoint,
-        href: "/l1",
-      },
-      {
-        id: uniqueId(),
-        title: "Level 1.1",
-        icon: IconPoint,
-        href: "/l1.1",
-        children: [
-          {
-            id: uniqueId(),
-            title: "Level 2",
-            icon: IconPoint,
-            href: "/l2",
-          },
-          {
-            id: uniqueId(),
-            title: "Level 2.1",
-            icon: IconPoint,
-            href: "/l2.1",
-            children: [
-              {
-                id: uniqueId(),
-                title: "Level 3",
-                icon: IconPoint,
-                href: "/l3",
-              },
-              {
-                id: uniqueId(),
-                title: "Level 3.1",
-                icon: IconPoint,
-                href: "/l3.1",
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    title: "Marketplace",
+    icon: IconShoppingCart,
+    href: "/marketplace",
   },
   {
     id: uniqueId(),
-    title: "Disabled",
-    icon: IconBan,
-    href: "",
-    disabled: true,
+    title: "Community",
+    icon: IconUsers,
+    href: "/community",
   },
   {
     id: uniqueId(),
-    title: "SubCaption",
-    subtitle: "This is the sutitle",
-    icon: IconStar,
-    href: "",
-  },
-
-  {
-    id: uniqueId(),
-    title: "Chip",
-    icon: IconAward,
-    href: "",
-    chip: "9",
-    chipColor: "primary",
-  },
-  {
-    id: uniqueId(),
-    title: "Outlined",
-    icon: IconMoodSmile,
-    href: "",
-    chip: "outline",
-    variant: "outlined",
-    chipColor: "primary",
-  },
-  {
-    id: uniqueId(),
-    title: "External Link",
+    title: "Join our Telegram",
+    icon: IconMessage2,
+    href: "https://t.me/yourchannel",
     external: true,
-    icon: IconStar,
-    href: "https://google.com",
+    chip: "New",
+    chipColor: "primary",
   },
 ];
 

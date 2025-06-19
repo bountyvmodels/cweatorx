@@ -62,49 +62,49 @@ const MetricCard = ({
   </Card>
 );
 
-// Telegram News Component - Live Embed
+// Telegram News Component - Compact version
 const TelegramNews = () => (
-  <DashboardCard title="TELEGRAM NEWS" subtitle="Latest Updates">
-    <Box sx={{ minHeight: '400px' }}>
-      {/* News Content */}
-      <Box sx={{ mb: 3 }}>
+  <DashboardCard title="📱 Telegram Updates" subtitle="Latest news">
+    <Box sx={{ minHeight: '200px' }}>
+      {/* Compact News Content */}
+      <Box sx={{ mb: 2 }}>
         {[
-          'TELEGRAM CHANNEL POSTS',
-          'TELEGRAM CHANNEL POSTS', 
-          'TELEGRAM CHANNEL POSTS',
-          'TELEGRAM CHANNEL POSTS'
+          'New features released',
+          'Weekly updates', 
+          'Community highlights'
         ].map((news, index) => (
           <Box 
             key={index}
             sx={{ 
-              p: 2, 
+              p: 1.5, 
               backgroundColor: '#f5f5f5', 
-              borderRadius: '8px',
-              textAlign: 'center',
-              mb: 2
+              borderRadius: '6px',
+              textAlign: 'left',
+              mb: 1.5,
+              fontSize: '0.875rem'
             }}
           >
-            <Typography variant="body1" fontWeight="600">
-              TELEGRAM CHANNEL POSTS
+            <Typography variant="body2" fontWeight="500">
+              • {news}
             </Typography>
           </Box>
         ))}
       </Box>
 
-      {/* Join Button */}
+      {/* Compact Join Button */}
       <Box 
         sx={{ 
           backgroundColor: '#00bcd4', 
           color: 'white', 
-          p: 2, 
+          p: 1.5, 
           textAlign: 'center',
-          borderRadius: '8px',
+          borderRadius: '6px',
           cursor: 'pointer',
           '&:hover': { backgroundColor: '#0097a7' }
         }}
       >
-        <Typography variant="h6" fontWeight="bold">
-          ✈️ JOIN OUR CHANNEL
+        <Typography variant="body2" fontWeight="bold">
+          ✈️ Join Channel
         </Typography>
       </Box>
     </Box>
@@ -161,8 +161,8 @@ export default function AgencyDashboard() {
         </Typography>
 
         <Grid container spacing={3}>
-          {/* Main Metrics Area */}
-          <Grid size={{ xs: 12, lg: 8 }}>
+          {/* Main Metrics Area - Takes up more space */}
+          <Grid size={{ xs: 12, lg: 9 }}>
             <Grid container spacing={3}>
               {metrics.map((metric, index) => (
                 <Grid key={index} size={{ xs: 12, sm: 6 }}>
@@ -172,60 +172,14 @@ export default function AgencyDashboard() {
             </Grid>
           </Grid>
 
-          {/* Right Side - Telegram News */}
-          <Grid size={{ xs: 12, lg: 4 }}>
+          {/* Right Side - Compact Telegram News */}
+          <Grid size={{ xs: 12, lg: 3 }}>
             <TelegramNews />
           </Grid>
         </Grid>
 
-        {/* Additional Content Section */}
-        <Grid container spacing={3} sx={{ mt: 3 }}>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <DashboardCard title="Quick Actions" subtitle="Manage your agency">
-              <Box sx={{ p: 2 }}>
-                <Typography variant="body1" sx={{ mb: 2 }}>
-                  • View all Cweators
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 2 }}>
-                  • Manage tasks and assignments
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 2 }}>
-                  • Process payments
-                </Typography>
-                <Typography variant="body1">
-                  • Generate reports
-                </Typography>
-              </Box>
-            </DashboardCard>
-          </Grid>
-          
-          <Grid size={{ xs: 12, md: 6 }}>
-            <DashboardCard title="Recent Activity" subtitle="Latest updates">
-              <Box sx={{ p: 2 }}>
-                <Typography variant="body2" color="textSecondary" sx={{ mb: 1 }}>
-                  2 hours ago
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 2 }}>
-                  New Cweator registered
-                </Typography>
-                
-                <Typography variant="body2" color="textSecondary" sx={{ mb: 1 }}>
-                  4 hours ago
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 2 }}>
-                  Task completed by John Doe
-                </Typography>
-                
-                <Typography variant="body2" color="textSecondary" sx={{ mb: 1 }}>
-                  1 day ago
-                </Typography>
-                <Typography variant="body1">
-                  Payment processed - $500
-                </Typography>
-              </Box>
-            </DashboardCard>
-          </Grid>
-        </Grid>
+        {/* Additional Content Section - REMOVED based on user request */}
+        {/* The Quick Actions and Recent Activity sections have been removed */}
       </Box>
     </PageContainer>
   );
