@@ -17,13 +17,10 @@ const Navigation = () => {
 
   const SidebarWidth = config.sidebarWidth;
 
-
   if (lgUp) {
     return (
       <Box sx={{ borderBottom: '1px solid rgba(0,0,0,0.05)' }} py={2}>
-        {/* ------------------------------------------- */}
         {/* Sidebar for desktop */}
-        {/* ------------------------------------------- */}
         <Container
           sx={{
             maxWidth: isLayout === 'boxed' ? 'lg' : '100%!important',
@@ -40,30 +37,25 @@ const Navigation = () => {
       anchor="left"
       open={isMobileSidebar}
       onClose={() => setIsMobileSidebar(false)}
-
       variant="temporary"
-      slotProps={{ Paper: {
+      slotProps={{
+        paper: {
           sx: {
             width: SidebarWidth,
             border: '0 !important',
-            boxShadow: (theme) => theme.shadows[8],
+            boxShadow: (theme: Theme) => theme.shadows[8],
           },
-        }
+        },
       }}
     >
-      {/* ------------------------------------------- */}
       {/* Logo */}
-      {/* ------------------------------------------- */}
       <Box px={2}>
         <Logo />
       </Box>
-      {/* ------------------------------------------- */}
-      {/* Sidebar For Mobile */}
-      {/* ------------------------------------------- */}
+      {/* Sidebar for mobile */}
       <SidebarItems />
     </Drawer>
   );
 };
 
 export default Navigation;
-
