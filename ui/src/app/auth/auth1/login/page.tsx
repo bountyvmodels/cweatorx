@@ -1,14 +1,11 @@
 'use client';
 
+import { useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useContext } from 'react';
 
-// ✅ Importing MUI components individually to preserve proper typing
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Unstable_Grid2';      // ← NEW Grid2 import
+import { Box, Stack, Typography } from '@mui/material';
 
 import PageContainer from '@/app/components/container/PageContainer';
 import Logo from '@/app/(DashboardLayout)/layout/shared/logo/Logo';
@@ -22,10 +19,11 @@ export default function Login() {
   return (
     <GuestGuard>
       <PageContainer title="Login | CWEATORS" description="Create. Discover. Earn.">
-        <Grid container spacing={0} sx={{ height: '100vh' }}>
-          {/* ───────────────────────── Left Branding Pane ───────────────────────── */}
+        {/* ------------ Entire viewport grid ------------ */}
+        <Grid container sx={{ height: '100vh' }}>
+
+          {/* ---------- Left branding pane ---------- */}
           <Grid
-            item
             xs={12}
             lg={7}
             sx={{
@@ -35,7 +33,7 @@ export default function Login() {
               bgcolor: '#fdfbfe',
             }}
           >
-            {/* Logo on top-left */}
+            {/* Logo */}
             <Box px={3} py={2}>
               <Logo />
             </Box>
@@ -51,33 +49,32 @@ export default function Login() {
                 gap: 4,
               }}
             >
+              {/* three phone mock-ups */}
               <Box sx={{ display: 'flex', gap: 2 }}>
-                <Image src="/images/iphone-subs.png" alt="Increase Subs" width={110} height={220} />
-                <Image src="/images/iphone-learn.png" alt="Learn" width={110} height={220} />
-                <Image src="/images/iphone-tasks.png" alt="Tasks & Links" width={110} height={220} />
+                <Image src="/images/iphone-subs.png"  alt="Increase Subs"  width={110} height={220} />
+                <Image src="/images/iphone-learn.png" alt="Learn"          width={110} height={220} />
+                <Image src="/images/iphone-tasks.png" alt="Tasks & Links"  width={110} height={220} />
               </Box>
 
+              {/* tagline */}
               <Typography variant="h4" sx={{ textAlign: 'center', fontWeight: 600 }}>
-                <Box component="span" sx={{ color: '#ff9edb' }}>
-                  Create.
-                </Box>{' '}
-                Discover.{' '}
-                <Box component="span" sx={{ color: '#ff9edb' }}>
-                  Earn.
-                </Box>
+                <Box component="span" sx={{ color: '#ff9edb' }}>Create.</Box>{' '}
+                Discover.{` `}
+                <Box component="span" sx={{ color: '#ff9edb' }}>Earn.</Box>
               </Typography>
             </Box>
           </Grid>
 
-          {/* ───────────────────────── Right Auth Form ───────────────────────── */}
+          {/* ---------- Right auth pane ---------- */}
           <Grid
-            item
             xs={12}
             lg={5}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            sx={{ bgcolor: 'background.paper' }}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              bgcolor: 'background.paper',
+            }}
           >
             <Box p={4} width="100%" maxWidth={420}>
               <AuthLogin
@@ -105,6 +102,7 @@ export default function Login() {
               />
             </Box>
           </Grid>
+
         </Grid>
       </PageContainer>
     </GuestGuard>
