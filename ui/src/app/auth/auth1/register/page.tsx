@@ -1,24 +1,26 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
+import Link   from 'next/link';
+import Image  from 'next/image';
 
-import Grid from '@mui/material/Grid';
+import Grid   from '@mui/material/Grid';
 import { Box, Stack, Typography } from '@mui/material';
 
 import PageContainer from '@/app/components/container/PageContainer';
-import AuthRegister from '@/app/auth/authForms/AuthRegister';
-import GuestGuard from '@/app/guards/authGuard/GuestGaurd';
+import AuthRegister  from '@/app/auth/authForms/AuthRegister';
+import GuestGuard    from '@/app/guards/authGuard/GuestGaurd';
 
 export default function Register() {
   return (
     <GuestGuard>
-      <PageContainer title="Register | CWEATORS" description="Create. Discover. Earn.">
+      <PageContainer
+        title="Register | CWEATORS"
+        description="Create. Discover. Earn."
+      >
         <Grid container sx={{ minHeight: '100vh' }}>
+          {/* ─────────── Branding column ─────────── */}
           <Grid
-            item
-            xs={12}
-            lg={7}
+            item xs={12} lg={7}
             sx={{
               position: 'relative',
               display: { xs: 'none', lg: 'flex' },
@@ -27,7 +29,13 @@ export default function Register() {
             }}
           >
             <Box px={3} py={2}>
-              <Image src="/images/textlogo.png" alt="Cweators logo" width={160} height={40} />
+              <Image
+                src="/images/textlogo.png"
+                alt="Cweators logo"
+                width={160}
+                height={40}
+                priority
+              />
             </Box>
             <Box
               sx={{
@@ -40,8 +48,8 @@ export default function Register() {
               }}
             >
               <Box sx={{ display: 'flex', gap: 2 }}>
-                <Image src="/images/iphone-subs.png" alt="Increase Subs" width={110} height={220} priority />
-                <Image src="/images/iphone-learn.png" alt="Learn" width={110} height={220} priority />
+                <Image src="/images/iphone-subs.png"  alt="Increase Subs" width={110} height={220} priority />
+                <Image src="/images/iphone-learn.png" alt="Learn"         width={110} height={220} priority />
                 <Image src="/images/iphone-tasks.png" alt="Tasks & Links" width={110} height={220} priority />
               </Box>
 
@@ -53,10 +61,9 @@ export default function Register() {
             </Box>
           </Grid>
 
+          {/* ─────────── Register form column ─────────── */}
           <Grid
-            item
-            xs={12}
-            lg={5}
+            item xs={12} lg={5}
             sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.paper' }}
           >
             <Box p={4} width="100%" maxWidth={420}>
