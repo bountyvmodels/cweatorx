@@ -1,107 +1,118 @@
-'use client';
-
+"use client"
 import Link from 'next/link';
-import Image from 'next/image';
-import { useContext } from 'react';
 
-import Grid from '@mui/material/Unstable_Grid2';      // ← use Grid v2
-import { Box, Stack, Typography } from '@mui/material';
+
+
+import { Grid, Box, Stack, Typography } from "@mui/material";
 
 import PageContainer from '@/app/components/container/PageContainer';
-import Logo          from '@/app/(DashboardLayout)/layout/shared/logo/Logo';
-import AuthLogin     from '../../authForms/AuthLogin';
-import AuthContext   from '@/app/context/AuthContext';
-import GuestGuard    from '@/app/guards/authGuard/GuestGaurd';
+import Logo from '@/app/(DashboardLayout)/layout/shared/logo/Logo';
+import AuthLogin from '../../authForms/AuthLogin';
+import Image from 'next/image';
+import AuthContext from '@/app/context/AuthContext';
+import GuestGuard from "@/app/guards/authGuard/GuestGaurd";
+import { useContext } from 'react';
 
 export default function Login() {
   const { platform } = useContext(AuthContext);
 
   return (
-    <GuestGuard>
-      <PageContainer
-        title="Login | CWEATORS"
-        description="Create. Discover. Earn."
-      >
-        {/* full-height grid */}
-        <Grid container sx={{ height: '100vh' }}>
-          {/* ─── Left branding pane ───────────────────────────── */}
-          <Grid
-            xs={12}
-            lg={7}
-            sx={{
-              position: 'relative',
-              display: { xs: 'none', lg: 'flex' },
-              flexDirection: 'column',
-              bgcolor: '#fdfbfe',
-            }}
-          >
-            {/* logo */}
-            <Box px={3} py={2}>
-              <Logo />
-            </Box>
+    (
 
-            {/* phones + tagline */}
-            <Box
+      <GuestGuard>
+        <PageContainer title="Login Page" description="this is Sample page">
+          <Grid container spacing={0} justifyContent="center" sx={{ height: '100vh' }}>
+            <Grid
               sx={{
-                flexGrow: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 4,
+                position: 'relative',
+                '&:before': {
+                  content: '""',
+                  background: 'radial-gradient(#d2f1df, #d3d7fa, #bad8f4)',
+                  backgroundSize: '400% 400%',
+                  animation: 'gradient 15s ease infinite',
+                  position: 'absolute',
+                  height: '100%',
+                  width: '100%',
+                  opacity: '0.3',
+                },
               }}
-            >
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <Image src="/images/iphone-subs.png"  alt="Increase Subs" width={110} height={220} />
-                <Image src="/images/iphone-learn.png" alt="Learn"         width={110} height={220} />
-                <Image src="/images/iphone-tasks.png" alt="Tasks & Links" width={110} height={220} />
+              size={{
+                xs: 12,
+                sm: 12,
+                lg: 7,
+                xl: 8
+              }}>
+              <Box position="relative">
+                <Box px={3}>
+                  <Logo />
+                </Box>
+                <Box
+                  alignItems="center"
+                  justifyContent="center"
+                  height={'calc(100vh - 75px)'}
+                  sx={{
+                    display: {
+                      xs: 'none',
+                      lg: 'flex',
+                    },
+                  }}
+                >
+                  <Image
+                    src={"/images/backgrounds/login-bg.svg"}
+                    alt="bg" width={500} height={500}
+                    style={{
+                      width: '100%',
+                      maxWidth: '500px',
+                      maxHeight: '500px',
+                    }}
+                  />
+                </Box>
               </Box>
+            </Grid>
+            <Grid
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              size={{
+                xs: 12,
+                sm: 12,
+                lg: 5,
+                xl: 4
+              }}>
+              <Box p={4}>
+                <AuthLogin
+                  title="Welcome to Modernize"
+                  subtext={
+                    <Typography variant="subtitle1" color="textSecondary" mb={1}>
+                      This login is made with {platform}
 
-              <Typography variant="h4" sx={{ textAlign: 'center', fontWeight: 600 }}>
-                <Box component="span" sx={{ color: '#ff9edb' }}>Create.</Box>{' '}
-                Discover.{` `}
-                <Box component="span" sx={{ color: '#ff9edb' }}>Earn.</Box>
-              </Typography>
-            </Box>
-          </Grid>
+                    </Typography>
+                  }
+                  subtitle={
+                    <Stack direction="row" spacing={1} mt={3}>
+                      <Typography color="textSecondary" variant="h6" fontWeight="500">
+                        New to Modernize?
+                      </Typography>
+                      <Typography
+                        component={Link}
+                        href="/auth/auth1/register"
+                        fontWeight="500"
+                        sx={{
+                          textDecoration: 'none',
+                          color: 'primary.main',
+                        }}
+                      >
+                        Create an account
 
-          {/* ─── Right auth form ─────────────────────────────── */}
-          <Grid
-            xs={12}
-            lg={5}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            sx={{ bgcolor: 'background.paper' }}
-          >
-            <Box p={4} width="100%" maxWidth={420}>
-              <AuthLogin
-                title="Welcome to cweators.com"
-                subtext={
-                  <Typography variant="subtitle1" color="textSecondary" mb={1}>
-                    Transform Your Influencers — powered by {platform}
-                  </Typography>
-                }
-                subtitle={
-                  <Stack direction="row" spacing={1} mt={3}>
-                    <Typography color="textSecondary" variant="body2">
-                      New to CWEATORS?
-                    </Typography>
-                    <Typography
-                      component={Link}
-                      href="/auth/auth1/register"
-                      fontWeight={600}
-                      sx={{ textDecoration: 'none', color: 'primary.main' }}
-                    >
-                      Create an account
-                    </Typography>
-                  </Stack>
-                }
-              />
-            </Box>
+                      </Typography>
+                    </Stack>
+                  }
+                />
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      </PageContainer>
-    </GuestGuard>
+        </PageContainer>
+      </GuestGuard>
+    )
   );
-}
+};

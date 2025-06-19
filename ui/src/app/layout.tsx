@@ -1,23 +1,22 @@
-import React from 'react';
-import MyApp from './app';
-import { CustomizerContextProvider } from './context/customizerContext';
+import React from "react";
+import MyApp from "./app";
+import { CustomizerContextProvider } from "./context/customizerContext";
 
-// ─────────────────────────────────────────────
-//  ⚠️  USING “Playfair Display” AS A FREE SERIF
-//  If you decide to self-host Kulachat Serif, change this.
-// ─────────────────────────────────────────────
-import { Playfair_Display } from 'next/font/google';
-const playfair = Playfair_Display({ subsets: ['latin'], weight: ['400', '700'] });
 
 export const metadata = {
-  title: 'CWEATORS',
-  description: 'Create. Discover. Earn.',
+  title: "Modernize Demo",
+  description: "Modernize kit",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" suppressHydrationWarning className={playfair.className}>
+    <html lang="en" suppressHydrationWarning>
       <body>
+
         <CustomizerContextProvider>
           <MyApp session={undefined}>{children}</MyApp>
         </CustomizerContextProvider>

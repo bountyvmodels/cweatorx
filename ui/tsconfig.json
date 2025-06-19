@@ -1,46 +1,29 @@
 {
-  // ───────────────────────────────────────────────────────────
-  //  🌸  CWEATORS – TypeScript compiler settings
-  // ───────────────────────────────────────────────────────────
   "compilerOptions": {
-    /*  Language / emit  */
-    "target":            "ESNext",          // modern syntax; Node-18+ / browsers
-    "lib":               ["DOM", "DOM.Iterable", "ESNext"],
-    "module":            "ESNext",
-    "moduleResolution":  "Bundler",         // Next 14 + recommendation
-    "noEmit":            true,
-
-    /*  Type-safety  */
-    "strict":            true,
-    "skipLibCheck":      true,
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
-
-    /*  Interop / tooling  */
-    "allowJs":           true,
-    "esModuleInterop":   true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "jsx":               "preserve",
-    "incremental":       true,
-    "allowImportingTsExtensions": true,
-
-    /*  Base-url & path aliases  */
-    "baseUrl": ".",                        // ←  needed for "paths"
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "allowImportingTsExtensions":true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
-      "@/*": ["src/*"]                     // e.g. import Btn from '@/components/Btn'
-    },
-
-    /*  Enable Next.js language-service plugin  */
-    "plugins": [{ "name": "next" }]
+      "@/*": ["./src/*"]
+    }
   },
-
-  /*  Include project files  */
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-
-  /*  Node-modules stay excluded  */
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

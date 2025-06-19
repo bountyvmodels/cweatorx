@@ -1,29 +1,98 @@
-'use client';
+"use client";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import { styled, useTheme } from "@mui/material/styles";
+import React, { useContext } from "react";
+import Header from "./layout/vertical/header/Header";
+import Sidebar from "./layout/vertical/sidebar/Sidebar";
+import Customizer from "./layout/shared/customizer/Customizer";
+import Navigation from "./layout/horizontal/navbar/Navigation";
+import HorizontalHeader from "./layout/horizontal/header/Header";
+import AuthGuard from "@/app/guards/authGuard/AuthGuard";
+import { CustomizerContext } from "@/app/context/customizerContext";
+import config from "@/app/context/config";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import Box from '@mui/material/Box';
+const MainWrapper = styled("div")(() => ({
+  display: "flex",
+  minHeight: "100vh",
+  width: "100%",
+}));
 
-export default function Logo() {
+const PageWrapper = styled("div")(() => ({
+  display: "flex",
+  flexGrow: 1,
+  paddingBottom: "60px",
+  flexDirection: "column",
+  zIndex: 1,
+  width: "100%",
+  backgroundColor: "transparent",
+}));
+
+interface Props {
+  children: React.ReactNode;
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+
+  const { activeLayout, isLayout, isCollapse } = useContext(CustomizerContext);
+  const MiniSidebarWidth = config.miniSidebarWidth;
+  const theme = useTheme();
+
   return (
-    <Box component={Link} href="/" sx={{ display: 'inline-flex', alignItems: 'center' }}>
-      {/* Heart-girl dollar logo */}
-      <Image
-        src="/images/cweatorlogo.png"
-        alt="CWEATORS logo"
-        width={36}
-        height={36}
-        priority
-      />
-      {/* Text logo */}
-      <Image
-        src="/images/textlogo.png"
-        alt="CWEATORS"
-        width={120}
-        height={24}
-        priority
-        style={{ marginLeft: 8 }}
-      />
-    </Box>
+    <AuthGuard>
+      <MainWrapper>
+        {/* ------------------------------------------- */}
+        {/* Sidebar */}
+        {/* ------------------------------------------- */}
+        {activeLayout === 'horizontal' ? "" : <Sidebar />}
+        {/* ------------------------------------------- */}
+        {/* Main Wrapper */}
+        {/* ------------------------------------------- */}
+        <PageWrapper
+          className="page-wrapper"
+          sx={{
+            ...(isCollapse === "mini-sidebar" && {
+              [theme.breakpoints.up("lg")]: {
+                ml: `${MiniSidebarWidth}px`,
+              },
+            }),
+          }}
+        >
+          {/* ------------------------------------------- */}
+          {/* Header */}
+          {/* ------------------------------------------- */}
+          {activeLayout === 'horizontal' ? <HorizontalHeader /> : <Header />}
+          {/* PageContent */}
+          {activeLayout === 'horizontal' ? <Navigation /> : ""}
+          <Container
+            sx={{
+              maxWidth:
+                isLayout === "boxed" ? "lg" : "100%!important",
+            }}
+          >
+            {/* ------------------------------------------- */}
+            {/* PageContent */}
+            {/* ------------------------------------------- */}
+
+            <Box sx={{ minHeight: "calc(100vh - 170px)" }}>
+              {/* <Outlet /> */}
+              {children}
+              {/* <Index /> */}
+            </Box>
+
+            {/* ------------------------------------------- */}
+            {/* End Page */}
+            {/* ------------------------------------------- */}
+          </Container>
+          <Customizer />
+        </PageWrapper>
+      </MainWrapper>
+    </AuthGuard>
   );
+
+
 }
