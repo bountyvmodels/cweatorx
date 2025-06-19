@@ -17,10 +17,11 @@ export default function Login() {
   return (
     <GuestGuard>
       <PageContainer title="Login | CWEATORS" description="Create. Discover. Earn.">
-        <Grid container spacing={0} sx={{ height: '100vh' }}>
+        <Grid container component="div" spacing={0} sx={{ height: '100vh' }}>
           {/* ───────────────────────── Left Branding Pane ───────────────────────── */}
           <Grid
             item
+            component="div"
             xs={12}
             lg={7}
             sx={{
@@ -69,6 +70,7 @@ export default function Login() {
           {/* ───────────────────────── Right Auth Form ───────────────────────── */}
           <Grid
             item
+            component="div"
             xs={12}
             lg={5}
             display="flex"
