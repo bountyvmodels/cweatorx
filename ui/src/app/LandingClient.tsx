@@ -1,4 +1,5 @@
 'use client';
+
 import Link from 'next/link';
 
 const mockCourses = [
@@ -26,8 +27,13 @@ const mockCourses = [
 ];
 
 export default function LandingClient() {
+  const handleClick = () => {
+    window.location.href = '/signup';
+  };
+
   return (
     <main className="bg-white text-pink-600 min-h-screen w-full overflow-x-hidden">
+      {/* Hero Section */}
       <section className="text-center pt-16 px-4">
         <h1 className="text-5xl font-light tracking-widest">CWEATORS</h1>
         <h2 className="text-3xl font-semibold mt-4 text-pink-400">Create. Discover. Earn.</h2>
@@ -37,6 +43,7 @@ export default function LandingClient() {
         </div>
       </section>
 
+      {/* Features */}
       <section className="mt-16 px-4 max-w-5xl mx-auto">
         <h3 className="text-2xl font-bold mb-6">Why Cweator?</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -44,19 +51,50 @@ export default function LandingClient() {
             <div
               key={i}
               className="border p-4 rounded-xl shadow hover:shadow-lg transition cursor-pointer"
-              onClick={() => window.location.href = '/signup'}
+              onClick={handleClick}
             >
               <h4 className="font-bold text-lg">{title}</h4>
               <p className="text-pink-700 mt-1 text-sm">
-                {[
-                  'Grow through layered referrals and earn passively.',
-                  'Monetize your content & community like OnlyFans or Patreon.',
-                  'Sell your courses and automate your income stream.'
-                ][i]}
+                {i === 0
+                  ? 'Grow through layered referrals and earn passively.'
+                  : i === 1
+                    ? 'Monetize your content & community like OnlyFans or Patreon.'
+                    : 'Sell your courses and automate your income stream.'}
               </p>
             </div>
           ))}
         </div>
       </section>
 
+      {/* Top Courses */}
       <section className="mt-20 px-4 max-w-6xl mx-auto">
+        <h3 className="text-2xl font-bold mb-6">Top Earning Communities</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {mockCourses.map((course, idx) => (
+            <div
+              key={idx}
+              onClick={handleClick}
+              className="cursor-pointer border border-pink-100 rounded-xl shadow hover:shadow-lg transition overflow-hidden"
+            >
+              <div className="h-48 bg-gray-100 w-full">
+                <img src={course.image} alt={course.title} className="object-cover w-full h-full" />
+              </div>
+              <div className="p-4">
+                <h4 className="font-bold text-xl">{course.title}</h4>
+                <p className="text-sm text-pink-700 mt-1">{course.subtitle}</p>
+                <div className="flex justify-between items-center mt-2 text-sm">
+                  <span>{course.members} Members</span>
+                  <span className="font-medium">{course.price}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <footer className="text-center text-sm text-pink-400 mt-20 py-6">
+        &copy; {new Date().getFullYear()} Cweator.com. All rights reserved.
+      </footer>
+    </main>
+  );
+}
