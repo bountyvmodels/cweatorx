@@ -1,0 +1,31 @@
+/* --- Modernize base (kept) --- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- CWEATORS brand overrides --- */
+:root {
+  --brand-pink: #ff9edb;
+  --brand-dark: #000000;
+  --brand-bg: #fdfbfe;
+}
+
+body {
+  background: var(--brand-bg);
+  color: var(--brand-dark);
+  font-family: 'Playfair Display', serif;
+}
+
+/* Buttons */
+button {
+  @apply rounded-md px-4 py-2 font-medium text-white bg-[--brand-pink];
+}
+button:hover {
+  background-color: #e57bc3;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--brand-pink);
+  letter-spacing: .03em;
+}
