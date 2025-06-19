@@ -48,25 +48,20 @@ export default function Login() {
               zIndex: 2,
             }}>
               <Typography variant="h2" sx={{ 
-                fontWeight: 600, 
-                fontSize: '36px',
-                letterSpacing: '0.1em',
+                fontWeight: 300, 
+                fontSize: '48px',
+                letterSpacing: '0.3em',
+                display: 'flex',
+                alignItems: 'baseline',
               }}>
-                <Box component="span" sx={{ color: '#ff9edb' }}>C</Box>
-                <Box component="span" sx={{ color: '#000' }}>W</Box>
-                <Box component="span" sx={{ color: '#ff9edb' }}>E</Box>
-                <Box component="span" sx={{ color: '#000' }}>A</Box>
-                <Box component="span" sx={{ color: '#ff9edb' }}>T</Box>
-                <Box component="span" sx={{ color: '#000' }}>O</Box>
-                <Box component="span" sx={{ color: '#ff9edb' }}>R</Box>
-                <Box component="span" sx={{ color: '#000' }}>S</Box>
-                <Box component="span" sx={{ color: '#000', fontSize: '28px' }}>.com</Box>
+                <Box component="span" sx={{ color: '#ff9edb' }}>CWEATORS</Box>
+                <Box component="span" sx={{ color: '#000', fontSize: '32px', letterSpacing: '0.05em' }}>.com</Box>
               </Typography>
               <Image
                 src="/images/cweatorlogo.png"
                 alt="Cweators woman logo"
-                width={150}
-                height={150}
+                width={120}
+                height={120}
                 priority
                 style={{ objectFit: 'contain' }}
               />
