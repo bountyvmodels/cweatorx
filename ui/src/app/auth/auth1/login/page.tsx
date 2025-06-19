@@ -17,11 +17,10 @@ export default function Login() {
   return (
     <GuestGuard>
       <PageContainer title="Login | CWEATORS" description="Create. Discover. Earn.">
-        <Grid container component="div" spacing={0} sx={{ height: '100vh' }}>
+        <Grid container spacing={0} sx={{ height: '100vh' }}>
           {/* ───────────────────────── Left Branding Pane ───────────────────────── */}
           <Grid
             item
-            component="div"
             xs={12}
             lg={7}
             sx={{
@@ -47,14 +46,12 @@ export default function Login() {
                 gap: 4,
               }}
             >
-              {/* 3 phones */}
               <Box sx={{ display: 'flex', gap: 2 }}>
                 <Image src="/images/iphone-subs.png" alt="Increase Subs" width={110} height={220} />
                 <Image src="/images/iphone-learn.png" alt="Learn" width={110} height={220} />
                 <Image src="/images/iphone-tasks.png" alt="Tasks & Links" width={110} height={220} />
               </Box>
 
-              {/* Tagline */}
               <Typography variant="h4" sx={{ textAlign: 'center', fontWeight: 600 }}>
                 <Box component="span" sx={{ color: '#ff9edb' }}>
                   Create.
@@ -70,7 +67,6 @@ export default function Login() {
           {/* ───────────────────────── Right Auth Form ───────────────────────── */}
           <Grid
             item
-            component="div"
             xs={12}
             lg={5}
             display="flex"
