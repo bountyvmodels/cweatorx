@@ -53,10 +53,43 @@ const handler = NextAuth({
       }
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      console.log('NextAuth redirect callback - url:', url, 'baseUrl:', baseUrl);
+      
+      // If it's a relative URL, prepend the base URL
+      if (url.startsWith('/')) {
+        // Check if user is trying to access a specific page
+        if (url.includes('/Agency')) {
+          console.log('Redirecting to Agency page');
+          return `${baseUrl}/Agency`;
+        }
+        // Default redirect after login
+        console.log('Redirecting to default Agency page');
+        return `${baseUrl}/Agency`;
+      }
+      
+      // If it's an absolute URL within the same domain
+      if (url.startsWith(baseUrl)) {
+        return url;
+      }
+      
+      // Default fallback to Agency page
+      console.log('Fallback redirect to Agency page');
+      return `${baseUrl}/Agency`;
+    },
   },
   session: {
     strategy: 'jwt',
   },
+  events: {
+    async signIn({ user, account, profile }) {
+      console.log('NextAuth signIn event:', { user: user.email, account: account?.provider });
+    },
+    async session({ session, token }) {
+      console.log('NextAuth session event:', { user: session.user?.email });
+    },
+  },
+  debug: process.env.NODE_ENV === 'development', // Enable debug logs in development
 });
 
 export { handler as GET, handler as POST };

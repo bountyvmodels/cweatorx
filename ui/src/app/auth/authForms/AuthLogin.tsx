@@ -35,15 +35,22 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
     setError("");
     
     try {
-      await signin(email, password);
+      const result = await signin(email, password);
+      console.log('Login result:', result);
       
-      // Force navigation to Agency page
-      console.log('Login successful, redirecting to /Agency');
-      router.push("/Agency");
+      // For NextAuth, the redirect should be handled by the NextAuth callback
+      // But we'll add a fallback just in case
+      if (result && !result.error) {
+        console.log('Login successful, redirecting to /Agency');
+        // Add a small delay to ensure the session is updated
+        setTimeout(() => {
+          router.push("/Agency");
+        }, 100);
+      }
       
     } catch (err: any) {
       console.error('Login error:', err);
-      setError(err.message);
+      setError(err.message || 'Login failed');
       setIsLoading(false);
     }
   };
