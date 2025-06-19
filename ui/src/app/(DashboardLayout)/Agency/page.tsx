@@ -2,7 +2,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
-import { Grid, Box, Card, CardContent, Typography, Stack, Avatar } from "@mui/material";
+import { Grid, Box, Card, CardContent, Typography, Stack } from "@mui/material";
 import PageContainer from "@/app/components/container/PageContainer";
 import DashboardCard from "@/app/components/shared/DashboardCard";
 
@@ -75,8 +75,8 @@ const MetricCard = ({
   </Card>
 );
 
-// Telegram News Component
-const TelegramNews = () => (
+// Agency News Component
+const AgencyNews = () => (
   <DashboardCard>
     <Box>
       {/* Header */}
@@ -144,7 +144,7 @@ const TelegramNews = () => (
   </DashboardCard>
 );
 
-export default function AgencyDashboard() {
+export default function Dashboard() {
   const [isLoading, setLoading] = useState(true);
   
   useEffect(() => {
@@ -208,7 +208,7 @@ export default function AgencyDashboard() {
 
           {/* Agency News Section */}
           <Grid size={{ xs: 12, lg: 4 }}>
-            <TelegramNews />
+            <AgencyNews />
           </Grid>
 
           {/* Revenue Chart Placeholder */}
