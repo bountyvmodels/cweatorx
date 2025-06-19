@@ -63,6 +63,10 @@ import {
   IconBoxAlignLeft,
   IconBorderStyle2,
   IconAppWindow,
+  IconDashboard,
+  IconUsers,
+  IconTasks,
+  IconCash,
 } from "@tabler/icons-react";
 
 const Menuitems: MenuitemsType[] = [
@@ -70,14 +74,48 @@ const Menuitems: MenuitemsType[] = [
     navlabel: true,
     subheader: "Home",
   },
-
+  {
+    id: uniqueId(),
+    title: "Agency Dashboard",
+    icon: IconDashboard,
+    href: "/Agency",
+    chip: "New",
+    chipColor: "secondary",
+  },
   {
     id: uniqueId(),
     title: "Sample Page",
     icon: IconAperture,
     href: "/",
-    chip: "New",
-    chipColor: "secondary",
+  },
+
+  {
+    navlabel: true,
+    subheader: "Agency Management",
+  },
+  {
+    id: uniqueId(),
+    title: "View Cweators",
+    icon: IconUsers,
+    href: "/cweators",
+  },
+  {
+    id: uniqueId(),
+    title: "Task Management",
+    icon: IconTasks,
+    href: "/tasks",
+  },
+  {
+    id: uniqueId(),
+    title: "Payments",
+    icon: IconCurrencyDollar,
+    href: "/payments",
+  },
+  {
+    id: uniqueId(),
+    title: "CweatorLinks",
+    icon: IconPackage,
+    href: "/cweatorlinks",
   },
 
   {
