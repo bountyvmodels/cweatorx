@@ -1,17 +1,17 @@
 'use client';
 
-import { useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useContext } from 'react';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid';          // ← Grid v2 (no “item” prop)
 import { Box, Stack, Typography } from '@mui/material';
 
 import PageContainer from '@/app/components/container/PageContainer';
-import Logo from '@/app/(DashboardLayout)/layout/shared/logo/Logo';
-import AuthLogin from '../../authForms/AuthLogin';
-import AuthContext from '@/app/context/AuthContext';
-import GuestGuard from '@/app/guards/authGuard/GuestGaurd';
+import Logo           from '@/app/(DashboardLayout)/layout/shared/logo/Logo';
+import AuthLogin      from '../../authForms/AuthLogin';
+import AuthContext    from '@/app/context/AuthContext';
+import GuestGuard     from '@/app/guards/authGuard/GuestGaurd';
 
 export default function Login() {
   const { platform } = useContext(AuthContext);
@@ -20,8 +20,8 @@ export default function Login() {
     <GuestGuard>
       <PageContainer title="Login | CWEATORS" description="Create. Discover. Earn.">
         <Grid container sx={{ height: '100vh' }}>
+          {/* ─────────── Left branding pane ─────────── */}
           <Grid
-            item
             xs={12}
             lg={7}
             sx={{
@@ -46,8 +46,8 @@ export default function Login() {
               }}
             >
               <Box sx={{ display: 'flex', gap: 2 }}>
-                <Image src="/images/iphone-subs.png" alt="Increase Subs" width={110} height={220} />
-                <Image src="/images/iphone-learn.png" alt="Learn" width={110} height={220} />
+                <Image src="/images/iphone-subs.png"  alt="Increase Subs" width={110} height={220} />
+                <Image src="/images/iphone-learn.png" alt="Learn"         width={110} height={220} />
                 <Image src="/images/iphone-tasks.png" alt="Tasks & Links" width={110} height={220} />
               </Box>
 
@@ -59,16 +59,14 @@ export default function Login() {
             </Box>
           </Grid>
 
+          {/* ─────────── Right auth form ─────────── */}
           <Grid
-            item
             xs={12}
             lg={5}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              bgcolor: 'background.paper',
-            }}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            sx={{ bgcolor: 'background.paper' }}
           >
             <Box p={4} width="100%" maxWidth={420}>
               <AuthLogin
@@ -81,7 +79,7 @@ export default function Login() {
                 subtitle={
                   <Stack direction="row" spacing={1} mt={3}>
                     <Typography color="textSecondary" variant="body2">
-                      New to CWEATORS?
+                      New&nbsp;to&nbsp;CWEATORS?
                     </Typography>
                     <Typography
                       component={Link}
@@ -89,7 +87,7 @@ export default function Login() {
                       fontWeight={600}
                       sx={{ textDecoration: 'none', color: 'primary.main' }}
                     >
-                      Create an account
+                      Create&nbsp;an&nbsp;account
                     </Typography>
                   </Stack>
                 }
