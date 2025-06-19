@@ -25,16 +25,27 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   const [email, setEmail] = useState<string>("demo1234@gmail.com");
   const [password, setPassword] = useState<string>("demo1234");
   const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const { signin } = useContext(AuthContext);
 
   const handleLogin = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError("");
+    
     try {
       await signin(email, password);
-      router.push("/Agency");
+      
+      // Add a small delay to ensure authentication state is updated
+      setTimeout(() => {
+        router.push("/Agency");
+        router.refresh(); // Force a refresh to ensure state is updated
+      }, 100);
+      
     } catch (err: any) {
       setError(err.message);
+      setIsLoading(false);
     }
   };
 
@@ -78,6 +89,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
               variant="outlined"
               fullWidth
               value={email}
+              disabled={isLoading}
               onChange={(e: { target: { value: SetStateAction<string> } }) =>
                 setEmail(e.target.value)
               }
@@ -91,6 +103,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
               variant="outlined"
               fullWidth
               value={password}
+              disabled={isLoading}
               onChange={(e: { target: { value: SetStateAction<string> } }) =>
                 setPassword(e.target.value)
               }
@@ -123,8 +136,9 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
             size="large"
             fullWidth
             type="submit"
+            disabled={isLoading}
           >
-            Sign In
+            {isLoading ? "Signing In..." : "Sign In"}
           </Button>
         </Box>
       </form>
