@@ -1,7 +1,7 @@
-
 'use client';
-import Link from 'next/link';
 
+import Link from 'next/link';
+import Image from 'next/image';
 
 const mockCourses = [
   {
@@ -28,6 +28,10 @@ const mockCourses = [
 ];
 
 export default function Landing() {
+  const goToSignup = () => {
+    window.location.href = '/signup';
+  };
+
   return (
     <main className="bg-white text-pink-600 min-h-screen w-full overflow-x-hidden">
       {/* Hero Section */}
@@ -44,18 +48,29 @@ export default function Landing() {
       <section className="mt-16 px-4 max-w-5xl mx-auto">
         <h3 className="text-2xl font-bold mb-6">Why Cweator?</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <div className="border p-4 rounded-xl shadow hover:shadow-lg transition cursor-pointer" onClick={() => window.location.href='/signup'}>
-            <h4 className="font-bold text-lg">MLM Affiliate Ready</h4>
-            <p className="text-pink-700 mt-1 text-sm">Grow through layered referrals and earn passively.</p>
-          </div>
-          <div className="border p-4 rounded-xl shadow hover:shadow-lg transition cursor-pointer" onClick={() => window.location.href='/signup'}>
-            <h4 className="font-bold text-lg">Cweator Hub</h4>
-            <p className="text-pink-700 mt-1 text-sm">Monetize your content & community like OnlyFans or Patreon.</p>
-          </div>
-          <div className="border p-4 rounded-xl shadow hover:shadow-lg transition cursor-pointer" onClick={() => window.location.href='/signup'}>
-            <h4 className="font-bold text-lg">Cweator Uni</h4>
-            <p className="text-pink-700 mt-1 text-sm">Sell your courses and automate your income stream.</p>
-          </div>
+          {[
+            {
+              title: 'MLM Affiliate Ready',
+              description: 'Grow through layered referrals and earn passively.',
+            },
+            {
+              title: 'Cweator Hub',
+              description: 'Monetize your content & community like OnlyFans or Patreon.',
+            },
+            {
+              title: 'Cweator Uni',
+              description: 'Sell your courses and automate your income stream.',
+            },
+          ].map((feature, index) => (
+            <button
+              key={index}
+              onClick={goToSignup}
+              className="text-left border p-4 rounded-xl shadow hover:shadow-lg transition cursor-pointer bg-white"
+            >
+              <h4 className="font-bold text-lg">{feature.title}</h4>
+              <p className="text-pink-700 mt-1 text-sm">{feature.description}</p>
+            </button>
+          ))}
         </div>
       </section>
 
@@ -64,13 +79,13 @@ export default function Landing() {
         <h3 className="text-2xl font-bold mb-6">Top Earning Communities</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {mockCourses.map((course, idx) => (
-            <div
+            <button
               key={idx}
-              onClick={() => window.location.href = '/signup'}
-              className="cursor-pointer border border-pink-100 rounded-xl shadow hover:shadow-lg transition overflow-hidden"
+              onClick={goToSignup}
+              className="text-left cursor-pointer border border-pink-100 rounded-xl shadow hover:shadow-lg transition overflow-hidden bg-white"
             >
-              <div className="h-48 bg-gray-100 w-full">
-                <img src={course.image} alt={course.title} className="object-cover w-full h-full" />
+              <div className="h-48 w-full relative">
+                <Image src={course.image} alt={course.title} fill className="object-cover" />
               </div>
               <div className="p-4">
                 <h4 className="font-bold text-xl">{course.title}</h4>
@@ -80,7 +95,7 @@ export default function Landing() {
                   <span className="font-medium">{course.price}</span>
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </section>
