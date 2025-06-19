@@ -29,17 +29,30 @@ export default function Register() {
               display: { xs: 'none', lg: 'flex' },
               flexDirection: 'column',
               bgcolor: '#fdfbfe',
+              padding: '40px',
             }}
           >
-            <Box px={3} py={2}>
+            {/* Logo with woman and text */}
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
               <Image
                 src="/images/textlogo.png"
                 alt="Cweators logo"
-                width={160}
-                height={40}
+                width={280}
+                height={70}
                 priority
+                style={{ objectFit: 'contain' }}
+              />
+              <Image
+                src="/images/cweatorlogo.png"
+                alt="Cweators woman logo"
+                width={150}
+                height={150}
+                priority
+                style={{ objectFit: 'contain' }}
               />
             </Box>
+
+            {/* hero graphics + tagline */}
             <Box
               sx={{
                 flexGrow: 1,
@@ -47,18 +60,40 @@ export default function Register() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 4,
+                gap: 5,
+                mt: -8,
               }}
             >
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <Image src="/images/iphone-subs.png" alt="Increase Subs" width={110} height={220} priority />
-                <Image src="/images/iphone-learn.png" alt="Learn" width={110} height={220} priority />
-                <Image src="/images/iphone-tasks.png" alt="Tasks & Links" width={110} height={220} priority />
+              <Box sx={{ display: 'flex', gap: 4 }}>
+                <Image 
+                  src="/images/iphone-subs.png" 
+                  alt="Increase Subs" 
+                  width={220} 
+                  height={440} 
+                  priority 
+                  style={{ objectFit: 'contain' }}
+                />
+                <Image 
+                  src="/images/iphone-learn.png" 
+                  alt="Learn" 
+                  width={220} 
+                  height={440} 
+                  priority 
+                  style={{ objectFit: 'contain' }}
+                />
+                <Image 
+                  src="/images/iphone-tasks.png" 
+                  alt="Tasks & Links" 
+                  width={220} 
+                  height={440} 
+                  priority 
+                  style={{ objectFit: 'contain' }}
+                />
               </Box>
 
-              <Typography variant="h4" sx={{ textAlign: 'center', fontWeight: 600 }}>
+              <Typography variant="h3" sx={{ textAlign: 'center', fontWeight: 600, fontSize: '48px' }}>
                 <Box component="span" sx={{ color: '#ff9edb' }}>Create.</Box>{' '}
-                Discover.{` `}
+                <Box component="span" sx={{ color: '#000' }}>Discover.</Box>{' '}
                 <Box component="span" sx={{ color: '#ff9edb' }}>Earn.</Box>
               </Typography>
             </Box>
