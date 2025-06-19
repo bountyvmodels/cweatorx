@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { Grid } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { Box, Stack, Typography } from '@mui/material';
 
 import PageContainer from '@/app/components/container/PageContainer';
@@ -25,9 +25,10 @@ export default function Login() {
         <Grid container sx={{ minHeight: '100vh' }}>
           {/* ─────────── Branding / illustration column ─────────── */}
           <Grid
-            item
-            xs={12}
-            lg={7}
+            size={{
+              xs: 12,
+              lg: 7
+            }}
             sx={{
               position: 'relative',
               display: { xs: 'none', lg: 'flex' },
@@ -73,9 +74,10 @@ export default function Login() {
 
           {/* ─────────── Auth form column ─────────── */}
           <Grid
-            item
-            xs={12}
-            lg={5}
+            size={{
+              xs: 12,
+              lg: 5
+            }}
             sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.paper' }}
           >
             <Box p={4} width="100%" maxWidth={420}>
