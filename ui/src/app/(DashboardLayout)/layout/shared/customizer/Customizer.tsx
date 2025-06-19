@@ -113,7 +113,7 @@ const Customizer: FC = () => {
   variant="temporary"
   ModalProps={{ keepMounted: true }}
   slotProps={{
-    Paper: {
+    paper: {
       sx: {
         width: SidebarWidth,
       },
