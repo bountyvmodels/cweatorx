@@ -33,35 +33,6 @@ export default function Register() {
               overflow: 'hidden',
             }}
           >
-            {/* Logo with woman and text */}
-            <Box sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'space-between', 
-              mb: 4,
-              position: 'relative',
-              zIndex: 2,
-            }}>
-              <Typography variant="h2" sx={{ 
-                fontWeight: 300, 
-                fontSize: '48px',
-                letterSpacing: '0.3em',
-                display: 'flex',
-                alignItems: 'baseline',
-              }}>
-                <Box component="span" sx={{ color: '#ff9edb' }}>CWEATORS</Box>
-                <Box component="span" sx={{ color: '#000', fontSize: '32px', letterSpacing: '0.05em' }}>.com</Box>
-              </Typography>
-              <Image
-                src="/images/cweatorlogo.png"
-                alt="Cweators woman logo"
-                width={120}
-                height={120}
-                priority
-                style={{ objectFit: 'contain' }}
-              />
-            </Box>
-
             {/* hero graphics + tagline */}
             <Box
               sx={{
@@ -74,9 +45,22 @@ export default function Register() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 5,
+                gap: 3,
               }}
             >
+              {/* CWEATORS.com text centered above phones */}
+              <Typography variant="h2" sx={{ 
+                fontWeight: 600, 
+                fontSize: '56px',
+                letterSpacing: '0.2em',
+                display: 'flex',
+                alignItems: 'baseline',
+                mb: 4,
+              }}>
+                <Box component="span" sx={{ color: '#ff9edb' }}>CWEATORS</Box>
+                <Box component="span" sx={{ color: '#000', fontSize: '36px', letterSpacing: '0.05em' }}>.com</Box>
+              </Typography>
+
               <Box sx={{ 
                 display: 'flex', 
                 gap: 4,
@@ -151,6 +135,22 @@ export default function Register() {
                 position: 'relative',
               }}
             >
+              {/* Woman logo at top of auth form */}
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'center',
+                mb: 3,
+              }}>
+                <Image
+                  src="/images/cweatorlogo.png"
+                  alt="Cweators woman logo"
+                  width={80}
+                  height={80}
+                  priority
+                  style={{ objectFit: 'contain' }}
+                />
+              </Box>
+              
               <AuthRegister
                 title="Welcome to cweators.com"
                 subtitle={
