@@ -42,8 +42,7 @@ const Navigation = () => {
       onClose={() => setIsMobileSidebar(false)}
 
       variant="temporary"
-      slotProps={{
-        paper: {
+      slotProps={{ Paper: {
           sx: {
             width: SidebarWidth,
             border: '0 !important',
@@ -67,3 +66,4 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
