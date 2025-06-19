@@ -112,8 +112,8 @@ const MobileRightSidebar = () => {
         anchor="right"
         open={showDrawer}
         onClose={() => setShowDrawer(false)}
-        PaperProps={{ sx: { width: 300 } }}   {/* ← fixes previous Paper/slotProps error */}
-        ModalProps={{ keepMounted: true }}    {/* mobile perf */}
+        PaperProps={{ sx: { width: 300 } }}
+        ModalProps={{ keepMounted: true }}
         variant="temporary"
       >
         <Box p={3} pb={0}>
