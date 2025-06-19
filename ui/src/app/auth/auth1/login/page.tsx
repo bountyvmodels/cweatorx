@@ -1,52 +1,43 @@
 'use client';
 
 import { useContext } from 'react';
-import Link       from 'next/link';
-import Image      from 'next/image';
+import Link from 'next/link';
+import Image from 'next/image';
 
-import Grid       from '@mui/material/Grid';          // ✅ v5 Grid
-import Box        from '@mui/material/Box';
-import Stack      from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import { Box, Stack, Typography } from '@mui/material';
 
-import PageContainer from '@/components/container/PageContainer';
-import Logo          from '@/app/(DashboardLayout)/layout/shared/logo/Logo';
-
-import AuthLogin     from '@/components/authentication/auth-forms/AuthLogin';
-import GuestGuard    from '@/app/guards/authGuard/GuestGaurd';
-import AuthContext   from '@/app/context/AuthContext';
+import PageContainer from '@/app/components/container/PageContainer';
+import AuthLogin from '@/app/auth/authForms/AuthLogin';
+import AuthContext from '@/app/context/AuthContext';
+import GuestGuard from '@/app/guards/authGuard/GuestGaurd';
 
 export default function Login() {
   const { platform } = useContext(AuthContext);
 
   return (
     <GuestGuard>
-      <PageContainer
-        title="Login | CWEATORS"
-        description="Create. Discover. Earn."
-      >
-        {/* full-height grid */}
-        <Grid container sx={{ height: '100vh' }}>
-          {/* ─── Left branding pane ───────────────────────────── */}
+      <PageContainer title="Login | CWEATORS" description="Create. Discover. Earn.">
+        <Grid container sx={{ minHeight: '100vh' }}>
           <Grid
-            item xs={12} lg={7}
+            item
+            xs={12}
+            lg={7}
             sx={{
-              position:       'relative',
-              display:        { xs: 'none', lg: 'flex' },
-              flexDirection:  'column',
-              bgcolor:        '#fdfbfe',
+              position: 'relative',
+              display: { xs: 'none', lg: 'flex' },
+              flexDirection: 'column',
+              bgcolor: '#fdfbfe',
             }}
           >
-            {/* logo */}
             <Box px={3} py={2}>
-              <Logo />
+              <Image src="/images/textlogo.png" alt="Cweators logo" width={160} height={40} />
             </Box>
 
-            {/* phones + tagline */}
             <Box
               sx={{
                 flexGrow: 1,
-                display:  'flex',
+                display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -54,9 +45,9 @@ export default function Login() {
               }}
             >
               <Box sx={{ display: 'flex', gap: 2 }}>
-                <Image src="/images/iphone-subs.png"  alt="Increase Subs" width={110} height={220} />
-                <Image src="/images/iphone-learn.png" alt="Learn"         width={110} height={220} />
-                <Image src="/images/iphone-tasks.png" alt="Tasks & Links" width={110} height={220} />
+                <Image src="/images/iphone-subs.png" alt="Increase Subs" width={110} height={220} priority />
+                <Image src="/images/iphone-learn.png" alt="Learn" width={110} height={220} priority />
+                <Image src="/images/iphone-tasks.png" alt="Tasks & Links" width={110} height={220} priority />
               </Box>
 
               <Typography variant="h4" sx={{ textAlign: 'center', fontWeight: 600 }}>
@@ -67,13 +58,11 @@ export default function Login() {
             </Box>
           </Grid>
 
-          {/* ─── Right auth form ─────────────────────────────── */}
           <Grid
-            item xs={12} lg={5}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            sx={{ bgcolor: 'background.paper' }}
+            item
+            xs={12}
+            lg={5}
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.paper' }}
           >
             <Box p={4} width="100%" maxWidth={420}>
               <AuthLogin
