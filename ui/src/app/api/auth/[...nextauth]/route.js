@@ -17,14 +17,18 @@ const handler = NextAuth({
     CredentialsProvider({
       name: 'credentials',
       credentials: {
-        username: { label: 'Username', type: 'text' },
+        email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
       authorize: async (credentials) => {
         // Add your own authentication logic here
         if (credentials?.email === 'demo1234@gmail.com' && credentials?.password === 'demo1234') {
           // Return user object if credentials are valid
-          return Promise.resolve({ id: 1, name: 'Demo', email: 'demo1234@gmail.com' });
+          return Promise.resolve({ 
+            id: '1', 
+            name: 'Demo User', 
+            email: 'demo1234@gmail.com' 
+          });
         } else {
           // Return null if credentials are invalid
           return Promise.resolve(null);
@@ -32,6 +36,27 @@ const handler = NextAuth({
       },
     }),
   ],
+  pages: {
+    signIn: '/auth/auth1/login',
+    error: '/auth/error',
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+      }
+      return session;
+    },
+  },
+  session: {
+    strategy: 'jwt',
+  },
 });
-export { handler as GET, handler as POST };
 
+export { handler as GET, handler as POST };
