@@ -4,31 +4,30 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useContext } from 'react';
 
-import Grid from '@mui/material/Grid';      // ✅ stable Grid
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Unstable_Grid2';      // ← use Grid v2
+import { Box, Stack, Typography } from '@mui/material';
 
 import PageContainer from '@/app/components/container/PageContainer';
-import Logo from '@/app/(DashboardLayout)/layout/shared/logo/Logo';
-import AuthLogin from '../../authForms/AuthLogin';
-import AuthContext from '@/app/context/AuthContext';
-import GuestGuard from '@/app/guards/authGuard/GuestGaurd';
+import Logo          from '@/app/(DashboardLayout)/layout/shared/logo/Logo';
+import AuthLogin     from '../../authForms/AuthLogin';
+import AuthContext   from '@/app/context/AuthContext';
+import GuestGuard    from '@/app/guards/authGuard/GuestGaurd';
 
 export default function Login() {
   const { platform } = useContext(AuthContext);
 
   return (
     <GuestGuard>
-      <PageContainer title="Login | CWEATORS" description="Create. Discover. Earn.">
-        {/* outer grid */}
+      <PageContainer
+        title="Login | CWEATORS"
+        description="Create. Discover. Earn."
+      >
+        {/* full-height grid */}
         <Grid container sx={{ height: '100vh' }}>
-          {/* ───────── Left branding pane ───────── */}
+          {/* ─── Left branding pane ───────────────────────────── */}
           <Grid
-            item                 // <── added back
             xs={12}
             lg={7}
-            component="div"
             sx={{
               position: 'relative',
               display: { xs: 'none', lg: 'flex' },
@@ -41,7 +40,7 @@ export default function Login() {
               <Logo />
             </Box>
 
-            {/* phones & tagline */}
+            {/* phones + tagline */}
             <Box
               sx={{
                 flexGrow: 1,
@@ -53,29 +52,23 @@ export default function Login() {
               }}
             >
               <Box sx={{ display: 'flex', gap: 2 }}>
-                <Image src="/images/iphone-subs.png" alt="Increase Subs" width={110} height={220} />
-                <Image src="/images/iphone-learn.png" alt="Learn" width={110} height={220} />
+                <Image src="/images/iphone-subs.png"  alt="Increase Subs" width={110} height={220} />
+                <Image src="/images/iphone-learn.png" alt="Learn"         width={110} height={220} />
                 <Image src="/images/iphone-tasks.png" alt="Tasks & Links" width={110} height={220} />
               </Box>
 
               <Typography variant="h4" sx={{ textAlign: 'center', fontWeight: 600 }}>
-                <Box component="span" sx={{ color: '#ff9edb' }}>
-                  Create.
-                </Box>{' '}
-                Discover.{' '}
-                <Box component="span" sx={{ color: '#ff9edb' }}>
-                  Earn.
-                </Box>
+                <Box component="span" sx={{ color: '#ff9edb' }}>Create.</Box>{' '}
+                Discover.{` `}
+                <Box component="span" sx={{ color: '#ff9edb' }}>Earn.</Box>
               </Typography>
             </Box>
           </Grid>
 
-          {/* ───────── Right auth form ───────── */}
+          {/* ─── Right auth form ─────────────────────────────── */}
           <Grid
-            item                 // <── added back
             xs={12}
             lg={5}
-            component="div"
             display="flex"
             alignItems="center"
             justifyContent="center"
