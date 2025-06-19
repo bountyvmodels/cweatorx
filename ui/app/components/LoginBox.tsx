@@ -1,23 +1,33 @@
-﻿export default function LoginBox() {
+﻿"use client";
+
+import { useState } from "react";
+
+export default function LoginBox() {
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert(`Logging in with ${email}`);
+    // TODO: Replace with actual login logic
+  };
+
   return (
-    <div className="bg-black text-white p-6 rounded-lg shadow-md">
-      <h3 className="text-xl font-semibold mb-2">Whop</h3>
-      <p className="text-sm mb-4">Create an account or log in to discover whops and find ways to make money.</p>
+    <form onSubmit={handleSubmit} className="w-full max-w-sm p-4 bg-white rounded-lg shadow-md">
+      <h2 className="text-xl font-semibold mb-4">Login</h2>
       <input
         type="email"
-        placeholder="johnappleseed@gmail.com"
-        className="w-full px-3 py-2 rounded border-none mb-3 text-black"
+        placeholder="Enter your email"
+        className="w-full px-3 py-2 mb-3 border rounded"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
       />
-      <button className="w-full bg-blue-600 text-white py-2 rounded mb-3">Continue</button>
-      <div className="text-center text-gray-400 text-sm">OR</div>
-      <div className="flex justify-around mt-3">
-        <button className="bg-gray-800 p-2 rounded">💬</button>
-        <button className="bg-gray-800 p-2 rounded">🟢</button>
-        <button className="bg-gray-800 p-2 rounded">🟡</button>
-      </div>
-      <p className="text-xs text-gray-400 mt-3">
-        By signing in you agree to our terms of service and privacy policy.
-      </p>
-    </div>
+      <button
+        type="submit"
+        className="w-full py-2 px-4 bg-pink-600 text-white rounded hover:bg-pink-700 transition"
+      >
+        Log In
+      </button>
+    </form>
   );
 }
