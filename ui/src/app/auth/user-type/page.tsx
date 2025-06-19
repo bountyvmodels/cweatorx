@@ -197,7 +197,7 @@ export default function UserType() {
                       AGENCY
                     </Typography>
                     <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-                      Manage your Cweators and Business like you've never done before
+                      Manage your Cweators and Business like you&apos;ve never done before
                     </Typography>
                     <Button 
                       variant="outlined" 
