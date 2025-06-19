@@ -155,7 +155,7 @@ export default function UserType() {
               </Box>
               
               <Typography variant="h4" align="center" sx={{ mb: 2, fontWeight: 600 }}>
-                Choose Your User Type
+                CHOOSE YOUR EXPERIENCE
               </Typography>
               
               <Typography variant="subtitle1" align="center" color="textSecondary" sx={{ mb: 4 }}>
@@ -163,11 +163,11 @@ export default function UserType() {
               </Typography>
 
               <Stack spacing={3}>
-                {/* Creator Option */}
+                {/* Cweator Option */}
                 <Card sx={{ cursor: 'pointer', '&:hover': { transform: 'scale(1.02)' } }}>
                   <CardContent sx={{ textAlign: 'center', p: 3 }}>
                     <Typography variant="h5" sx={{ mb: 1, color: '#ff9edb' }}>
-                      Creator
+                      Cweator
                     </Typography>
                     <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
                       Share content, build your audience, and earn revenue
@@ -185,19 +185,19 @@ export default function UserType() {
                         },
                       }}
                     >
-                      Join as Creator
+                      Join as Cweator
                     </Button>
                   </CardContent>
                 </Card>
 
-                {/* Fan/Viewer Option */}
+                {/* Agency Option */}
                 <Card sx={{ cursor: 'pointer', '&:hover': { transform: 'scale(1.02)' } }}>
                   <CardContent sx={{ textAlign: 'center', p: 3 }}>
                     <Typography variant="h5" sx={{ mb: 1 }}>
-                      Fan
+                      AGENCY
                     </Typography>
                     <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-                      Discover content, support creators, and earn rewards
+                      Manage your Cweators and Business like you've never done before
                     </Typography>
                     <Button 
                       variant="outlined" 
@@ -213,7 +213,7 @@ export default function UserType() {
                         },
                       }}
                     >
-                      Join as Fan
+                      Join as Agency
                     </Button>
                   </CardContent>
                 </Card>
