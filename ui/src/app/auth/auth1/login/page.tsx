@@ -22,7 +22,7 @@ export default function Login() {
         description="Create. Discover. Earn."
       >
         {/* root grid – full height */}
-        <Grid container sx={{ minHeight: '100vh' }}>
+        <Grid container sx={{ minHeight: '100vh', position: 'relative' }}>
           {/* ─────────── Branding / illustration column ─────────── */}
           <Grid
             size={{
@@ -35,10 +35,18 @@ export default function Login() {
               flexDirection: 'column',
               bgcolor: '#fdfbfe',
               padding: '40px',
+              overflow: 'hidden',
             }}
           >
             {/* Logo with woman and text */}
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between', 
+              mb: 4,
+              position: 'relative',
+              zIndex: 2,
+            }}>
               <Image
                 src="/images/textlogo.png"
                 alt="Cweators logo"
@@ -60,43 +68,62 @@ export default function Login() {
             {/* hero graphics + tagline */}
             <Box
               sx={{
-                flexGrow: 1,
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '100%',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 5,
-                mt: -8,
               }}
             >
-              <Box sx={{ display: 'flex', gap: 4 }}>
-                <Image 
-                  src="/images/iphone-subs.png" 
-                  alt="Increase Subs" 
-                  width={220} 
-                  height={440} 
-                  priority 
-                  style={{ objectFit: 'contain' }}
-                />
-                <Image 
-                  src="/images/iphone-learn.png" 
-                  alt="Learn" 
-                  width={220} 
-                  height={440} 
-                  priority 
-                  style={{ objectFit: 'contain' }}
-                />
-                <Image 
-                  src="/images/iphone-tasks.png" 
-                  alt="Tasks & Links" 
-                  width={220} 
-                  height={440} 
-                  priority 
-                  style={{ objectFit: 'contain' }}
-                />
+              <Box sx={{ 
+                display: 'flex', 
+                gap: 4,
+                justifyContent: 'center',
+                width: '100%',
+              }}>
+                <Box sx={{ position: 'relative' }}>
+                  <Image 
+                    src="/images/iphone-subs.png" 
+                    alt="Increase Subs" 
+                    width={220} 
+                    height={440} 
+                    priority 
+                    style={{ objectFit: 'contain' }}
+                  />
+                </Box>
+                <Box sx={{ position: 'relative' }}>
+                  <Image 
+                    src="/images/iphone-learn.png" 
+                    alt="Learn" 
+                    width={220} 
+                    height={440} 
+                    priority 
+                    style={{ objectFit: 'contain' }}
+                  />
+                </Box>
+                <Box sx={{ position: 'relative' }}>
+                  <Image 
+                    src="/images/iphone-tasks.png" 
+                    alt="Tasks & Links" 
+                    width={220} 
+                    height={440} 
+                    priority 
+                    style={{ objectFit: 'contain' }}
+                  />
+                </Box>
               </Box>
 
-              <Typography variant="h3" sx={{ textAlign: 'center', fontWeight: 600, fontSize: '48px' }}>
+              <Typography variant="h3" sx={{ 
+                textAlign: 'center', 
+                fontWeight: 600, 
+                fontSize: '48px',
+                mt: 4 
+              }}>
                 <Box component="span" sx={{ color: '#ff9edb' }}>Create.</Box>{' '}
                 <Box component="span" sx={{ color: '#000' }}>Discover.</Box>{' '}
                 <Box component="span" sx={{ color: '#ff9edb' }}>Earn.</Box>
@@ -110,9 +137,23 @@ export default function Login() {
               xs: 12,
               lg: 5
             }}
-            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.paper' }}
+            sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              bgcolor: 'background.paper',
+              position: 'relative',
+              minHeight: '100vh',
+            }}
           >
-            <Box p={4} width="100%" maxWidth={420}>
+            <Box 
+              sx={{ 
+                p: 4, 
+                width: '100%', 
+                maxWidth: 420,
+                position: 'relative',
+              }}
+            >
               <AuthLogin
                 title="Welcome to cweators.com"
                 subtext={
