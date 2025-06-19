@@ -149,8 +149,8 @@ export default function Login() {
                 <Image
                   src="/images/cweatorlogo.png"
                   alt="Cweators woman logo"
-                  width={80}
-                  height={80}
+                  width={140}
+                  height={140}
                   priority
                   style={{ objectFit: 'contain' }}
                 />
@@ -160,7 +160,7 @@ export default function Login() {
                 title="Welcome to cweators.com"
                 subtext={
                   <Typography variant="subtitle1" color="textSecondary" mb={1}>
-                    Transform Your Influencers — powered by {platform}
+                    Transform Your <Box component="span" sx={{ color: '#ff9edb' }}>Influencers</Box> — powered by BountyV x Mara
                   </Typography>
                 }
                 subtitle={
@@ -172,7 +172,7 @@ export default function Login() {
                       component={Link}
                       href="/auth/auth1/register"
                       fontWeight={600}
-                      sx={{ textDecoration: 'none', color: 'primary.main' }}
+                      sx={{ textDecoration: 'none', color: '#ff9edb' }}
                     >
                       Create an account
                     </Typography>

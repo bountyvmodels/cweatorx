@@ -94,7 +94,13 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
             />
           </Stack>
           <Button
-            color="primary"
+            sx={{
+              bgcolor: '#ff9edb',
+              color: 'white',
+              '&:hover': {
+                bgcolor: '#ff7dc7',
+              },
+            }}
             variant="contained"
             size="large"
             fullWidth

@@ -144,8 +144,8 @@ export default function Register() {
                 <Image
                   src="/images/cweatorlogo.png"
                   alt="Cweators woman logo"
-                  width={80}
-                  height={80}
+                  width={140}
+                  height={140}
                   priority
                   style={{ objectFit: 'contain' }}
                 />
@@ -162,7 +162,7 @@ export default function Register() {
                       component={Link}
                       href="/auth/auth1/login"
                       fontWeight={600}
-                      sx={{ textDecoration: 'none', color: 'primary.main' }}
+                      sx={{ textDecoration: 'none', color: '#ff9edb' }}
                     >
                       Sign in
                     </Typography>

@@ -63,12 +63,6 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
           </Typography>
         </Divider>
 
-        <Box mt={2} mb={3}>
-          <Alert severity="info">
-            Demo Login: Use <strong>demo1234@gmail.com</strong> and password{" "}
-            <strong>demo1234</strong> to sign in.
-          </Alert>
-        </Box>
         {error && (
           <Box mt={2}>
             <Alert severity="error">{error}</Alert>
@@ -111,14 +105,20 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
             <FormGroup>
               <FormControlLabel
                 control={<CustomCheckbox defaultChecked />}
-                label="Remeber this Device"
+                label="Remember this Device"
               />
             </FormGroup>
           </Stack>
         </Stack>
         <Box>
           <Button
-            color="primary"
+            sx={{
+              bgcolor: '#ff9edb',
+              color: 'white',
+              '&:hover': {
+                bgcolor: '#ff7dc7',
+              },
+            }}
             variant="contained"
             size="large"
             fullWidth
