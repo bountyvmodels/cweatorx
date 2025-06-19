@@ -1,35 +1,31 @@
 "use client";
 import React from "react";
 import { useEffect, useState } from "react";
-
-import { Grid, Box, Card, CardContent, Typography, Stack } from "@mui/material";
+import { Grid, Box, Card, CardContent, Typography } from "@mui/material";
 import PageContainer from "@/app/components/container/PageContainer";
-import DashboardCard from "@/app/components/shared/DashboardCard";
 
-// Metric Cards Component
+// Metric Cards Component matching your design exactly
 const MetricCard = ({ 
   number, 
   title, 
   bgColor, 
-  textColor = "#000",
-  subtitle 
+  textColor = "#000"
 }: {
   number: string;
   title: string;
   bgColor: string;
   textColor?: string;
-  subtitle?: string;
 }) => (
   <Card 
     sx={{ 
       backgroundColor: bgColor,
-      minHeight: '200px',
+      minHeight: '240px',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: '16px',
-      border: '2px solid rgba(0,0,0,0.1)',
+      borderRadius: '24px',
+      border: '3px solid rgba(0,0,0,0.1)',
       cursor: 'pointer',
       transition: 'transform 0.2s',
       '&:hover': {
@@ -37,111 +33,94 @@ const MetricCard = ({
       }
     }}
   >
-    <CardContent sx={{ textAlign: 'center', p: 3 }}>
+    <CardContent sx={{ textAlign: 'center', p: 4 }}>
       <Typography 
         variant="h1" 
         sx={{ 
-          fontSize: '4rem', 
+          fontSize: '5rem', 
           fontWeight: 'bold', 
           color: textColor,
-          mb: 1
+          mb: 2,
+          lineHeight: 1
         }}
       >
         {number}
       </Typography>
       <Typography 
-        variant="h6" 
+        variant="h5" 
         sx={{ 
           fontWeight: 'bold', 
           color: textColor,
-          letterSpacing: '0.5px'
+          letterSpacing: '1px',
+          lineHeight: 1.2
         }}
       >
         {title}
       </Typography>
-      {subtitle && (
-        <Typography 
-          variant="body2" 
-          sx={{ 
-            color: textColor,
-            opacity: 0.8,
-            mt: 0.5
-          }}
-        >
-          {subtitle}
-        </Typography>
-      )}
     </CardContent>
   </Card>
 );
 
-// Agency News Component
-const AgencyNews = () => (
-  <DashboardCard>
-    <Box>
+// Telegram News Component - Live Embed
+const TelegramNews = () => (
+  <Card sx={{ height: '100%', minHeight: '600px' }}>
+    <CardContent sx={{ p: 0, height: '100%' }}>
       {/* Header */}
       <Box 
         sx={{ 
           backgroundColor: '#00bcd4', 
           color: 'white', 
-          p: 2, 
-          borderRadius: '12px 12px 0 0',
-          textAlign: 'center',
-          mb: 2
+          p: 3, 
+          textAlign: 'center'
         }}
       >
-        <Typography variant="h6" fontWeight="bold">
-          AGENCY NEWS
+        <Typography variant="h5" fontWeight="bold">
+          TELEGRAM NEWS
         </Typography>
       </Box>
 
-      {/* News Items */}
-      <Stack spacing={2}>
+      {/* News Content */}
+      <Box sx={{ p: 3, height: 'calc(100% - 140px)', overflow: 'auto' }}>
         {[
-          'New client onboarding system',
-          'Q4 performance metrics',
-          'Team expansion update',
-          'Platform integration news',
-          'Revenue milestone achieved'
+          'TELEGRAM CHANNEL POSTS',
+          'TELEGRAM CHANNEL POSTS', 
+          'TELEGRAM CHANNEL POSTS',
+          'TELEGRAM CHANNEL POSTS'
         ].map((news, index) => (
           <Box 
             key={index}
             sx={{ 
-              p: 2, 
+              p: 3, 
               backgroundColor: '#f5f5f5', 
               borderRadius: '8px',
-              textAlign: 'center'
+              textAlign: 'center',
+              mb: 2
             }}
           >
-            <Typography variant="subtitle1" fontWeight="600">
-              AGENCY UPDATE
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              {news}
+            <Typography variant="h6" fontWeight="600">
+              TELEGRAM CHANNEL POSTS
             </Typography>
           </Box>
         ))}
-      </Stack>
+      </Box>
 
       {/* Join Button */}
       <Box 
         sx={{ 
           backgroundColor: '#00bcd4', 
           color: 'white', 
-          p: 2, 
-          borderRadius: '12px',
+          p: 3, 
           textAlign: 'center',
-          mt: 2,
           cursor: 'pointer',
           '&:hover': { backgroundColor: '#0097a7' }
         }}
       >
-        <Typography variant="h6" fontWeight="bold">
-          📊 VIEW ANALYTICS
+        <Typography variant="h5" fontWeight="bold">
+          ✈️ JOIN OUR CHANNEL
         </Typography>
       </Box>
-    </Box>
-  </DashboardCard>
+    </CardContent>
+  </Card>
 );
 
 export default function Dashboard() {
@@ -151,169 +130,167 @@ export default function Dashboard() {
     setLoading(false);
   }, []);
 
+  // Agency metrics with dummy data
   const metrics = [
     {
-      number: "47",
-      title: "ACTIVE CLIENTS",
-      bgColor: "#ff9edb",
-      textColor: "#000"
+      number: "4",
+      title: "CWEATORS",
+      bgColor: "#ff9edb" // Pink like your design
     },
     {
-      number: "156",
-      title: "PENDING CAMPAIGNS",
-      bgColor: "#ffd54f",
-      textColor: "#000"
+      number: "30", 
+      title: "PENDING TASKS",
+      bgColor: "#ffd54f" // Yellow like your design
     },
     {
-      number: "892",
-      title: "CAMPAIGNS COMPLETED",
-      bgColor: "#81c784",
-      textColor: "#000"
+      number: "102",
+      title: "TASKS COMPLETED",
+      bgColor: "#81c784" // Green like your design
     },
     {
-      number: "12",
-      title: "OVERDUE DELIVERABLES",
-      bgColor: "#f44336",
+      number: "3",
+      title: "OVERDUE PAYMENTS", 
+      bgColor: "#f44336", // Red like your design
       textColor: "#fff"
     }
   ];
 
   return (
     <PageContainer title="Agency Dashboard" description="Agency Management Dashboard">
-      <Box sx={{ p: 3 }}>
-        {/* Header */}
-        <Box sx={{ mb: 4 }}>
+      <Box sx={{ 
+        display: 'flex', 
+        height: '100vh',
+        backgroundColor: '#f8f9fa'
+      }}>
+        
+        {/* Left Sidebar */}
+        <Box sx={{ 
+          width: '250px',
+          backgroundColor: '#fff',
+          p: 3,
+          borderRight: '1px solid #e0e0e0'
+        }}>
+          {/* Logo/Title */}
           <Typography 
-            variant="h3" 
+            variant="h4" 
             sx={{ 
               fontWeight: 'bold', 
               color: '#ff9edb',
-              mb: 1
+              mb: 4,
+              letterSpacing: '1px'
             }}
           >
-            AGENCY
+            CWEATOR
           </Typography>
-          <Typography variant="h6" color="textSecondary">
-            Manage Your Creators & Campaigns
-          </Typography>
-        </Box>
 
-        <Grid container spacing={3}>
-          {/* Metric Cards */}
-          {metrics.map((metric, index) => (
-            <Grid key={index} size={{ xs: 12, sm: 6, lg: 3 }}>
-              <MetricCard {...metric} />
-            </Grid>
+          {/* Navigation Items */}
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="overline" color="textSecondary" sx={{ fontWeight: 'bold' }}>
+              HOME
+            </Typography>
+          </Box>
+
+          <Box sx={{ 
+            backgroundColor: '#ff9edb', 
+            color: 'white',
+            p: 2,
+            borderRadius: '8px',
+            mb: 2
+          }}>
+            <Typography variant="h6" fontWeight="bold">
+              DASHBOARD
+            </Typography>
+          </Box>
+
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="overline" color="textSecondary" sx={{ fontWeight: 'bold' }}>
+              OTHER
+            </Typography>
+          </Box>
+
+          {[
+            { name: 'VIEW CWEATORS', disabled: false },
+            { name: 'CWEATOR UNI', disabled: false },
+            { name: 'CWEATORLINKS', disabled: false }
+          ].map((item, index) => (
+            <Box key={index} sx={{ mb: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography 
+                  variant="body1" 
+                  sx={{ 
+                    fontWeight: '600',
+                    color: item.disabled ? '#ccc' : '#333'
+                  }}
+                >
+                  {item.name}
+                </Typography>
+                {item.name === 'VIEW CWEATORS' && (
+                  <Box sx={{ ml: 2 }}>
+                    <Typography variant="caption" color="textSecondary">
+                      ⏷
+                    </Typography>
+                    <Box sx={{ ml: 2, mt: 1 }}>
+                      <Typography variant="caption" color="textSecondary">
+                        🔗 Disabled
+                      </Typography>
+                      <Typography variant="caption" color="#ff9edb" sx={{ ml: 2 }}>
+                        Online
+                      </Typography>
+                    </Box>
+                  </Box>
+                )}
+                {item.name === 'CWEATORLINKS' && (
+                  <Box sx={{ ml: 2 }}>
+                    <Typography variant="caption" color="textSecondary">
+                      🔗 Outlined
+                    </Typography>
+                    <Typography variant="caption" color="#ff9edb" sx={{ ml: 2 }}>
+                      Online
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
+            </Box>
           ))}
 
-          {/* Agency News Section */}
-          <Grid size={{ xs: 12, lg: 4 }}>
-            <AgencyNews />
-          </Grid>
+          <Box sx={{ 
+            backgroundColor: '#ff9edb', 
+            color: 'white',
+            p: 2,
+            borderRadius: '8px',
+            mt: 4,
+            textAlign: 'center'
+          }}>
+            <Typography variant="body1" fontWeight="bold">
+              JOIN OUR COMMUNITY
+            </Typography>
+          </Box>
+        </Box>
 
-          {/* Revenue Chart Placeholder */}
-          <Grid size={{ xs: 12, lg: 8 }}>
-            <DashboardCard title="Revenue Analytics" subtitle="Monthly Performance Overview">
-              <Box 
-                sx={{ 
-                  height: '400px', 
-                  backgroundColor: '#f8f9fa', 
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '2px dashed #ddd'
-                }}
-              >
-                <Typography variant="h6" color="textSecondary">
-                  Revenue Chart Component
-                </Typography>
-              </Box>
-            </DashboardCard>
-          </Grid>
+        {/* Main Content Area */}
+        <Box sx={{ 
+          flex: 1,
+          display: 'flex',
+          gap: 3,
+          p: 3
+        }}>
+          
+          {/* Center - Metrics Overview */}
+          <Box sx={{ flex: 2 }}>
+            <Grid container spacing={3}>
+              {metrics.map((metric, index) => (
+                <Grid key={index} size={{ xs: 6 }}>
+                  <MetricCard {...metric} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
 
-          {/* Recent Activity */}
-          <Grid size={{ xs: 12, lg: 6 }}>
-            <DashboardCard title="Recent Activity" subtitle="Latest Agency Updates">
-              <Stack spacing={2}>
-                {[
-                  { action: "New client signed", time: "2 hours ago", icon: "👤" },
-                  { action: "Campaign launched", time: "4 hours ago", icon: "🚀" },
-                  { action: "Payment received", time: "6 hours ago", icon: "💰" },
-                  { action: "Creator onboarded", time: "1 day ago", icon: "⭐" }
-                ].map((activity, index) => (
-                  <Box 
-                    key={index}
-                    sx={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      p: 2, 
-                      backgroundColor: '#f8f9fa',
-                      borderRadius: '8px'
-                    }}
-                  >
-                    <Typography sx={{ fontSize: '1.5rem', mr: 2 }}>
-                      {activity.icon}
-                    </Typography>
-                    <Box>
-                      <Typography variant="subtitle2" fontWeight="600">
-                        {activity.action}
-                      </Typography>
-                      <Typography variant="caption" color="textSecondary">
-                        {activity.time}
-                      </Typography>
-                    </Box>
-                  </Box>
-                ))}
-              </Stack>
-            </DashboardCard>
-          </Grid>
-
-          {/* Top Performers */}
-          <Grid size={{ xs: 12, lg: 6 }}>
-            <DashboardCard title="Top Performing Creators" subtitle="This Month's Stars">
-              <Stack spacing={2}>
-                {[
-                  { name: "Sarah Johnson", earnings: "$12,450", avatar: "🌟" },
-                  { name: "Mike Chen", earnings: "$8,920", avatar: "🎯" },
-                  { name: "Emma Davis", earnings: "$7,340", avatar: "💎" },
-                  { name: "Alex Rivera", earnings: "$6,180", avatar: "🔥" }
-                ].map((creator, index) => (
-                  <Box 
-                    key={index}
-                    sx={{ 
-                      display: 'flex', 
-                      justifyContent: 'space-between',
-                      alignItems: 'center', 
-                      p: 2, 
-                      backgroundColor: index === 0 ? '#fff3e0' : '#f8f9fa',
-                      borderRadius: '8px',
-                      border: index === 0 ? '2px solid #ff9edb' : 'none'
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Typography sx={{ fontSize: '1.5rem', mr: 2 }}>
-                        {creator.avatar}
-                      </Typography>
-                      <Typography variant="subtitle2" fontWeight="600">
-                        {creator.name}
-                      </Typography>
-                    </Box>
-                    <Typography 
-                      variant="h6" 
-                      sx={{ 
-                        color: '#ff9edb', 
-                        fontWeight: 'bold' 
-                      }}
-                    >
-                      {creator.earnings}
-                    </Typography>
-                  </Box>
-                ))}
-              </Stack>
-            </DashboardCard>
-          </Grid>
-        </Grid>
+          {/* Right Side - Telegram News */}
+          <Box sx={{ width: '350px' }}>
+            <TelegramNews />
+          </Box>
+        </Box>
       </Box>
     </PageContainer>
   );
