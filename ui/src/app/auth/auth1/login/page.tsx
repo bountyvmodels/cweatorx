@@ -4,14 +4,17 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useContext } from 'react';
 
-import Grid from '@mui/material/Grid';          // ← Grid v2 (no “item” prop)
-import { Box, Stack, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid'; // ✅ Correct Import
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 import PageContainer from '@/app/components/container/PageContainer';
-import Logo           from '@/app/(DashboardLayout)/layout/shared/logo/Logo';
-import AuthLogin      from '../../authForms/AuthLogin';
-import AuthContext    from '@/app/context/AuthContext';
-import GuestGuard     from '@/app/guards/authGuard/GuestGaurd';
+import Logo from '@/app/(DashboardLayout)/layout/shared/logo/Logo';
+import AuthLogin from '../../authForms/AuthLogin';
+import AuthContext from '@/app/context/AuthContext';
+import GuestGuard from '@/app/guards/authGuard/GuestGaurd';
+
 
 export default function Login() {
   const { platform } = useContext(AuthContext);
