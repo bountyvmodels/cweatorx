@@ -1,16 +1,16 @@
 'use client';
 
 import { useContext } from 'react';
-import Link          from 'next/link';
-import Image         from 'next/image';
+import Link from 'next/link';
+import Image from 'next/image';
 
-import Grid          from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import { Box, Stack, Typography } from '@mui/material';
 
 import PageContainer from '@/app/components/container/PageContainer';
-import AuthLogin     from '@/app/auth/authForms/AuthLogin';
-import AuthContext   from '@/app/context/AuthContext';
-import GuestGuard    from '@/app/guards/authGuard/GuestGaurd';
+import AuthLogin from '@/app/auth/authForms/AuthLogin';
+import AuthContext from '@/app/context/AuthContext';
+import GuestGuard from '@/app/guards/authGuard/GuestGaurd';
 
 export default function Login() {
   const { platform } = useContext(AuthContext);
@@ -25,7 +25,7 @@ export default function Login() {
         <Grid container sx={{ minHeight: '100vh' }}>
           {/* ─────────── Branding / illustration column ─────────── */}
           <Grid
-            item xs={12} lg={7}
+            size={{ xs: 12, lg: 7 }}
             sx={{
               position: 'relative',
               display: { xs: 'none', lg: 'flex' },
@@ -56,8 +56,8 @@ export default function Login() {
               }}
             >
               <Box sx={{ display: 'flex', gap: 2 }}>
-                <Image src="/images/iphone-subs.png"  alt="Increase Subs" width={110} height={220} priority />
-                <Image src="/images/iphone-learn.png" alt="Learn"         width={110} height={220} priority />
+                <Image src="/images/iphone-subs.png" alt="Increase Subs" width={110} height={220} priority />
+                <Image src="/images/iphone-learn.png" alt="Learn" width={110} height={220} priority />
                 <Image src="/images/iphone-tasks.png" alt="Tasks & Links" width={110} height={220} priority />
               </Box>
 
@@ -71,7 +71,7 @@ export default function Login() {
 
           {/* ─────────── Auth form column ─────────── */}
           <Grid
-            item xs={12} lg={5}
+            size={{ xs: 12, lg: 5 }}
             sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.paper' }}
           >
             <Box p={4} width="100%" maxWidth={420}>
