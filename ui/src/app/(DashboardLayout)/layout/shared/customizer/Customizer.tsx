@@ -108,8 +108,8 @@ const Customizer: FC = () => {
       {/* side drawer */}
       <Drawer
   anchor="right"
-  open={openCustomizer}
-  onClose={handleCustomizerClose}
+  open={showDrawer}
+  onClose={() => setShowDrawer(false)}
   variant="temporary"
   ModalProps={{ keepMounted: true }}
   slotProps={{
