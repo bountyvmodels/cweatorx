@@ -14,11 +14,11 @@ const Logo = () => {
 
   const LinkStyled = styled(Link)(() => ({
     height: TopbarHeight,
-    width: isCollapse == "mini-sidebar" && !isSidebarHover ? '40px' : '220px',
+    width: isCollapse == "mini-sidebar" && !isSidebarHover ? '40px' : '280px',
     overflow: "hidden",
     display: "flex",
     alignItems: "center",
-    gap: "12px",
+    gap: "8px",
     textDecoration: "none",
   }));
 
@@ -27,20 +27,22 @@ const Logo = () => {
       <Image
         src="/images/cweatorlogo.png"
         alt="CWEATORS logo"
-        height={45}
-        width={45}
+        height={35}
+        width={35}
         priority
-        style={{ objectFit: 'contain' }}
+        style={{ objectFit: 'contain', flexShrink: 0 }}
       />
       {!(isCollapse == "mini-sidebar" && !isSidebarHover) && (
         <Typography 
-          variant="h5" 
+          variant="h6" 
           sx={{ 
-            fontWeight: 700, 
-            letterSpacing: '0.15em', // Increased letter spacing for C W E A T O R effect
+            fontWeight: 600, 
+            letterSpacing: '0.1em',
             color: activeMode === "dark" ? 'white' : '#2A3547',
-            fontSize: '1.25rem',
+            fontSize: '1rem',
             lineHeight: 1,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
           }}
         >
           C W E A T O R
