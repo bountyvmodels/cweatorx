@@ -375,11 +375,11 @@ const ModelDetailsDialog = ({
       
       <DialogContent sx={{ p: 4 }}>
         <Grid container spacing={4}>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <PhotoGallery photos={model.photos} modelName={model.name} />
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Stack spacing={3}>
               <Box>
                 <Typography variant="h6" fontWeight={600} mb={1}>
@@ -475,7 +475,7 @@ const MyBids = ({ userBids }: { userBids: any[] }) => {
       ) : (
         <Grid container spacing={3}>
           {userBids.map((bid) => (
-            <Grid item xs={12} sm={6} lg={4} key={bid.id}>
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={bid.id}>
               <Card sx={{ 
                 borderRadius: 3,
                 border: '2px solid #ff9edb',
@@ -706,7 +706,7 @@ export default function CweatorMarketplace() {
         {activeTab === 0 ? (
           <Grid container spacing={3}>
             {models.map((model) => (
-              <Grid item xs={12} sm={6} lg={3} key={model.id}>
+              <Grid size={{ xs: 12, sm: 6, lg: 3 }} key={model.id}>
                 <ModelCard 
                   model={model} 
                   onViewDetails={handleViewDetails}
