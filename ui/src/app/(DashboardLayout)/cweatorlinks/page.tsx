@@ -29,7 +29,15 @@ import {
   MenuItem,
   Select,
   InputLabel,
-  Slider
+  Slider,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Fab
 } from '@mui/material';
 import {
   IconLink,
@@ -54,8 +62,12 @@ import {
   IconVideo,
   IconPhoto,
   IconFile,
-  IconExternalLink
+  IconExternalLink,
+  IconEdit,
+  IconTrash
 } from '@tabler/icons-react';
+import PageContainer from '@/app/components/container/PageContainer';
+import DashboardCard from '@/app/components/shared/DashboardCard';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -732,4 +744,216 @@ const CweatorLinksCreateDialog = ({ open, onClose, onSave, editingLink = null })
   );
 };
 
-export default CweatorLinksCreateDialog;
+// Main CweatorLinks Page Component
+export default function CweatorLinksPage() {
+  const [links, setLinks] = useState([
+    {
+      id: 1,
+      url: 'https://clickallmylinks.com/alexandra',
+      description: 'Landing Page - Alexandra',
+      type: 'Landing Page',
+      shield: true,
+      isActive: true,
+      visits: 1247,
+      color: '#9C27B0'
+    },
+    {
+      id: 2,
+      url: 'https://clickallmylinks.com/exclusive-offer',
+      description: 'Direct Link to OnlyFans',
+      type: 'Direct Link',
+      shield: false,
+      isActive: true,
+      visits: 892,
+      color: '#4CAF50'
+    }
+  ]);
+
+  const [openDialog, setOpenDialog] = useState(false);
+  const [editingLink, setEditingLink] = useState(null);
+
+  const handleCreateLink = () => {
+    setEditingLink(null);
+    setOpenDialog(true);
+  };
+
+  const handleEditLink = (link) => {
+    setEditingLink(link);
+    setOpenDialog(true);
+  };
+
+  const handleSaveLink = (linkData) => {
+    if (editingLink) {
+      setLinks(links.map(link => link.id === editingLink.id ? linkData : link));
+    } else {
+      setLinks([...links, linkData]);
+    }
+  };
+
+  const handleDeleteLink = (linkId) => {
+    setLinks(links.filter(link => link.id !== linkId));
+  };
+
+  const handleToggleActive = (linkId) => {
+    setLinks(links.map(link => 
+      link.id === linkId ? { ...link, isActive: !link.isActive } : link
+    ));
+  };
+
+  const copyToClipboard = (url) => {
+    navigator.clipboard.writeText(url);
+    // You could add a toast notification here
+  };
+
+  return (
+    <PageContainer title="CweatorLinks" description="Manage your deeplinks and landing pages">
+      <Box sx={{ p: 3 }}>
+        <Typography 
+          variant="h3" 
+          sx={{ 
+            fontWeight: 'bold', 
+            color: '#5D87FF',
+            mb: 4,
+            letterSpacing: '1px'
+          }}
+        >
+          CWEATOR LINKS
+        </Typography>
+
+        <DashboardCard 
+          title="Your Deeplinks" 
+          subtitle="Manage your custom links and landing pages"
+          action={
+            <Button
+              variant="contained"
+              startIcon={<IconPlus />}
+              onClick={handleCreateLink}
+              sx={{
+                bgcolor: '#5D87FF',
+                '&:hover': { bgcolor: '#4570EA' }
+              }}
+            >
+              Create New Link
+            </Button>
+          }
+        >
+          <TableContainer component={Paper} variant="outlined">
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Link</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Visits</TableCell>
+                  <TableCell>Shield</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {links.map((link) => (
+                  <TableRow key={link.id}>
+                    <TableCell>
+                      <Box>
+                        <Typography variant="subtitle2" fontWeight={600}>
+                          {link.url}
+                        </Typography>
+                        <Typography variant="caption" color="textSecondary">
+                          {link.description}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      <Chip 
+                        label={link.type}
+                        size="small"
+                        sx={{ 
+                          bgcolor: link.color,
+                          color: 'white'
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Switch
+                        checked={link.isActive}
+                        onChange={() => handleToggleActive(link.id)}
+                        size="small"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="body2" fontWeight={600}>
+                        {link.visits.toLocaleString()}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      {link.shield ? (
+                        <Chip 
+                          icon={<IconShield size={16} />}
+                          label="Protected" 
+                          size="small" 
+                          color="success"
+                          variant="outlined"
+                        />
+                      ) : (
+                        <Typography variant="caption" color="textSecondary">
+                          No shield
+                        </Typography>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Stack direction="row" spacing={1}>
+                        <IconButton 
+                          size="small"
+                          onClick={() => copyToClipboard(link.url)}
+                          color="primary"
+                        >
+                          <IconCopy size={16} />
+                        </IconButton>
+                        <IconButton 
+                          size="small"
+                          onClick={() => handleEditLink(link)}
+                          color="info"
+                        >
+                          <IconEdit size={16} />
+                        </IconButton>
+                        <IconButton 
+                          size="small"
+                          onClick={() => handleDeleteLink(link.id)}
+                          color="error"
+                        >
+                          <IconTrash size={16} />
+                        </IconButton>
+                      </Stack>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </DashboardCard>
+
+        {/* Floating Action Button for mobile */}
+        <Fab
+          color="primary"
+          aria-label="add"
+          sx={{
+            position: 'fixed',
+            bottom: 16,
+            right: 16,
+            display: { xs: 'flex', md: 'none' }
+          }}
+          onClick={handleCreateLink}
+        >
+          <IconPlus />
+        </Fab>
+
+        {/* Create/Edit Dialog */}
+        <CweatorLinksCreateDialog
+          open={openDialog}
+          onClose={() => setOpenDialog(false)}
+          onSave={handleSaveLink}
+          editingLink={editingLink}
+        />
+      </Box>
+    </PageContainer>
+  );
+}
