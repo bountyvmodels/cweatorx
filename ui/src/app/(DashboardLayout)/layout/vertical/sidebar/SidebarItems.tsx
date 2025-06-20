@@ -1,4 +1,4 @@
-import Menuitems from './MenuItems';
+import { useMenuItems } from './MenuItems'; // Import the hook instead of static items
 import { usePathname } from "next/navigation";
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -18,6 +18,8 @@ const SidebarItems = () => {
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'));
   const hideMenu: any = lgUp ? isCollapse == "mini-sidebar" && !isSidebarHover : '';
 
+  // Use the dynamic menu items based on current route
+  const Menuitems = useMenuItems();
 
   return (
     <Box sx={{ px: 3 }}>
@@ -53,4 +55,5 @@ const SidebarItems = () => {
     </Box>
   );
 };
+
 export default SidebarItems;

@@ -1,4 +1,5 @@
 import { uniqueId } from "lodash";
+import { usePathname } from "next/navigation";
 
 interface MenuitemsType {
   [x: string]: any;
@@ -14,58 +15,10 @@ interface MenuitemsType {
   variant?: string;
   external?: boolean;
 }
+
 import {
-  IconAward,
-  IconBoxMultiple,
-  IconPoint,
-  IconAlertCircle,
-  IconNotes,
-  IconCalendar,
-  IconMail,
-  IconTicket,
-  IconEdit,
-  IconGitMerge,
-  IconCurrencyDollar,
-  IconApps,
-  IconFileDescription,
-  IconFileDots,
-  IconFiles,
-  IconBan,
-  IconStar,
-  IconMoodSmile,
-  IconBorderAll,
-  IconBorderHorizontal,
-  IconBorderInner,
-  IconBorderVertical,
-  IconBorderTop,
-  IconUserCircle,
-  IconPackage,
-  IconMessage2,
-  IconBasket,
-  IconChartLine,
-  IconChartArcs,
-  IconChartCandle,
-  IconChartArea,
-  IconChartDots,
-  IconChartDonut3,
-  IconChartRadar,
-  IconLogin,
-  IconUserPlus,
-  IconRotate,
-  IconBox,
-  IconShoppingCart,
-  IconAperture,
-  IconLayout,
-  IconSettings,
-  IconHelp,
-  IconZoomCode,
-  IconBoxAlignBottom,
-  IconBoxAlignLeft,
-  IconBorderStyle2,
-  IconAppWindow,
   IconDashboard,
   IconUsers,
-  IconChecklist,
   IconWallet,
   IconSchool,
   IconBrandTelegram,
@@ -74,7 +27,8 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 
-const Menuitems: MenuitemsType[] = [
+// Agency Menu Items (Full Navigation)
+const AgencyMenuItems: MenuitemsType[] = [
   {
     navlabel: true,
     subheader: "Home",
@@ -95,7 +49,6 @@ const Menuitems: MenuitemsType[] = [
     chip: "New",
     chipColor: "secondary",
   },
-
   {
     navlabel: true,
     subheader: "Agency Management",
@@ -124,7 +77,6 @@ const Menuitems: MenuitemsType[] = [
     icon: IconLink,
     href: "/cweatorlinks",
   },
-
   {
     navlabel: true,
     subheader: "Services",
@@ -152,4 +104,78 @@ const Menuitems: MenuitemsType[] = [
   },
 ];
 
-export default Menuitems;
+// Cweator Menu Items (Limited Navigation)
+const CweatorMenuItems: MenuitemsType[] = [
+  {
+    navlabel: true,
+    subheader: "Home",
+  },
+  {
+    id: uniqueId(),
+    title: "Cweators Dashboard",
+    icon: IconUser,
+    href: "/cweators",
+    chip: "New",
+    chipColor: "secondary",
+  },
+  {
+    navlabel: true,
+    subheader: "Creator Tools",
+  },
+  {
+    id: uniqueId(),
+    title: "CweatorLinks",
+    icon: IconLink,
+    href: "/cweatorlinks",
+  },
+  {
+    id: uniqueId(),
+    title: "Cweator University",
+    icon: IconSchool,
+    href: "/university",
+  },
+  {
+    id: uniqueId(),
+    title: "Billing & Settings",
+    icon: IconWallet,
+    href: "/billing",
+  },
+  {
+    navlabel: true,
+    subheader: "Community",
+  },
+  {
+    id: uniqueId(),
+    title: "Community",
+    icon: IconUsers,
+    href: "/community",
+  },
+  {
+    id: uniqueId(),
+    title: "Join our Telegram",
+    icon: IconBrandTelegram,
+    href: "https://t.me/yourchannel",
+    external: true,
+    chip: "New",
+    chipColor: "info",
+  },
+];
+
+// Hook to get menu items based on current route
+export const useMenuItems = (): MenuitemsType[] => {
+  const pathname = usePathname();
+  
+  // If user is on cweators route, show cweator menu
+  if (pathname.startsWith('/cweators')) {
+    return CweatorMenuItems;
+  }
+  
+  // Default to agency menu for all other routes including /Agency
+  return AgencyMenuItems;
+};
+
+// Export both for direct access if needed
+export { AgencyMenuItems, CweatorMenuItems };
+
+// Default export for backward compatibility
+export default AgencyMenuItems;
