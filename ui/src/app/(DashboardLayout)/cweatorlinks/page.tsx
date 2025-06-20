@@ -570,7 +570,7 @@ const ShieldProtectionTab = () => {
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   When a user on Instagram clicks on this shielded link, the request is first sent to 
-                  the shield protection software's server instead of directly to the final destination URL.
+                  the shield protection software&apos;s server instead of directly to the final destination URL.
                 </Typography>
               </Box>
 
@@ -580,7 +580,7 @@ const ShieldProtectionTab = () => {
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   The shield protection Software detects the request, including important information 
-                  such as the user's device type, location, and the fact that the request originated 
+                  such as the user&apos;s device type, location, and the fact that the request originated 
                   from the Instagram app on a mobile device.
                 </Typography>
               </Box>
