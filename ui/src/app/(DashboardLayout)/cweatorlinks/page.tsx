@@ -129,7 +129,7 @@ const CweatorLinksCreateDialog: React.FC<CweatorLinksCreateDialogProps> = ({ ope
   const [googleAnalytics, setGoogleAnalytics] = useState('');
   const [facebookPixel, setFacebookPixel] = useState('');
 
-  const handleTabChange = (event, newValue) => {
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
@@ -179,17 +179,17 @@ const CweatorLinksCreateDialog: React.FC<CweatorLinksCreateDialogProps> = ({ ope
     setLinks([...links, newLink]);
   };
 
-  const updateLink = (id, field, value) => {
+  const updateLink = (id: number, field: string, value: string) => {
     setLinks(links.map(link => 
       link.id === id ? { ...link, [field]: value } : link
     ));
   };
 
-  const removeLink = (id) => {
+  const removeLink = (id: number) => {
     setLinks(links.filter(link => link.id !== id));
   };
 
-  const getLinkIcon = (iconType) => {
+  const getLinkIcon = (iconType: string) => {
     const icons = {
       exclusive: <IconUsers size={16} />,
       link: <IconLink size={16} />,
@@ -784,12 +784,12 @@ export default function CweatorLinksPage() {
     setOpenDialog(true);
   };
 
-  const handleEditLink = (link) => {
+  const handleEditLink = (link: any) => {
     setEditingLink(link);
     setOpenDialog(true);
   };
 
-  const handleSaveLink = (linkData) => {
+  const handleSaveLink = (linkData: any) => {
     if (editingLink) {
       setLinks(links.map(link => link.id === editingLink.id ? linkData : link));
     } else {
@@ -797,17 +797,17 @@ export default function CweatorLinksPage() {
     }
   };
 
-  const handleDeleteLink = (linkId) => {
+  const handleDeleteLink = (linkId: number) => {
     setLinks(links.filter(link => link.id !== linkId));
   };
 
-  const handleToggleActive = (linkId) => {
+  const handleToggleActive = (linkId: number) => {
     setLinks(links.map(link => 
       link.id === linkId ? { ...link, isActive: !link.isActive } : link
     ));
   };
 
-  const copyToClipboard = (url) => {
+  const copyToClipboard = (url: string) => {
     navigator.clipboard.writeText(url);
     // You could add a toast notification here
   };
