@@ -16,15 +16,6 @@ interface MenuitemsType {
   external?: boolean;
 }
 
-const Menuitems: MenuitemsType[] = [
-  // Removed sample menu items - add your custom navigation here if needed
-  // Example:
-  // {
-  //   id: uniqueId(),
-  //   title: "Dashboard",
-  //   icon: IconAperture,
-  //   href: "/Agency",
-  // },
-];
+const Menuitems: MenuitemsType[] = [];
 
 export default Menuitems;
