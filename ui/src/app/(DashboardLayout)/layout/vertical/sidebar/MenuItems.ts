@@ -71,6 +71,7 @@ import {
   IconBrandTelegram,
   IconLink,
   IconBuildingStore,
+  IconUser,
 } from "@tabler/icons-react";
 
 const Menuitems: MenuitemsType[] = [
@@ -85,6 +86,14 @@ const Menuitems: MenuitemsType[] = [
     href: "/Agency",
     chip: "New",
     chipColor: "primary",
+  },
+  {
+    id: uniqueId(),
+    title: "Cweators Dashboard",
+    icon: IconUser,
+    href: "/cweators",
+    chip: "New",
+    chipColor: "secondary",
   },
 
   {
