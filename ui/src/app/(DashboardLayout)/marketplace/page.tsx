@@ -45,13 +45,14 @@ const modelContracts = [
     phoneType: "iPhone",
     country: "USA",
     contractType: "Exclusive Content",
-    last30DayEarnings: "$24,500",
+    contentType: "NSFW",
+    compensationType: "split",
+    compensationDetails: "60/40",
+    last30DayEarnings: 6500,
     photos: [
       "https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=400&h=600&fit=crop&crop=face",
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=600&fit=crop&crop=face"
     ],
-    rating: 4.9,
-    totalReviews: 127,
     currentBid: 12000,
     startingPrice: 8000,
     bidStatus: "BID [ENTER AMOUNT]",
@@ -62,15 +63,16 @@ const modelContracts = [
     name: "Sofia Martinez", 
     age: 22,
     location: "Miami, FL",
-    phoneType: "iPhone",
+    phoneType: "Android",
     country: "USA",
     contractType: "Brand Partnership",
-    last30DayEarnings: "$18,200",
+    contentType: "SFW",
+    compensationType: "salary",
+    compensationDetails: "$3000/month",
+    last30DayEarnings: 3200,
     photos: [
       "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=600&fit=crop&crop=face"
     ],
-    rating: 4.7,
-    totalReviews: 89,
     currentBid: 9500,
     startingPrice: 6000,
     bidStatus: "BID PENDING",
@@ -84,12 +86,13 @@ const modelContracts = [
     phoneType: "iPhone",
     country: "USA",
     contractType: "Creative Collaboration",
-    last30DayEarnings: "$31,800",
+    contentType: "NSFW",
+    compensationType: "split",
+    compensationDetails: "50/50",
+    last30DayEarnings: 800,
     photos: [
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=600&fit=crop&crop=face"
     ],
-    rating: 5.0,
-    totalReviews: 203,
     currentBid: 15000,
     startingPrice: 10000,
     bidStatus: "BID LOST",
@@ -103,12 +106,13 @@ const modelContracts = [
     phoneType: "iPhone", 
     country: "USA",
     contractType: "Tech Reviews",
-    last30DayEarnings: "$19,600",
+    contentType: "SFW",
+    compensationType: "salary",
+    compensationDetails: "$2500/month",
+    last30DayEarnings: 2100,
     photos: [
       "https://images.unsplash.com/photo-1550525811-e5869dd03032?w=400&h=600&fit=crop&crop=face"
     ],
-    rating: 4.8,
-    totalReviews: 156,
     currentBid: 11000,
     startingPrice: 7500,
     bidStatus: "BID [ENTER AMOUNT]",
@@ -226,6 +230,25 @@ const ModelCard = ({ model, onViewDetails }: { model: any, onViewDetails: (model
     }
   };
 
+  const getEarningsColor = (earnings: number) => {
+    if (earnings > 5000) return '#4CAF50'; // Green
+    if (earnings >= 2000) return '#FFC107'; // Yellow
+    return '#f44336'; // Red
+  };
+
+  const getBidButtonText = () => {
+    switch (model.status) {
+      case 'active':
+        return 'BID [ENTER AMOUNT]';
+      case 'pending':
+        return 'BID PENDING';
+      case 'lost':
+        return 'BID LOST';
+      default:
+        return 'BID [ENTER AMOUNT]';
+    }
+  };
+
   return (
     <Card sx={{ 
       borderRadius: 3,
@@ -241,37 +264,29 @@ const ModelCard = ({ model, onViewDetails }: { model: any, onViewDetails: (model
       
       <CardContent sx={{ p: 3 }}>
         <Stack spacing={2}>
-          {/* Header with name and rating */}
-          <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
-            <Typography variant="h6" fontWeight={600} color="text.primary">
-              {model.name}
-            </Typography>
-            <Stack direction="row" alignItems="center" spacing={0.5}>
-              <IconStar size={16} style={{ color: '#FFD700', fill: '#FFD700' }} />
-              <Typography variant="body2" color="text.secondary">
-                {model.rating}
-              </Typography>
-            </Stack>
-          </Stack>
+          {/* Header with name only */}
+          <Typography variant="h6" fontWeight={600} color="text.primary">
+            {model.name}
+          </Typography>
           
           {/* Model details in grid format */}
           <Stack spacing={1}>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Typography variant="body2" fontWeight={600}>Name</Typography>
-            </Stack>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Typography variant="body2" fontWeight={600}>Phone Type</Typography>
-            </Stack>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Typography variant="body2" fontWeight={600}>Country</Typography>
-            </Stack>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Typography variant="body2" fontWeight={600}>Contract</Typography>
-            </Stack>
-            <Typography variant="body2" fontWeight={600}>Type(salary or % split)</Typography>
-            <Typography variant="body2" fontWeight={600}>NSFW or SFW?</Typography>
-            <Typography variant="body2" fontWeight={600} color="#ff9edb">
-              Last 30 Day Earnings
+            <Typography variant="body2" fontWeight={600}>Name</Typography>
+            <Typography variant="body2" fontWeight={600}>Phone Type</Typography>
+            <Typography variant="body2" fontWeight={600}>Country</Typography>
+            <Typography variant="body2" fontWeight={600}>Contract</Typography>
+            <Typography variant="body2" fontWeight={600}>
+              Type({model.compensationType === 'salary' ? 'salary' : '% split'})
+            </Typography>
+            <Typography variant="body2" fontWeight={600}>
+              {model.contentType}
+            </Typography>
+            <Typography 
+              variant="body2" 
+              fontWeight={600} 
+              sx={{ color: getEarningsColor(model.last30DayEarnings) }}
+            >
+              Last 30 Day Earnings: ${model.last30DayEarnings.toLocaleString()}
             </Typography>
           </Stack>
           
@@ -294,7 +309,7 @@ const ModelCard = ({ model, onViewDetails }: { model: any, onViewDetails: (model
               }
             }}
           >
-            {model.bidStatus}
+            {getBidButtonText()}
           </Button>
           
           <Button
@@ -334,11 +349,23 @@ const ModelDetailsDialog = ({
   onBid: (modelId: number, bidAmount: number) => void 
 }) => {
   const [bidAmount, setBidAmount] = useState('');
+  const [showBidDialog, setShowBidDialog] = useState(false);
 
-  const handleBid = () => {
+  const getEarningsColor = (earnings: number) => {
+    if (earnings > 5000) return '#4CAF50'; // Green
+    if (earnings >= 2000) return '#FFC107'; // Yellow
+    return '#f44336'; // Red
+  };
+
+  const handleBidClick = () => {
+    setShowBidDialog(true);
+  };
+
+  const handleBidSubmit = () => {
     if (bidAmount && parseInt(bidAmount) > model?.currentBid) {
       onBid(model.id, parseInt(bidAmount));
       setBidAmount('');
+      setShowBidDialog(false);
       onClose();
     }
   };
@@ -346,90 +373,94 @@ const ModelDetailsDialog = ({
   if (!model || !open) return null;
 
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose} 
-      maxWidth="md" 
-      fullWidth
-      PaperProps={{
-        sx: { 
-          borderRadius: 3,
-          border: '3px solid #ff9edb'
-        }
-      }}
-    >
-      <DialogTitle sx={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        backgroundColor: '#ff9edb',
-        color: 'white'
-      }}>
-        <Typography variant="h5" fontWeight={600}>
-          {model.name}
-        </Typography>
-        <IconButton onClick={onClose} sx={{ color: 'white' }}>
-          <IconX />
-        </IconButton>
-      </DialogTitle>
-      
-      <DialogContent sx={{ p: 4 }}>
-        <Grid container spacing={4}>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <PhotoGallery photos={model.photos} modelName={model.name} />
-          </Grid>
-          
-          <Grid size={{ xs: 12, md: 6 }}>
-            <Stack spacing={3}>
-              <Box>
-                <Typography variant="h6" fontWeight={600} mb={1}>
-                  {model.name}, {model.age}
-                </Typography>
-                <Stack direction="row" alignItems="center" spacing={1} mb={1}>
-                  <IconStar size={18} style={{ color: '#FFD700', fill: '#FFD700' }} />
-                  <Typography>{model.rating} ({model.totalReviews} reviews)</Typography>
-                </Stack>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <IconMapPin size={16} />
-                  <Typography color="text.secondary">{model.location}</Typography>
-                </Stack>
-              </Box>
+    <>
+      <Dialog 
+        open={open} 
+        onClose={onClose} 
+        maxWidth="md" 
+        fullWidth
+        PaperProps={{
+          sx: { 
+            borderRadius: 3,
+            border: '3px solid #ff9edb'
+          }
+        }}
+      >
+        <DialogTitle sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          backgroundColor: '#ff9edb',
+          color: 'white'
+        }}>
+          <Typography variant="h5" fontWeight={600}>
+            {model.name}
+          </Typography>
+          <IconButton onClick={onClose} sx={{ color: 'white' }}>
+            <IconX />
+          </IconButton>
+        </DialogTitle>
+        
+        <DialogContent sx={{ p: 4 }}>
+          <Grid container spacing={4}>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <PhotoGallery photos={model.photos} modelName={model.name} />
+            </Grid>
+            
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Stack spacing={3}>
+                {/* Model Information */}
+                <Box>
+                  <Typography variant="h6" fontWeight={600} mb={2}>
+                    {model.name}
+                  </Typography>
+                  <Stack spacing={1}>
+                    <Typography variant="body2">
+                      <strong>Age:</strong> {model.age}
+                    </Typography>
+                    <Typography variant="body2">
+                      <strong>Phone:</strong> {model.phoneType}
+                    </Typography>
+                    <Typography variant="body2">
+                      <strong>Country:</strong> {model.country}
+                    </Typography>
+                    <Typography variant="body2">
+                      <strong>Contract Type:</strong> {model.contractType}
+                    </Typography>
+                    <Typography variant="body2">
+                      <strong>Content Type:</strong> {model.contentType}
+                    </Typography>
+                    <Typography 
+                      variant="body2" 
+                      sx={{ color: getEarningsColor(model.last30DayEarnings) }}
+                    >
+                      <strong>Last 30 Day Earnings:</strong> ${model.last30DayEarnings.toLocaleString()}
+                    </Typography>
+                  </Stack>
+                </Box>
 
-              <Paper sx={{ p: 2, backgroundColor: 'grey.50', borderRadius: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600} mb={1}>Contract Details</Typography>
-                <Stack spacing={1}>
-                  <Typography variant="body2"><strong>Type:</strong> {model.contractType}</Typography>
-                  <Typography variant="body2"><strong>Phone:</strong> {model.phoneType}</Typography>
-                  <Typography variant="body2"><strong>Last 30 Days:</strong> {model.last30DayEarnings}</Typography>
-                </Stack>
-              </Paper>
+                <Paper sx={{ p: 2, backgroundColor: 'grey.50', borderRadius: 2 }}>
+                  <Typography variant="subtitle2" fontWeight={600} mb={1}>
+                    Compensation Details
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Type:</strong> {model.compensationType === 'salary' ? 'Salary' : 'Revenue Split'}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Amount:</strong> {model.compensationDetails}
+                  </Typography>
+                </Paper>
 
-              <Paper sx={{ p: 2, backgroundColor: '#ff9edb', color: 'white', borderRadius: 2 }}>
-                <Typography variant="h6" fontWeight={600} mb={1}>
-                  Current Highest Bid: ${model.currentBid.toLocaleString()}
-                </Typography>
-                <Typography variant="body2" mb={2}>
-                  Starting Price: ${model.startingPrice.toLocaleString()}
-                </Typography>
-                
-                <Stack direction="row" spacing={2}>
-                  <TextField
-                    value={bidAmount}
-                    onChange={(e) => setBidAmount(e.target.value)}
-                    placeholder={`Min: $${(model.currentBid + 100).toLocaleString()}`}
-                    type="number"
-                    size="small"
-                    sx={{
-                      flex: 1,
-                      '& .MuiOutlinedInput-root': {
-                        backgroundColor: 'white',
-                        borderRadius: 1
-                      }
-                    }}
-                  />
+                <Paper sx={{ p: 2, backgroundColor: '#ff9edb', color: 'white', borderRadius: 2 }}>
+                  <Typography variant="h6" fontWeight={600} mb={1}>
+                    Current Highest Bid: ${model.currentBid.toLocaleString()}
+                  </Typography>
+                  <Typography variant="body2" mb={2}>
+                    Starting Price: ${model.startingPrice.toLocaleString()}
+                  </Typography>
+                  
                   <Button
-                    onClick={handleBid}
-                    disabled={!bidAmount || parseInt(bidAmount) <= model.currentBid}
+                    onClick={handleBidClick}
                     variant="contained"
                     startIcon={<IconGavel />}
                     sx={{
@@ -443,19 +474,56 @@ const ModelDetailsDialog = ({
                   >
                     Place Bid
                   </Button>
-                </Stack>
-                
-                {bidAmount && parseInt(bidAmount) <= model.currentBid && (
-                  <Typography variant="body2" sx={{ color: '#ffcccb', mt: 1 }}>
-                    Bid must be higher than current bid
-                  </Typography>
-                )}
-              </Paper>
-            </Stack>
+                </Paper>
+              </Stack>
+            </Grid>
           </Grid>
-        </Grid>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
+
+      {/* Bid Input Dialog */}
+      <Dialog
+        open={showBidDialog}
+        onClose={() => setShowBidDialog(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Place Your Bid</DialogTitle>
+        <DialogContent>
+          <Stack spacing={2} sx={{ mt: 1 }}>
+            <Typography variant="body2">
+              Current Highest Bid: ${model?.currentBid.toLocaleString()}
+            </Typography>
+            <TextField
+              value={bidAmount}
+              onChange={(e) => setBidAmount(e.target.value)}
+              placeholder={`Enter amount (minimum: ${(model?.currentBid + 100).toLocaleString()})`}
+              type="number"
+              fullWidth
+              label="Your Bid Amount"
+            />
+            {bidAmount && parseInt(bidAmount) <= model?.currentBid && (
+              <Typography variant="body2" color="error">
+                Bid must be higher than current bid
+              </Typography>
+            )}
+            <Stack direction="row" spacing={2} justifyContent="flex-end">
+              <Button onClick={() => setShowBidDialog(false)}>
+                Cancel
+              </Button>
+              <Button
+                onClick={handleBidSubmit}
+                disabled={!bidAmount || parseInt(bidAmount) <= model?.currentBid}
+                variant="contained"
+                sx={{ backgroundColor: '#ff9edb' }}
+              >
+                Submit Bid
+              </Button>
+            </Stack>
+          </Stack>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
