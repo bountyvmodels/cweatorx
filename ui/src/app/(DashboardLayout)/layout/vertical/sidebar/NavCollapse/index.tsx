@@ -1,7 +1,5 @@
 import React, { useContext, useState } from 'react';
 
-
-
 import { usePathname } from "next/navigation";
 
 // mui imports
@@ -148,5 +146,3 @@ export default function NavCollapse({
     </>
   );
 };
-
-

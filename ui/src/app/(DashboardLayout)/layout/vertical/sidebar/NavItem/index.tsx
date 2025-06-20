@@ -63,14 +63,22 @@ export default function NavItem({ item, level, pathDirect, hideMenu, onClick }: 
         : theme.palette.text.secondary,
     paddingLeft: hideMenu ? '10px' : level > 2 ? `${level * 15}px` : '10px',
     '&:hover': {
-      backgroundColor: theme.palette.primary.light,
-      color: theme.palette.primary.main,
+      backgroundColor: item?.title === 'Agency Dashboard' || item?.title === 'Join our Telegram' 
+        ? '#ff9edb' // Pink hover for special items
+        : theme.palette.primary.light,
+      color: item?.title === 'Agency Dashboard' || item?.title === 'Join our Telegram'
+        ? 'white'
+        : theme.palette.primary.main,
     },
     '&.Mui-selected': {
       color: 'white',
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: item?.title === 'Agency Dashboard' || item?.title === 'Join our Telegram'
+        ? '#5D87FF' // Blue when selected
+        : theme.palette.primary.main,
       '&:hover': {
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: item?.title === 'Agency Dashboard' || item?.title === 'Join our Telegram'
+          ? '#ff9edb' // Pink on hover even when selected
+          : theme.palette.primary.main,
         color: 'white',
       },
     },
@@ -109,7 +117,12 @@ export default function NavItem({ item, level, pathDirect, hideMenu, onClick }: 
           >
             {itemIcon}
           </ListItemIcon>
-          <ListItemText>
+          <ListItemText
+            sx={{ 
+              flex: 1,
+              marginRight: item?.chip ? '8px' : '0px' // Add space for chip
+            }}
+          >
             {hideMenu ? '' : <>{t(`${item?.title}`)}</>}
             <br />
             {item?.subtitle ? (
@@ -125,6 +138,13 @@ export default function NavItem({ item, level, pathDirect, hideMenu, onClick }: 
               variant={item?.variant ? item?.variant : 'filled'}
               size="small"
               label={item?.chip}
+              sx={{
+                height: '20px',
+                fontSize: '0.65rem',
+                fontWeight: 600,
+                marginLeft: 'auto',
+                flexShrink: 0,
+              }}
             />
           )}
         </ListItemStyled>
@@ -132,4 +152,3 @@ export default function NavItem({ item, level, pathDirect, hideMenu, onClick }: 
     </List>
   );
 };
-

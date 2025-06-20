@@ -67,6 +67,10 @@ import {
   IconUsers,
   IconChecklist,
   IconWallet,
+  IconSchool,
+  IconBrandTelegram,
+  IconLink,
+  IconBuildingStore,
 } from "@tabler/icons-react";
 
 const Menuitems: MenuitemsType[] = [
@@ -80,7 +84,7 @@ const Menuitems: MenuitemsType[] = [
     icon: IconDashboard,
     href: "/Agency",
     chip: "New",
-    chipColor: "secondary",
+    chipColor: "primary",
   },
 
   {
@@ -96,7 +100,7 @@ const Menuitems: MenuitemsType[] = [
   {
     id: uniqueId(),
     title: "Cweator University",
-    icon: IconChecklist,
+    icon: IconSchool,
     href: "/university",
   },
   {
@@ -108,7 +112,7 @@ const Menuitems: MenuitemsType[] = [
   {
     id: uniqueId(),
     title: "CweatorLinks",
-    icon: IconPackage,
+    icon: IconLink,
     href: "/cweatorlinks",
   },
 
@@ -119,7 +123,7 @@ const Menuitems: MenuitemsType[] = [
   {
     id: uniqueId(),
     title: "Marketplace",
-    icon: IconShoppingCart,
+    icon: IconBuildingStore,
     href: "/marketplace",
   },
   {
@@ -131,11 +135,11 @@ const Menuitems: MenuitemsType[] = [
   {
     id: uniqueId(),
     title: "Join our Telegram",
-    icon: IconMessage2,
+    icon: IconBrandTelegram,
     href: "https://t.me/yourchannel",
     external: true,
     chip: "New",
-    chipColor: "primary",
+    chipColor: "info",
   },
 ];
 
