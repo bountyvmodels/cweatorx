@@ -90,11 +90,32 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
+interface LinkData {
+  id: number;
+  url: string;
+  description: string;
+  type: string;
+  shield: boolean;
+  isActive: boolean;
+  visits: number;
+  color: string;
+  destinationUrl?: string | null;
+  profileName?: string;
+  bio?: string;
+  templateType?: string;
+  textColor?: string;
+  buttonStyle?: string;
+  backgroundType?: string;
+  links?: any[];
+  socialLinks?: any;
+  settings?: any;
+}
+
 interface CweatorLinksCreateDialogProps {
   open: boolean;
   onClose: () => void;
-  onSave: (linkData: any) => void;
-  editingLink?: any;
+  onSave: (linkData: LinkData) => void;
+  editingLink?: LinkData | null;
 }
 
 const CweatorLinksCreateDialog: React.FC<CweatorLinksCreateDialogProps> = ({ open, onClose, onSave, editingLink = null }) => {
@@ -134,7 +155,7 @@ const CweatorLinksCreateDialog: React.FC<CweatorLinksCreateDialogProps> = ({ ope
   };
 
   const handleSave = () => {
-    const linkData = {
+    const linkData: LinkData = {
       id: editingLink?.id || Date.now(),
       url: `https://clickallmylinks.com/${deeplink}`,
       description: linkType === 'landing' ? `Landing Page - ${profileName}` : 'Direct Link',
@@ -753,7 +774,7 @@ const CweatorLinksCreateDialog: React.FC<CweatorLinksCreateDialogProps> = ({ ope
 
 // Main CweatorLinks Page Component
 export default function CweatorLinksPage() {
-  const [links, setLinks] = useState([
+  const [links, setLinks] = useState<LinkData[]>([
     {
       id: 1,
       url: 'https://clickallmylinks.com/alexandra',
@@ -777,19 +798,19 @@ export default function CweatorLinksPage() {
   ]);
 
   const [openDialog, setOpenDialog] = useState(false);
-  const [editingLink, setEditingLink] = useState(null);
+  const [editingLink, setEditingLink] = useState<LinkData | null>(null);
 
   const handleCreateLink = () => {
     setEditingLink(null);
     setOpenDialog(true);
   };
 
-  const handleEditLink = (link: any) => {
+  const handleEditLink = (link: LinkData) => {
     setEditingLink(link);
     setOpenDialog(true);
   };
 
-  const handleSaveLink = (linkData: any) => {
+  const handleSaveLink = (linkData: LinkData) => {
     if (editingLink) {
       setLinks(links.map(link => link.id === editingLink.id ? linkData : link));
     } else {
