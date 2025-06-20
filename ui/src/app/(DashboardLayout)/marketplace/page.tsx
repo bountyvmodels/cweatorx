@@ -1,19 +1,41 @@
 "use client";
 import React, { useState } from 'react';
 import { 
+  Box, 
+  Typography, 
+  Button, 
+  Card, 
+  CardContent, 
+  Chip, 
+  Grid, 
+  Stack,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  TextField,
+  Tab,
+  Tabs,
+  Badge,
+  Paper,
+  Avatar,
+  Divider
+} from '@mui/material';
+import { 
   IconChevronLeft, 
   IconChevronRight, 
   IconMapPin, 
   IconStar, 
-  IconTrendingUp, 
-  IconGavel, 
   IconX, 
   IconPhone, 
-  IconWorld 
+  IconWorld,
+  IconGavel,
+  IconTrendingUp
 } from '@tabler/icons-react';
 import PageContainer from '@/app/components/container/PageContainer';
+import DashboardCard from '@/app/components/shared/DashboardCard';
 
-// Mock data for model contracts
+// Mock data for model contracts - matching your interface
 const modelContracts = [
   {
     id: 1,
@@ -26,24 +48,18 @@ const modelContracts = [
     last30DayEarnings: "$24,500",
     photos: [
       "https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=400&h=600&fit=crop&crop=face",
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=600&fit=crop&crop=face",
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=600&fit=crop&crop=face"
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=600&fit=crop&crop=face"
     ],
     rating: 4.9,
     totalReviews: 127,
     currentBid: 12000,
     startingPrice: 8000,
-    bio: "Top-performing content creator specializing in lifestyle and fashion content. Proven track record of high engagement rates.",
-    specialties: ["Fashion", "Lifestyle", "Beauty"],
-    metrics: {
-      avgViews: "2.3M",
-      engagement: "8.5%",
-      followers: "450K"
-    }
+    bidStatus: "BID [ENTER AMOUNT]",
+    status: "active"
   },
   {
     id: 2,
-    name: "Sofia Martinez",
+    name: "Sofia Martinez", 
     age: 22,
     location: "Miami, FL",
     phoneType: "iPhone",
@@ -51,77 +67,56 @@ const modelContracts = [
     contractType: "Brand Partnership",
     last30DayEarnings: "$18,200",
     photos: [
-      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=600&fit=crop&crop=face",
-      "https://images.unsplash.com/photo-1509909756405-be0199881695?w=400&h=600&fit=crop&crop=face",
-      "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=600&fit=crop&crop=face"
+      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=600&fit=crop&crop=face"
     ],
     rating: 4.7,
     totalReviews: 89,
     currentBid: 9500,
     startingPrice: 6000,
-    bio: "Bilingual content creator with strong presence in Latin American markets. Expert in travel and wellness content.",
-    specialties: ["Travel", "Wellness", "Bilingual Content"],
-    metrics: {
-      avgViews: "1.8M",
-      engagement: "9.2%",
-      followers: "320K"
-    }
+    bidStatus: "BID PENDING",
+    status: "pending"
   },
   {
     id: 3,
     name: "Emma Thompson",
     age: 26,
-    location: "New York, NY",
+    location: "New York, NY", 
     phoneType: "iPhone",
     country: "USA",
     contractType: "Creative Collaboration",
     last30DayEarnings: "$31,800",
     photos: [
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=600&fit=crop&crop=face",
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=600&fit=crop&crop=face",
-      "https://images.unsplash.com/photo-1463453091185-61582044d556?w=400&h=600&fit=crop&crop=face"
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=600&fit=crop&crop=face"
     ],
     rating: 5.0,
     totalReviews: 203,
     currentBid: 15000,
     startingPrice: 10000,
-    bio: "Award-winning content creator and photographer. Specializes in high-end fashion and artistic content.",
-    specialties: ["Fashion", "Photography", "Art Direction"],
-    metrics: {
-      avgViews: "3.1M",
-      engagement: "7.8%",
-      followers: "680K"
-    }
+    bidStatus: "BID LOST",
+    status: "lost"
   },
   {
     id: 4,
     name: "Zoe Chen",
     age: 23,
     location: "Seattle, WA",
-    phoneType: "iPhone",
+    phoneType: "iPhone", 
     country: "USA",
     contractType: "Tech Reviews",
     last30DayEarnings: "$19,600",
     photos: [
-      "https://images.unsplash.com/photo-1550525811-e5869dd03032?w=400&h=600&fit=crop&crop=face",
-      "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=400&h=600&fit=crop&crop=face",
-      "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400&h=600&fit=crop&crop=face"
+      "https://images.unsplash.com/photo-1550525811-e5869dd03032?w=400&h=600&fit=crop&crop=face"
     ],
     rating: 4.8,
     totalReviews: 156,
     currentBid: 11000,
     startingPrice: 7500,
-    bio: "Tech-savvy creator with expertise in product reviews and unboxing content. Strong appeal to Gen Z audience.",
-    specialties: ["Tech", "Gaming", "Product Reviews"],
-    metrics: {
-      avgViews: "2.7M",
-      engagement: "10.1%",
-      followers: "510K"
-    }
+    bidStatus: "BID [ENTER AMOUNT]",
+    status: "active"
   }
 ];
 
-// Photo Gallery Component
+// Photo Gallery Component using Modernize styling
 const PhotoGallery = ({ photos, modelName }: { photos: string[], modelName: string }) => {
   const [currentPhoto, setCurrentPhoto] = useState(0);
 
@@ -134,96 +129,199 @@ const PhotoGallery = ({ photos, modelName }: { photos: string[], modelName: stri
   };
 
   return (
-    <div className="relative h-72 overflow-hidden rounded-xl">
-      <img
+    <Box sx={{ 
+      position: 'relative', 
+      height: 280, 
+      overflow: 'hidden', 
+      borderRadius: 2,
+      border: '3px solid #ff9edb'
+    }}>
+      <Box
+        component="img"
         src={photos[currentPhoto]}
         alt={`${modelName} - Photo ${currentPhoto + 1}`}
-        className="w-full h-full object-cover"
+        sx={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover'
+        }}
       />
       
       {photos.length > 1 && (
         <>
-          <button
+          <IconButton
             onClick={prevPhoto}
-            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-1 hover:bg-opacity-70 transition-all"
+            sx={{
+              position: 'absolute',
+              left: 8,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              backgroundColor: 'rgba(0,0,0,0.5)',
+              color: 'white',
+              width: 32,
+              height: 32,
+              '&:hover': { backgroundColor: 'rgba(0,0,0,0.7)' }
+            }}
           >
             <IconChevronLeft size={20} />
-          </button>
+          </IconButton>
           
-          <button
+          <IconButton
             onClick={nextPhoto}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-1 hover:bg-opacity-70 transition-all"
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              backgroundColor: 'rgba(0,0,0,0.5)',
+              color: 'white',
+              width: 32,
+              height: 32,
+              '&:hover': { backgroundColor: 'rgba(0,0,0,0.7)' }
+            }}
           >
             <IconChevronRight size={20} />
-          </button>
+          </IconButton>
           
-          {/* Photo indicators */}
-          <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1">
+          <Box sx={{
+            position: 'absolute',
+            bottom: 8,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            gap: 0.5
+          }}>
             {photos.map((_, index) => (
-              <button
+              <Box
                 key={index}
                 onClick={() => setCurrentPhoto(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  index === currentPhoto ? 'bg-white' : 'bg-white bg-opacity-50'
-                }`}
+                sx={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: '50%',
+                  backgroundColor: index === currentPhoto ? 'white' : 'rgba(255,255,255,0.5)',
+                  cursor: 'pointer'
+                }}
               />
             ))}
-          </div>
+          </Box>
         </>
       )}
-    </div>
+    </Box>
   );
 };
 
-// Model Card Component
+// Model Card Component using DashboardCard
 const ModelCard = ({ model, onViewDetails }: { model: any, onViewDetails: (model: any) => void }) => {
+  const getBidButtonColor = () => {
+    switch (model.status) {
+      case 'active':
+        return '#4CAF50'; // Green
+      case 'pending':
+        return '#FFC107'; // Yellow
+      case 'lost':
+        return '#f44336'; // Red
+      default:
+        return '#ff9edb'; // Pink
+    }
+  };
+
   return (
-    <div className="bg-white rounded-2xl border-4 border-pink-400 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl shadow-lg">
+    <Card sx={{ 
+      borderRadius: 3,
+      border: '4px solid #ff9edb',
+      overflow: 'hidden',
+      transition: 'all 0.3s ease',
+      '&:hover': {
+        transform: 'scale(1.02)',
+        boxShadow: '0 8px 32px rgba(255, 158, 219, 0.3)'
+      }
+    }}>
       <PhotoGallery photos={model.photos} modelName={model.name} />
       
-      <div className="p-4">
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="text-lg font-semibold text-gray-800">{model.name}</h3>
-          <div className="flex items-center gap-1">
-            <IconStar className="text-yellow-400 fill-current" size={16} />
-            <span className="text-sm text-gray-600">{model.rating}</span>
-          </div>
-        </div>
-        
-        <div className="space-y-1 mb-3">
-          <div className="flex items-center text-gray-600 text-sm">
-            <IconPhone size={14} className="mr-1" />
-            <span>{model.phoneType}</span>
-          </div>
+      <CardContent sx={{ p: 3 }}>
+        <Stack spacing={2}>
+          {/* Header with name and rating */}
+          <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
+            <Typography variant="h6" fontWeight={600} color="text.primary">
+              {model.name}
+            </Typography>
+            <Stack direction="row" alignItems="center" spacing={0.5}>
+              <IconStar size={16} style={{ color: '#FFD700', fill: '#FFD700' }} />
+              <Typography variant="body2" color="text.secondary">
+                {model.rating}
+              </Typography>
+            </Stack>
+          </Stack>
           
-          <div className="flex items-center text-gray-600 text-sm">
-            <IconWorld size={14} className="mr-1" />
-            <span>{model.country}</span>
-          </div>
+          {/* Model details in grid format */}
+          <Stack spacing={1}>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="body2" fontWeight={600}>Name</Typography>
+            </Stack>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="body2" fontWeight={600}>Phone Type</Typography>
+            </Stack>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="body2" fontWeight={600}>Country</Typography>
+            </Stack>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="body2" fontWeight={600}>Contract</Typography>
+            </Stack>
+            <Typography variant="body2" fontWeight={600}>Type(salary or % split)</Typography>
+            <Typography variant="body2" fontWeight={600}>NSFW or SFW?</Typography>
+            <Typography variant="body2" fontWeight={600} color="#ff9edb">
+              Last 30 Day Earnings
+            </Typography>
+          </Stack>
           
-          <div className="text-gray-600 text-sm">{model.contractType}</div>
-        </div>
-        
-        <div className="text-pink-500 font-semibold mb-2">
-          Last 30 Day Earnings: {model.last30DayEarnings}
-        </div>
-        
-        <div className="text-gray-800 font-semibold mb-3">
-          Current Bid: ${model.currentBid.toLocaleString()}
-        </div>
-        
-        <button
-          onClick={() => onViewDetails(model)}
-          className="w-full bg-pink-400 hover:bg-pink-500 text-white font-semibold py-3 px-4 rounded-xl transition-colors duration-200"
-        >
-          See Details
-        </button>
-      </div>
-    </div>
+          {/* Bid Button */}
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={() => onViewDetails(model)}
+            sx={{
+              backgroundColor: getBidButtonColor(),
+              color: 'white',
+              fontWeight: 600,
+              py: 1.5,
+              borderRadius: 2,
+              textTransform: 'none',
+              fontSize: '0.875rem',
+              '&:hover': {
+                backgroundColor: getBidButtonColor(),
+                opacity: 0.9
+              }
+            }}
+          >
+            {model.bidStatus}
+          </Button>
+          
+          <Button
+            fullWidth
+            variant="outlined"
+            sx={{
+              borderColor: '#ff9edb',
+              color: '#ff9edb',
+              fontWeight: 600,
+              borderRadius: 2,
+              textTransform: 'none',
+              '&:hover': {
+                backgroundColor: '#ff9edb',
+                color: 'white',
+                borderColor: '#ff9edb'
+              }
+            }}
+          >
+            See Details
+          </Button>
+        </Stack>
+      </CardContent>
+    </Card>
   );
 };
 
-// Model Details Dialog
+// Model Details Dialog using Modernize components
 const ModelDetailsDialog = ({ 
   model, 
   open, 
@@ -236,222 +334,233 @@ const ModelDetailsDialog = ({
   onBid: (modelId: number, bidAmount: number) => void 
 }) => {
   const [bidAmount, setBidAmount] = useState('');
-  const [showBidSuccess, setShowBidSuccess] = useState(false);
 
   const handleBid = () => {
-    if (bidAmount && parseInt(bidAmount) > model.currentBid) {
+    if (bidAmount && parseInt(bidAmount) > model?.currentBid) {
       onBid(model.id, parseInt(bidAmount));
-      setShowBidSuccess(true);
       setBidAmount('');
-      setTimeout(() => {
-        setShowBidSuccess(false);
-        onClose();
-      }, 2000);
+      onClose();
     }
   };
 
   if (!model || !open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-6 border-b">
-          <h2 className="text-2xl font-bold text-gray-800">{model.name}</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 transition-colors"
-          >
-            <IconX size={24} />
-          </button>
-        </div>
-        
-        <div className="p-6">
-          {showBidSuccess && (
-            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4">
-              Bid placed successfully! You are now the highest bidder.
-            </div>
-          )}
+    <Dialog 
+      open={open} 
+      onClose={onClose} 
+      maxWidth="md" 
+      fullWidth
+      PaperProps={{
+        sx: { 
+          borderRadius: 3,
+          border: '3px solid #ff9edb'
+        }
+      }}
+    >
+      <DialogTitle sx={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        backgroundColor: '#ff9edb',
+        color: 'white'
+      }}>
+        <Typography variant="h5" fontWeight={600}>
+          {model.name}
+        </Typography>
+        <IconButton onClick={onClose} sx={{ color: 'white' }}>
+          <IconX />
+        </IconButton>
+      </DialogTitle>
+      
+      <DialogContent sx={{ p: 4 }}>
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={6}>
+            <PhotoGallery photos={model.photos} modelName={model.name} />
+          </Grid>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <PhotoGallery photos={model.photos} modelName={model.name} />
-            </div>
-            
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-xl font-semibold mb-2">{model.name}, {model.age}</h3>
-                <div className="flex items-center gap-2 mb-2">
-                  <IconStar className="text-yellow-400 fill-current" size={18} />
-                  <span>{model.rating} ({model.totalReviews} reviews)</span>
-                </div>
-                <div className="flex items-center text-gray-600">
-                  <IconMapPin size={16} className="mr-1" />
-                  <span>{model.location}</span>
-                </div>
-              </div>
+          <Grid item xs={12} md={6}>
+            <Stack spacing={3}>
+              <Box>
+                <Typography variant="h6" fontWeight={600} mb={1}>
+                  {model.name}, {model.age}
+                </Typography>
+                <Stack direction="row" alignItems="center" spacing={1} mb={1}>
+                  <IconStar size={18} style={{ color: '#FFD700', fill: '#FFD700' }} />
+                  <Typography>{model.rating} ({model.totalReviews} reviews)</Typography>
+                </Stack>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <IconMapPin size={16} />
+                  <Typography color="text.secondary">{model.location}</Typography>
+                </Stack>
+              </Box>
 
-              <hr />
+              <Paper sx={{ p: 2, backgroundColor: 'grey.50', borderRadius: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600} mb={1}>Contract Details</Typography>
+                <Stack spacing={1}>
+                  <Typography variant="body2"><strong>Type:</strong> {model.contractType}</Typography>
+                  <Typography variant="body2"><strong>Phone:</strong> {model.phoneType}</Typography>
+                  <Typography variant="body2"><strong>Last 30 Days:</strong> {model.last30DayEarnings}</Typography>
+                </Stack>
+              </Paper>
 
-              <div>
-                <h4 className="font-semibold mb-2">Contract Details</h4>
-                <div className="space-y-1 text-sm">
-                  <div><strong>Type:</strong> {model.contractType}</div>
-                  <div><strong>Phone:</strong> {model.phoneType}</div>
-                  <div><strong>Last 30 Days:</strong> {model.last30DayEarnings}</div>
-                </div>
-              </div>
-
-              <hr />
-
-              <div>
-                <h4 className="font-semibold mb-2">Performance Metrics</h4>
-                <div className="grid grid-cols-3 gap-4 text-sm">
-                  <div>
-                    <div className="text-gray-600">Avg Views</div>
-                    <div className="text-lg font-semibold text-pink-500">{model.metrics.avgViews}</div>
-                  </div>
-                  <div>
-                    <div className="text-gray-600">Engagement</div>
-                    <div className="text-lg font-semibold text-pink-500">{model.metrics.engagement}</div>
-                  </div>
-                  <div>
-                    <div className="text-gray-600">Followers</div>
-                    <div className="text-lg font-semibold text-pink-500">{model.metrics.followers}</div>
-                  </div>
-                </div>
-              </div>
-
-              <hr />
-
-              <div>
-                <h4 className="font-semibold mb-2">Specialties</h4>
-                <div className="flex flex-wrap gap-2">
-                  {model.specialties.map((specialty: string, index: number) => (
-                    <span
-                      key={index}
-                      className="bg-pink-400 text-white text-xs px-2 py-1 rounded-full"
-                    >
-                      {specialty}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <p className="text-gray-600 text-sm">{model.bio}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 p-4 bg-gray-50 rounded-xl">
-            <h4 className="text-lg font-semibold mb-2">
-              Current Highest Bid: ${model.currentBid.toLocaleString()}
-            </h4>
-            <p className="text-sm text-gray-600 mb-3">
-              Starting Price: ${model.startingPrice.toLocaleString()}
-            </p>
-            
-            <div className="flex gap-3">
-              <div className="flex-1">
-                <input
-                  type="number"
-                  value={bidAmount}
-                  onChange={(e) => setBidAmount(e.target.value)}
-                  placeholder={`Minimum: $${(model.currentBid + 100).toLocaleString()}`}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
-                />
-              </div>
-              <button
-                onClick={handleBid}
-                disabled={!bidAmount || parseInt(bidAmount) <= model.currentBid}
-                className="bg-pink-400 hover:bg-pink-500 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold px-6 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2"
-              >
-                <IconGavel size={16} />
-                Place Bid
-              </button>
-            </div>
-            
-            {bidAmount && parseInt(bidAmount) <= model.currentBid && (
-              <p className="text-red-500 text-sm mt-2">
-                Bid must be higher than current bid
-              </p>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+              <Paper sx={{ p: 2, backgroundColor: '#ff9edb', color: 'white', borderRadius: 2 }}>
+                <Typography variant="h6" fontWeight={600} mb={1}>
+                  Current Highest Bid: ${model.currentBid.toLocaleString()}
+                </Typography>
+                <Typography variant="body2" mb={2}>
+                  Starting Price: ${model.startingPrice.toLocaleString()}
+                </Typography>
+                
+                <Stack direction="row" spacing={2}>
+                  <TextField
+                    value={bidAmount}
+                    onChange={(e) => setBidAmount(e.target.value)}
+                    placeholder={`Min: $${(model.currentBid + 100).toLocaleString()}`}
+                    type="number"
+                    size="small"
+                    sx={{
+                      flex: 1,
+                      '& .MuiOutlinedInput-root': {
+                        backgroundColor: 'white',
+                        borderRadius: 1
+                      }
+                    }}
+                  />
+                  <Button
+                    onClick={handleBid}
+                    disabled={!bidAmount || parseInt(bidAmount) <= model.currentBid}
+                    variant="contained"
+                    startIcon={<IconGavel />}
+                    sx={{
+                      backgroundColor: 'white',
+                      color: '#ff9edb',
+                      fontWeight: 600,
+                      '&:hover': {
+                        backgroundColor: 'grey.100'
+                      }
+                    }}
+                  >
+                    Place Bid
+                  </Button>
+                </Stack>
+                
+                {bidAmount && parseInt(bidAmount) <= model.currentBid && (
+                  <Typography variant="body2" sx={{ color: '#ffcccb', mt: 1 }}>
+                    Bid must be higher than current bid
+                  </Typography>
+                )}
+              </Paper>
+            </Stack>
+          </Grid>
+        </Grid>
+      </DialogContent>
+    </Dialog>
   );
 };
 
-// My Bids Component
+// My Bids Component using DashboardCard
 const MyBids = ({ userBids }: { userBids: any[] }) => {
   return (
-    <div>
-      <h2 className="text-2xl font-bold text-pink-500 mb-6">My Active Bids</h2>
-      
+    <DashboardCard title="My Active Bids" subtitle="Track your current marketplace bids">
       {userBids.length === 0 ? (
-        <div className="bg-white rounded-xl p-8 text-center shadow-lg">
-          <h3 className="text-xl text-gray-600 mb-2">No active bids</h3>
-          <p className="text-gray-500">Browse the marketplace to place your first bid!</p>
-        </div>
+        <Box sx={{ textAlign: 'center', py: 6 }}>
+          <Typography variant="h6" color="text.secondary" mb={2}>
+            No active bids
+          </Typography>
+          <Typography color="text.secondary">
+            Browse the marketplace to place your first bid!
+          </Typography>
+        </Box>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {userBids.map((bid: any) => (
-            <div key={bid.id} className="bg-white rounded-xl border-2 border-pink-400 overflow-hidden shadow-lg">
-              <div className="relative">
-                <img
-                  src={bid.model.photos[0]}
-                  alt={bid.model.name}
-                  className="w-full h-48 object-cover"
-                />
-                <span
-                  className={`absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-semibold ${
-                    bid.status === 'winning'
-                      ? 'bg-green-500 text-white'
-                      : 'bg-red-500 text-white'
-                  }`}
-                >
-                  {bid.status === 'winning' ? 'Winning' : 'Outbid'}
-                </span>
-              </div>
-              
-              <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2">{bid.model.name}</h3>
-                <p className="text-gray-600 text-sm mb-3">{bid.model.contractType}</p>
+        <Grid container spacing={3}>
+          {userBids.map((bid) => (
+            <Grid item xs={12} sm={6} lg={4} key={bid.id}>
+              <Card sx={{ 
+                borderRadius: 3,
+                border: '2px solid #ff9edb',
+                overflow: 'hidden'
+              }}>
+                <Box sx={{ position: 'relative' }}>
+                  <Box
+                    component="img"
+                    src={bid.model.photos[0]}
+                    alt={bid.model.name}
+                    sx={{
+                      width: '100%',
+                      height: 200,
+                      objectFit: 'cover'
+                    }}
+                  />
+                  <Chip
+                    label={bid.status === 'winning' ? 'Winning' : 'Outbid'}
+                    sx={{
+                      position: 'absolute',
+                      top: 8,
+                      right: 8,
+                      backgroundColor: bid.status === 'winning' ? 'success.main' : 'error.main',
+                      color: 'white',
+                      fontWeight: 600
+                    }}
+                  />
+                </Box>
                 
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-sm">Your Bid:</span>
-                    <span className="text-sm font-semibold">${bid.amount.toLocaleString()}</span>
-                  </div>
+                <CardContent>
+                  <Typography variant="h6" fontWeight={600} mb={1}>
+                    {bid.model.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" mb={2}>
+                    {bid.model.contractType}
+                  </Typography>
                   
-                  <div className="flex justify-between">
-                    <span className="text-sm">Current High:</span>
-                    <span className="text-sm font-semibold">${bid.currentHighBid.toLocaleString()}</span>
-                  </div>
+                  <Stack spacing={1}>
+                    <Stack direction="row" justifyContent="space-between">
+                      <Typography variant="body2">Your Bid:</Typography>
+                      <Typography variant="body2" fontWeight={600}>
+                        ${bid.amount.toLocaleString()}
+                      </Typography>
+                    </Stack>
+                    
+                    <Stack direction="row" justifyContent="space-between">
+                      <Typography variant="body2">Current High:</Typography>
+                      <Typography variant="body2" fontWeight={600}>
+                        ${bid.currentHighBid.toLocaleString()}
+                      </Typography>
+                    </Stack>
+                    
+                    <Stack direction="row" justifyContent="space-between">
+                      <Typography variant="body2">Time Left:</Typography>
+                      <Typography variant="body2" fontWeight={600}>
+                        {bid.timeLeft}
+                      </Typography>
+                    </Stack>
+                  </Stack>
                   
-                  <div className="flex justify-between">
-                    <span className="text-sm">Time Left:</span>
-                    <span className="text-sm font-semibold">{bid.timeLeft}</span>
-                  </div>
-                </div>
-                
-                {bid.status === 'outbid' && (
-                  <button className="w-full mt-4 bg-pink-400 hover:bg-pink-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
-                    Increase Bid
-                  </button>
-                )}
-              </div>
-            </div>
+                  {bid.status === 'outbid' && (
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      sx={{
+                        mt: 2,
+                        backgroundColor: '#ff9edb',
+                        '&:hover': { backgroundColor: '#ff7dc7' }
+                      }}
+                    >
+                      Increase Bid
+                    </Button>
+                  )}
+                </CardContent>
+              </Card>
+            </Grid>
           ))}
-        </div>
+        </Grid>
       )}
-    </div>
+    </DashboardCard>
   );
 };
 
 // Main Marketplace Component
-export default function Marketplace() {
+export default function CweatorMarketplace() {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedModel, setSelectedModel] = useState<any>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -481,14 +590,12 @@ export default function Marketplace() {
   };
 
   const handleBid = (modelId: number, bidAmount: number) => {
-    // Update model's current bid
     setModels(prev => prev.map(model => 
       model.id === modelId 
         ? { ...model, currentBid: bidAmount }
         : model
     ));
 
-    // Add or update user's bid
     const existingBidIndex = userBids.findIndex(bid => bid.model.id === modelId);
     const newBid = {
       id: Date.now(),
@@ -510,68 +617,115 @@ export default function Marketplace() {
 
   return (
     <PageContainer title="Marketplace | CWEATORS" description="Browse and bid on model contracts">
-      <div className="min-h-screen bg-gray-50 p-6">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <h1 className="text-4xl font-bold text-pink-500 mb-8 text-center tracking-wide">
-            CWEATOR MARKETPLACE
-          </h1>
+      <Box sx={{ p: 3 }}>
+        {/* Header using CWEATOR styling */}
+        <Typography 
+          variant="h2" 
+          align="center"
+          sx={{ 
+            fontWeight: 700, 
+            color: '#ff9edb',
+            mb: 4,
+            letterSpacing: '0.1em'
+          }}
+        >
+          CWEATOR MARKETPLACE
+        </Typography>
 
-          {/* Tabs */}
-          <div className="mb-8">
-            <div className="flex border-b border-gray-200">
-              <button
-                onClick={() => setActiveTab(0)}
-                className={`px-6 py-3 font-semibold text-lg transition-colors ${
-                  activeTab === 0
-                    ? 'text-pink-500 border-b-2 border-pink-500'
-                    : 'text-gray-600 hover:text-gray-800'
-                }`}
-              >
-                Available Contracts
-              </button>
-              <button
-                onClick={() => setActiveTab(1)}
-                className={`px-6 py-3 font-semibold text-lg transition-colors relative ${
-                  activeTab === 1
-                    ? 'text-pink-500 border-b-2 border-pink-500'
-                    : 'text-gray-600 hover:text-gray-800'
-                }`}
-              >
-                My Bids
-                {userBids.length > 0 && (
-                  <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {userBids.length}
-                  </span>
-                )}
-              </button>
-            </div>
-          </div>
+        {/* VIEW ACTIVE BIDS Button */}
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
+          <Button
+            variant="contained"
+            size="large"
+            sx={{
+              backgroundColor: '#ff9edb',
+              color: 'white',
+              fontWeight: 600,
+              px: 4,
+              py: 1.5,
+              borderRadius: 3,
+              fontSize: '1.1rem',
+              textTransform: 'none',
+              '&:hover': {
+                backgroundColor: '#ff7dc7'
+              }
+            }}
+            onClick={() => setActiveTab(activeTab === 0 ? 1 : 0)}
+          >
+            VIEW ACTIVE BIDS
+          </Button>
+        </Box>
 
-          {/* Tab Content */}
-          {activeTab === 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {models.map((model) => (
+        {/* Tabs using Material-UI */}
+        <Box sx={{ mb: 4 }}>
+          <Tabs 
+            value={activeTab} 
+            onChange={(e, newValue) => setActiveTab(newValue)}
+            centered
+            sx={{
+              '& .MuiTab-root': {
+                fontSize: '1.1rem',
+                fontWeight: 600,
+                textTransform: 'none',
+                color: 'text.secondary',
+                '&.Mui-selected': {
+                  color: '#ff9edb'
+                }
+              },
+              '& .MuiTabs-indicator': {
+                backgroundColor: '#ff9edb',
+                height: 3
+              }
+            }}
+          >
+            <Tab 
+              label="Available Contracts" 
+            />
+            <Tab 
+              label={
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <Typography>My Bids</Typography>
+                  {userBids.length > 0 && (
+                    <Badge 
+                      badgeContent={userBids.length} 
+                      sx={{
+                        '& .MuiBadge-badge': {
+                          backgroundColor: '#ff9edb',
+                          color: 'white'
+                        }
+                      }}
+                    />
+                  )}
+                </Stack>
+              }
+            />
+          </Tabs>
+        </Box>
+
+        {/* Tab Content */}
+        {activeTab === 0 ? (
+          <Grid container spacing={3}>
+            {models.map((model) => (
+              <Grid item xs={12} sm={6} lg={3} key={model.id}>
                 <ModelCard 
-                  key={model.id}
                   model={model} 
                   onViewDetails={handleViewDetails}
                 />
-              ))}
-            </div>
-          ) : (
-            <MyBids userBids={userBids} />
-          )}
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <MyBids userBids={userBids} />
+        )}
 
-          {/* Model Details Dialog */}
-          <ModelDetailsDialog
-            model={selectedModel}
-            open={dialogOpen}
-            onClose={() => setDialogOpen(false)}
-            onBid={handleBid}
-          />
-        </div>
-      </div>
+        {/* Model Details Dialog */}
+        <ModelDetailsDialog
+          model={selectedModel}
+          open={dialogOpen}
+          onClose={() => setDialogOpen(false)}
+          onBid={handleBid}
+        />
+      </Box>
     </PageContainer>
   );
 }
