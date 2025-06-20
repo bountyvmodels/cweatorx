@@ -44,10 +44,10 @@ const modelContracts = [
     location: "Los Angeles, CA",
     phoneType: "iPhone",
     country: "USA",
-    contractType: "Exclusive Content",
     contentType: "NSFW",
     compensationType: "split",
     compensationDetails: "60/40",
+    language: "English Fluent",
     last30DayEarnings: 6500,
     photos: [
       "https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=400&h=600&fit=crop&crop=face",
@@ -65,10 +65,10 @@ const modelContracts = [
     location: "Miami, FL",
     phoneType: "Android",
     country: "USA",
-    contractType: "Brand Partnership",
     contentType: "SFW",
     compensationType: "salary",
     compensationDetails: "$3000/month",
+    language: "Spanish & English Fluent",
     last30DayEarnings: 3200,
     photos: [
       "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=600&fit=crop&crop=face"
@@ -81,14 +81,14 @@ const modelContracts = [
   {
     id: 3,
     name: "Emma Thompson",
-    age: 26,
-    location: "New York, NY", 
+    age: 18,
+    location: "Buenos Aires, Argentina",
     phoneType: "iPhone",
-    country: "USA",
-    contractType: "Creative Collaboration",
+    country: "Argentina",
     contentType: "NSFW",
     compensationType: "split",
     compensationDetails: "50/50",
+    language: "English Fluent",
     last30DayEarnings: 800,
     photos: [
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=600&fit=crop&crop=face"
@@ -105,10 +105,10 @@ const modelContracts = [
     location: "Seattle, WA",
     phoneType: "iPhone", 
     country: "USA",
-    contractType: "Tech Reviews",
     contentType: "SFW",
     compensationType: "salary",
     compensationDetails: "$2500/month",
+    language: "English & Mandarin Fluent",
     last30DayEarnings: 2100,
     photos: [
       "https://images.unsplash.com/photo-1550525811-e5869dd03032?w=400&h=600&fit=crop&crop=face"
@@ -269,17 +269,25 @@ const ModelCard = ({ model, onViewDetails }: { model: any, onViewDetails: (model
             {model.name}
           </Typography>
           
-          {/* Model details in grid format */}
+          {/* Model details populated with actual data */}
           <Stack spacing={1}>
-            <Typography variant="body2" fontWeight={600}>Name</Typography>
-            <Typography variant="body2" fontWeight={600}>Phone Type</Typography>
-            <Typography variant="body2" fontWeight={600}>Country</Typography>
-            <Typography variant="body2" fontWeight={600}>Contract</Typography>
-            <Typography variant="body2" fontWeight={600}>
-              Type({model.compensationType === 'salary' ? 'salary' : '% split'})
+            <Typography variant="body2" color="text.secondary">
+              {model.age} Years Old
             </Typography>
-            <Typography variant="body2" fontWeight={600}>
+            <Typography variant="body2" color="text.secondary">
+              {model.phoneType}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {model.country}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
               {model.contentType}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {model.compensationType === 'salary' ? model.compensationDetails : model.compensationDetails}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {model.language}
             </Typography>
             <Typography 
               variant="body2" 
@@ -310,25 +318,6 @@ const ModelCard = ({ model, onViewDetails }: { model: any, onViewDetails: (model
             }}
           >
             {getBidButtonText()}
-          </Button>
-          
-          <Button
-            fullWidth
-            variant="outlined"
-            sx={{
-              borderColor: '#ff9edb',
-              color: '#ff9edb',
-              fontWeight: 600,
-              borderRadius: 2,
-              textTransform: 'none',
-              '&:hover': {
-                backgroundColor: '#ff9edb',
-                color: 'white',
-                borderColor: '#ff9edb'
-              }
-            }}
-          >
-            See Details
           </Button>
         </Stack>
       </CardContent>
@@ -425,10 +414,10 @@ const ModelDetailsDialog = ({
                       <strong>Country:</strong> {model.country}
                     </Typography>
                     <Typography variant="body2">
-                      <strong>Contract Type:</strong> {model.contractType}
+                      <strong>Content Type:</strong> {model.contentType}
                     </Typography>
                     <Typography variant="body2">
-                      <strong>Content Type:</strong> {model.contentType}
+                      <strong>Language:</strong> {model.language}
                     </Typography>
                     <Typography 
                       variant="body2" 
