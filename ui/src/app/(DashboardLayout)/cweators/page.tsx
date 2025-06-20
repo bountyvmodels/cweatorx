@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useEffect, useState } from "react";
-import { Grid, Box, Card, CardContent, Typography } from "@mui/material";
+import { Grid, Box, Typography } from "@mui/material";
 import PageContainer from "@/app/components/container/PageContainer";
 import DashboardCard from "@/app/components/shared/DashboardCard";
 
@@ -13,8 +13,8 @@ import EmployeeSalary from "@/app/components/dashboards/modern/EmployeeSalary";
 import TopPerformers from "@/app/components/dashboards/modern/TopPerformers";
 import WeeklyStats from "@/app/components/dashboards/modern/WeeklyStats";
 
-// Metric Cards Component for Cweator-specific earnings data
-const EarningsMetricCard = ({ 
+// Compact Metric Cards Component matching the example layout
+const CompactMetricCard = ({ 
   number, 
   title, 
   bgColor, 
@@ -27,69 +27,68 @@ const EarningsMetricCard = ({
   textColor?: string;
   subtitle?: string;
 }) => (
-  <Card 
-    sx={{ 
-      backgroundColor: bgColor,
-      minHeight: '150px',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: '24px',
-      border: '3px solid rgba(0,0,0,0.1)',
-      cursor: 'pointer',
-      transition: 'transform 0.2s',
-      '&:hover': {
-        transform: 'scale(1.02)'
-      }
-    }}
-  >
-    <CardContent sx={{ textAlign: 'center', p: 3 }}>
+  <DashboardCard>
+    <Box 
+      sx={{ 
+        backgroundColor: bgColor,
+        borderRadius: '12px',
+        p: 3,
+        textAlign: 'center',
+        minHeight: '120px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        transition: 'transform 0.2s',
+        '&:hover': {
+          transform: 'scale(1.02)'
+        }
+      }}
+    >
       <Typography 
         variant="h2" 
         sx={{ 
-          fontSize: '3rem', 
+          fontSize: '2.5rem', 
           fontWeight: 'bold', 
           color: textColor,
-          mb: 1,
+          mb: 0.5,
           lineHeight: 1
         }}
       >
         {number}
       </Typography>
       <Typography 
-        variant="h6" 
+        variant="subtitle1" 
         sx={{ 
-          fontWeight: 'bold', 
+          fontWeight: 600, 
           color: textColor,
-          letterSpacing: '1px',
-          lineHeight: 1.2,
-          mb: subtitle ? 1 : 0
+          letterSpacing: '0.5px',
+          fontSize: '0.875rem'
         }}
       >
         {title}
       </Typography>
       {subtitle && (
         <Typography 
-          variant="body2" 
+          variant="caption" 
           sx={{ 
             color: textColor,
             opacity: 0.8,
-            fontSize: '0.75rem'
+            fontSize: '0.75rem',
+            mt: 0.5
           }}
         >
           {subtitle}
         </Typography>
       )}
-    </CardContent>
-  </Card>
+    </Box>
+  </DashboardCard>
 );
 
-// Telegram News Component - cweator-focused content
+// Telegram News Component - matching the example style
 const TelegramNews = () => (
   <DashboardCard title="📱 Telegram Updates" subtitle="Latest creator news">
-    <Box sx={{ minHeight: '200px' }}>
-      {/* Compact News Content */}
+    <Box sx={{ minHeight: '180px' }}>
+      {/* News Content */}
       <Box sx={{ mb: 2 }}>
         {[
           'New monetization features',
@@ -101,7 +100,7 @@ const TelegramNews = () => (
             sx={{ 
               p: 1.5, 
               backgroundColor: '#f5f5f5', 
-              borderRadius: '6px',
+              borderRadius: '8px',
               textAlign: 'left',
               mb: 1.5,
               fontSize: '0.875rem'
@@ -114,14 +113,14 @@ const TelegramNews = () => (
         ))}
       </Box>
 
-      {/* Compact Join Button */}
+      {/* Join Button */}
       <Box 
         sx={{ 
           backgroundColor: '#00bcd4', 
           color: 'white', 
           p: 1.5, 
           textAlign: 'center',
-          borderRadius: '6px',
+          borderRadius: '8px',
           cursor: 'pointer',
           '&:hover': { backgroundColor: '#0097a7' }
         }}
@@ -173,41 +172,41 @@ export default function CweatorsEarningsOverview() {
     <PageContainer title="Cweators Earnings Overview" description="Comprehensive earnings and performance analytics">
       <Box sx={{ p: 3 }}>
         
-        {/* Page Title */}
+        {/* Page Title - more compact */}
         <Typography 
           variant="h3" 
           sx={{ 
             fontWeight: 'bold', 
             color: '#ff9edb',
-            mb: 4,
-            letterSpacing: '1px'
+            mb: 3,
+            letterSpacing: '0.1em'
           }}
         >
           CWEATOR EARNINGS OVERVIEW
         </Typography>
 
-        {/* Top Metrics Row */}
-        <Grid container spacing={3} mb={4}>
+        {/* Top Metrics Row - 4 cards in a row like the example */}
+        <Grid container spacing={3} mb={3}>
           {earningsMetrics.map((metric, index) => (
-            <Grid key={index} size={{ xs: 12, sm: 6, lg: 3 }}>
-              <EarningsMetricCard {...metric} />
+            <Grid key={index} size={{ xs: 12, sm: 6, xl: 3 }}>
+              <CompactMetricCard {...metric} />
             </Grid>
           ))}
         </Grid>
 
-        {/* Main Dashboard Grid */}
+        {/* Main Dashboard Grid - matching the example layout */}
         <Grid container spacing={3}>
           
-          {/* Left Column - Main Charts */}
+          {/* Left Column - Main Charts (8 columns) */}
           <Grid size={{ xs: 12, lg: 8 }}>
             <Grid container spacing={3}>
               
-              {/* Revenue Updates Chart */}
+              {/* Revenue Updates Chart - Full width */}
               <Grid size={{ xs: 12 }}>
                 <RevenueUpdates isLoading={isLoading} />
               </Grid>
               
-              {/* Yearly Breakup and Monthly Earnings */}
+              {/* Yearly Breakup and Monthly Earnings - Side by side */}
               <Grid size={{ xs: 12, md: 6 }}>
                 <YearlyBreakup isLoading={isLoading} />
               </Grid>
@@ -216,15 +215,10 @@ export default function CweatorsEarningsOverview() {
                 <MonthlyEarnings isLoading={isLoading} />
               </Grid>
               
-              {/* Creator Performance Chart */}
-              <Grid size={{ xs: 12 }}>
-                <EmployeeSalary isLoading={isLoading} />
-              </Grid>
-              
             </Grid>
           </Grid>
 
-          {/* Right Column - Stats and Updates */}
+          {/* Right Column - Sidebar (4 columns) */}
           <Grid size={{ xs: 12, lg: 4 }}>
             <Grid container spacing={3}>
               
@@ -241,8 +235,12 @@ export default function CweatorsEarningsOverview() {
             </Grid>
           </Grid>
           
-          {/* Full Width Bottom Section - Top Performers */}
-          <Grid size={{ xs: 12 }}>
+          {/* Bottom Row - Charts spanning full width */}
+          <Grid size={{ xs: 12, lg: 6 }}>
+            <EmployeeSalary isLoading={isLoading} />
+          </Grid>
+          
+          <Grid size={{ xs: 12, lg: 6 }}>
             <TopPerformers />
           </Grid>
           
