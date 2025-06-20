@@ -1,8 +1,17 @@
-
 "use client";
-
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, MapPin, Star, TrendingUp, Gavel, X, Phone, Globe } from 'lucide-react';
+import { 
+  IconChevronLeft, 
+  IconChevronRight, 
+  IconMapPin, 
+  IconStar, 
+  IconTrendingUp, 
+  IconGavel, 
+  IconX, 
+  IconPhone, 
+  IconWorld 
+} from '@tabler/icons-react';
+import PageContainer from '@/app/components/container/PageContainer';
 
 // Mock data for model contracts
 const modelContracts = [
@@ -113,7 +122,7 @@ const modelContracts = [
 ];
 
 // Photo Gallery Component
-const PhotoGallery = ({ photos, modelName }) => {
+const PhotoGallery = ({ photos, modelName }: { photos: string[], modelName: string }) => {
   const [currentPhoto, setCurrentPhoto] = useState(0);
 
   const nextPhoto = () => {
@@ -138,14 +147,14 @@ const PhotoGallery = ({ photos, modelName }) => {
             onClick={prevPhoto}
             className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-1 hover:bg-opacity-70 transition-all"
           >
-            <ChevronLeft size={20} />
+            <IconChevronLeft size={20} />
           </button>
           
           <button
             onClick={nextPhoto}
             className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-1 hover:bg-opacity-70 transition-all"
           >
-            <ChevronRight size={20} />
+            <IconChevronRight size={20} />
           </button>
           
           {/* Photo indicators */}
@@ -167,7 +176,7 @@ const PhotoGallery = ({ photos, modelName }) => {
 };
 
 // Model Card Component
-const ModelCard = ({ model, onViewDetails }) => {
+const ModelCard = ({ model, onViewDetails }: { model: any, onViewDetails: (model: any) => void }) => {
   return (
     <div className="bg-white rounded-2xl border-4 border-pink-400 overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl shadow-lg">
       <PhotoGallery photos={model.photos} modelName={model.name} />
@@ -176,19 +185,19 @@ const ModelCard = ({ model, onViewDetails }) => {
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold text-gray-800">{model.name}</h3>
           <div className="flex items-center gap-1">
-            <Star className="text-yellow-400 fill-current" size={16} />
+            <IconStar className="text-yellow-400 fill-current" size={16} />
             <span className="text-sm text-gray-600">{model.rating}</span>
           </div>
         </div>
         
         <div className="space-y-1 mb-3">
           <div className="flex items-center text-gray-600 text-sm">
-            <Phone size={14} className="mr-1" />
+            <IconPhone size={14} className="mr-1" />
             <span>{model.phoneType}</span>
           </div>
           
           <div className="flex items-center text-gray-600 text-sm">
-            <Globe size={14} className="mr-1" />
+            <IconWorld size={14} className="mr-1" />
             <span>{model.country}</span>
           </div>
           
@@ -215,7 +224,17 @@ const ModelCard = ({ model, onViewDetails }) => {
 };
 
 // Model Details Dialog
-const ModelDetailsDialog = ({ model, open, onClose, onBid }) => {
+const ModelDetailsDialog = ({ 
+  model, 
+  open, 
+  onClose, 
+  onBid 
+}: { 
+  model: any, 
+  open: boolean, 
+  onClose: () => void, 
+  onBid: (modelId: number, bidAmount: number) => void 
+}) => {
   const [bidAmount, setBidAmount] = useState('');
   const [showBidSuccess, setShowBidSuccess] = useState(false);
 
@@ -242,7 +261,7 @@ const ModelDetailsDialog = ({ model, open, onClose, onBid }) => {
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 transition-colors"
           >
-            <X size={24} />
+            <IconX size={24} />
           </button>
         </div>
         
@@ -262,11 +281,11 @@ const ModelDetailsDialog = ({ model, open, onClose, onBid }) => {
               <div>
                 <h3 className="text-xl font-semibold mb-2">{model.name}, {model.age}</h3>
                 <div className="flex items-center gap-2 mb-2">
-                  <Star className="text-yellow-400 fill-current" size={18} />
+                  <IconStar className="text-yellow-400 fill-current" size={18} />
                   <span>{model.rating} ({model.totalReviews} reviews)</span>
                 </div>
                 <div className="flex items-center text-gray-600">
-                  <MapPin size={16} className="mr-1" />
+                  <IconMapPin size={16} className="mr-1" />
                   <span>{model.location}</span>
                 </div>
               </div>
@@ -307,7 +326,7 @@ const ModelDetailsDialog = ({ model, open, onClose, onBid }) => {
               <div>
                 <h4 className="font-semibold mb-2">Specialties</h4>
                 <div className="flex flex-wrap gap-2">
-                  {model.specialties.map((specialty, index) => (
+                  {model.specialties.map((specialty: string, index: number) => (
                     <span
                       key={index}
                       className="bg-pink-400 text-white text-xs px-2 py-1 rounded-full"
@@ -347,7 +366,7 @@ const ModelDetailsDialog = ({ model, open, onClose, onBid }) => {
                 disabled={!bidAmount || parseInt(bidAmount) <= model.currentBid}
                 className="bg-pink-400 hover:bg-pink-500 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold px-6 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2"
               >
-                <Gavel size={16} />
+                <IconGavel size={16} />
                 Place Bid
               </button>
             </div>
@@ -365,7 +384,7 @@ const ModelDetailsDialog = ({ model, open, onClose, onBid }) => {
 };
 
 // My Bids Component
-const MyBids = ({ userBids }) => {
+const MyBids = ({ userBids }: { userBids: any[] }) => {
   return (
     <div>
       <h2 className="text-2xl font-bold text-pink-500 mb-6">My Active Bids</h2>
@@ -377,7 +396,7 @@ const MyBids = ({ userBids }) => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {userBids.map((bid) => (
+          {userBids.map((bid: any) => (
             <div key={bid.id} className="bg-white rounded-xl border-2 border-pink-400 overflow-hidden shadow-lg">
               <div className="relative">
                 <img
@@ -432,9 +451,9 @@ const MyBids = ({ userBids }) => {
 };
 
 // Main Marketplace Component
-const Marketplace = () => {
+export default function Marketplace() {
   const [activeTab, setActiveTab] = useState(0);
-  const [selectedModel, setSelectedModel] = useState(null);
+  const [selectedModel, setSelectedModel] = useState<any>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [models, setModels] = useState(modelContracts);
   const [userBids, setUserBids] = useState([
@@ -456,12 +475,12 @@ const Marketplace = () => {
     }
   ]);
 
-  const handleViewDetails = (model) => {
+  const handleViewDetails = (model: any) => {
     setSelectedModel(model);
     setDialogOpen(true);
   };
 
-  const handleBid = (modelId, bidAmount) => {
+  const handleBid = (modelId: number, bidAmount: number) => {
     // Update model's current bid
     setModels(prev => prev.map(model => 
       model.id === modelId 
@@ -473,7 +492,7 @@ const Marketplace = () => {
     const existingBidIndex = userBids.findIndex(bid => bid.model.id === modelId);
     const newBid = {
       id: Date.now(),
-      model: models.find(m => m.id === modelId),
+      model: models.find(m => m.id === modelId)!,
       amount: bidAmount,
       currentHighBid: bidAmount,
       status: 'winning',
@@ -490,69 +509,69 @@ const Marketplace = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <h1 className="text-4xl font-bold text-pink-500 mb-8 text-center tracking-wide">
-          CWEATOR MARKETPLACE
-        </h1>
+    <PageContainer title="Marketplace | CWEATORS" description="Browse and bid on model contracts">
+      <div className="min-h-screen bg-gray-50 p-6">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <h1 className="text-4xl font-bold text-pink-500 mb-8 text-center tracking-wide">
+            CWEATOR MARKETPLACE
+          </h1>
 
-        {/* Tabs */}
-        <div className="mb-8">
-          <div className="flex border-b border-gray-200">
-            <button
-              onClick={() => setActiveTab(0)}
-              className={`px-6 py-3 font-semibold text-lg transition-colors ${
-                activeTab === 0
-                  ? 'text-pink-500 border-b-2 border-pink-500'
-                  : 'text-gray-600 hover:text-gray-800'
-              }`}
-            >
-              Available Contracts
-            </button>
-            <button
-              onClick={() => setActiveTab(1)}
-              className={`px-6 py-3 font-semibold text-lg transition-colors relative ${
-                activeTab === 1
-                  ? 'text-pink-500 border-b-2 border-pink-500'
-                  : 'text-gray-600 hover:text-gray-800'
-              }`}
-            >
-              My Bids
-              {userBids.length > 0 && (
-                <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {userBids.length}
-                </span>
-              )}
-            </button>
+          {/* Tabs */}
+          <div className="mb-8">
+            <div className="flex border-b border-gray-200">
+              <button
+                onClick={() => setActiveTab(0)}
+                className={`px-6 py-3 font-semibold text-lg transition-colors ${
+                  activeTab === 0
+                    ? 'text-pink-500 border-b-2 border-pink-500'
+                    : 'text-gray-600 hover:text-gray-800'
+                }`}
+              >
+                Available Contracts
+              </button>
+              <button
+                onClick={() => setActiveTab(1)}
+                className={`px-6 py-3 font-semibold text-lg transition-colors relative ${
+                  activeTab === 1
+                    ? 'text-pink-500 border-b-2 border-pink-500'
+                    : 'text-gray-600 hover:text-gray-800'
+                }`}
+              >
+                My Bids
+                {userBids.length > 0 && (
+                  <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {userBids.length}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
+
+          {/* Tab Content */}
+          {activeTab === 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {models.map((model) => (
+                <ModelCard 
+                  key={model.id}
+                  model={model} 
+                  onViewDetails={handleViewDetails}
+                />
+              ))}
+            </div>
+          ) : (
+            <MyBids userBids={userBids} />
+          )}
+
+          {/* Model Details Dialog */}
+          <ModelDetailsDialog
+            model={selectedModel}
+            open={dialogOpen}
+            onClose={() => setDialogOpen(false)}
+            onBid={handleBid}
+          />
         </div>
-
-        {/* Tab Content */}
-        {activeTab === 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {models.map((model) => (
-              <ModelCard 
-                key={model.id}
-                model={model} 
-                onViewDetails={handleViewDetails}
-              />
-            ))}
-          </div>
-        ) : (
-          <MyBids userBids={userBids} />
-        )}
-
-        {/* Model Details Dialog */}
-        <ModelDetailsDialog
-          model={selectedModel}
-          open={dialogOpen}
-          onClose={() => setDialogOpen(false)}
-          onBid={handleBid}
-        />
       </div>
-    </div>
+    </PageContainer>
   );
-};
-
-export default Marketplace;
+}
