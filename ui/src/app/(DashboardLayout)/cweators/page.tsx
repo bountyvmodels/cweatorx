@@ -1,250 +1,368 @@
 "use client";
-import React from "react";
-import { useEffect, useState } from "react";
-import { Grid, Box, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { 
+  Grid, 
+  Box, 
+  Typography, 
+  Card, 
+  CardContent, 
+  Button, 
+  ButtonGroup,
+  Tab,
+  Tabs,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Stack,
+  Chip
+} from "@mui/material";
+import { 
+  IconCalendar, 
+  IconFilter,
+  IconCircleCheck,
+  IconBrandTelegram,
+  IconCurrencyDollar,
+  IconMessage,
+  IconFlame,
+  IconUsers,
+  IconFileStack
+} from "@tabler/icons-react";
 import PageContainer from "@/app/components/container/PageContainer";
 import DashboardCard from "@/app/components/shared/DashboardCard";
+import dynamic from "next/dynamic";
 
-// Import chart components from modernize templates
-import YearlyBreakup from "@/app/components/dashboards/modern/YearlyBreakup";
-import MonthlyEarnings from "@/app/components/dashboards/modern/MonthlyEarnings";
-import RevenueUpdates from "@/app/components/dashboards/modern/RevenueUpdates";
-import EmployeeSalary from "@/app/components/dashboards/modern/EmployeeSalary";
-import TopPerformers from "@/app/components/dashboards/modern/TopPerformers";
-import WeeklyStats from "@/app/components/dashboards/modern/WeeklyStats";
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-// Compact Metric Cards Component matching the example layout
-const CompactMetricCard = ({ 
-  number, 
-  title, 
-  bgColor, 
-  textColor = "#000",
-  subtitle
+// Earnings Summary Cards
+const EarningsSummaryCard = ({ 
+  amount, 
+  label, 
+  icon, 
+  color = "#5D87FF" 
 }: {
-  number: string;
-  title: string;
-  bgColor: string;
-  textColor?: string;
-  subtitle?: string;
+  amount: string;
+  label: string;
+  icon: React.ReactNode;
+  color?: string;
 }) => (
-  <DashboardCard>
-    <Box 
-      sx={{ 
-        backgroundColor: bgColor,
-        borderRadius: '12px',
-        p: 3,
-        textAlign: 'center',
-        minHeight: '120px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        transition: 'transform 0.2s',
-        '&:hover': {
-          transform: 'scale(1.02)'
-        }
-      }}
-    >
-      <Typography 
-        variant="h2" 
-        sx={{ 
-          fontSize: '2.5rem', 
-          fontWeight: 'bold', 
-          color: textColor,
-          mb: 0.5,
-          lineHeight: 1
-        }}
-      >
-        {number}
-      </Typography>
-      <Typography 
-        variant="subtitle1" 
-        sx={{ 
-          fontWeight: 600, 
-          color: textColor,
-          letterSpacing: '0.5px',
-          fontSize: '0.875rem'
-        }}
-      >
-        {title}
-      </Typography>
-      {subtitle && (
-        <Typography 
-          variant="caption" 
-          sx={{ 
-            color: textColor,
-            opacity: 0.8,
-            fontSize: '0.75rem',
-            mt: 0.5
-          }}
-        >
-          {subtitle}
-        </Typography>
-      )}
-    </Box>
-  </DashboardCard>
-);
-
-// Telegram News Component - matching the example style
-const TelegramNews = () => (
-  <DashboardCard title="📱 Telegram Updates" subtitle="Latest creator news">
-    <Box sx={{ minHeight: '180px' }}>
-      {/* News Content */}
-      <Box sx={{ mb: 2 }}>
-        {[
-          'New monetization features',
-          'Creator program updates', 
-          'Earnings optimization tips'
-        ].map((news, index) => (
+  <Card sx={{ border: '1px solid #e0e0e0', borderRadius: 2 }}>
+    <CardContent sx={{ p: 3 }}>
+      <Stack spacing={2}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box 
-            key={index}
             sx={{ 
-              p: 1.5, 
-              backgroundColor: '#f5f5f5', 
-              borderRadius: '8px',
-              textAlign: 'left',
-              mb: 1.5,
-              fontSize: '0.875rem'
+              width: 48, 
+              height: 48, 
+              borderRadius: 2, 
+              backgroundColor: `${color}20`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: color
             }}
           >
-            <Typography variant="body2" fontWeight="500">
-              • {news}
-            </Typography>
+            {icon}
           </Box>
-        ))}
-      </Box>
+        </Box>
+        <Box>
+          <Typography variant="h4" fontWeight={700} color="text.primary">
+            {amount}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+            {label}
+          </Typography>
+        </Box>
+      </Stack>
+    </CardContent>
+  </Card>
+);
 
-      {/* Join Button */}
-      <Box 
-        sx={{ 
-          backgroundColor: '#00bcd4', 
-          color: 'white', 
-          p: 1.5, 
-          textAlign: 'center',
-          borderRadius: '8px',
-          cursor: 'pointer',
-          '&:hover': { backgroundColor: '#0097a7' }
-        }}
-      >
-        <Typography variant="body2" fontWeight="bold">
-          ✈️ Join Creator Channel
-        </Typography>
-      </Box>
-    </Box>
-  </DashboardCard>
+// Main Earnings Card (Left side - Total earnings)
+const MainEarningsCard = ({ totalEarnings }: { totalEarnings: string }) => (
+  <Card sx={{ border: '1px solid #e0e0e0', borderRadius: 2, height: '100%' }}>
+    <CardContent sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <Stack spacing={2}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box 
+            sx={{ 
+              width: 48, 
+              height: 48, 
+              borderRadius: '50%', 
+              backgroundColor: '#5D87FF',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white'
+            }}
+          >
+            <IconCircleCheck size={24} />
+          </Box>
+        </Box>
+        <Box>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            Total earnings
+          </Typography>
+          <Typography variant="h2" fontWeight={700} color="#5D87FF">
+            {totalEarnings}
+          </Typography>
+        </Box>
+      </Stack>
+    </CardContent>
+  </Card>
 );
 
 export default function CweatorsEarningsOverview() {
-  const [isLoading, setLoading] = useState(true);
-  
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+  const [timeFilter, setTimeFilter] = useState('30days');
+  const [activeTab, setActiveTab] = useState(0);
 
-  // Cweator earnings metrics
-  const earningsMetrics = [
-    {
-      number: "$1,438.83",
-      title: "TOTAL EARNINGS",
-      bgColor: "#ff9edb", // Pink
-      subtitle: "This month"
+  // Chart configuration for earnings trends
+  const chartOptions = {
+    chart: {
+      type: 'bar' as const,
+      height: 300,
+      toolbar: { show: false },
     },
-    {
-      number: "$522.40", 
-      title: "PENDING PAYOUT",
-      bgColor: "#ffd54f", // Yellow
-      subtitle: "Processing"
+    colors: ['#5D87FF'],
+    plotOptions: {
+      bar: {
+        columnWidth: '60%',
+        borderRadius: 4,
+      },
     },
-    {
-      number: "$866.43",
-      title: "COMPLETED PAYOUTS",
-      bgColor: "#81c784", // Green
-      subtitle: "This month"
+    dataLabels: { enabled: false },
+    xaxis: {
+      categories: [
+        'May 21', 'May 22', 'May 23', 'May 24', 'May 25', 'May 26', 'May 27', 'May 28', 'May 29', 'May 30', 'May 31',
+        'Jun 1', 'Jun 2', 'Jun 3', 'Jun 4', 'Jun 5', 'Jun 6', 'Jun 7', 'Jun 8', 'Jun 9', 'Jun 10',
+        'Jun 11', 'Jun 12', 'Jun 13', 'Jun 14', 'Jun 15', 'Jun 16', 'Jun 17', 'Jun 18', 'Jun 19'
+      ],
+      labels: { rotate: -45 }
     },
-    {
-      number: "2.4K",
-      title: "TOTAL VIEWS", 
-      bgColor: "#64b5f6", // Blue
-      subtitle: "This month"
-    }
+    yaxis: {
+      max: 1000,
+      tickAmount: 5,
+    },
+    grid: {
+      strokeDashArray: 3,
+    },
+  };
+
+  const chartSeries = [{
+    name: 'Earnings',
+    data: [600, 380, 850, 340, 300, 250, 200, 150, 220, 100, 120, 350, 450, 350, 200, 150, 320, 180, 150, 320, 180, 100, 250, 150, 100, 220, 250, 220, 250, 100]
+  }];
+
+  // Channel breakdown chart
+  const channelChartOptions = {
+    chart: {
+      type: 'line' as const,
+      height: 200,
+      toolbar: { show: false },
+    },
+    colors: ['#5D87FF', '#00D4AA', '#FF6B6B', '#FFB020'],
+    stroke: { width: 3 },
+    dataLabels: { enabled: false },
+    xaxis: {
+      categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    },
+    legend: { show: false },
+  };
+
+  const channelSeries = [
+    { name: 'Subscriptions', data: [550, 700, 600, 550] },
+    { name: 'Tips', data: [300, 250, 280, 300] },
+    { name: 'Posts', data: [0, 0, 0, 0] },
+    { name: 'Messages', data: [450, 500, 480, 470] }
   ];
 
   return (
-    <PageContainer title="Cweators Earnings Overview" description="Comprehensive earnings and performance analytics">
+    <PageContainer title="Creator Reports" description="Creator earnings and performance analytics">
       <Box sx={{ p: 3 }}>
         
-        {/* Page Title - more compact */}
-        <Typography 
-          variant="h3" 
-          sx={{ 
-            fontWeight: 'bold', 
-            color: '#ff9edb',
-            mb: 3,
-            letterSpacing: '0.1em'
-          }}
-        >
-          CWEATOR EARNINGS OVERVIEW
+        {/* Header */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+          <Typography variant="h4" fontWeight={600}>
+            Creator reports
+          </Typography>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            <ButtonGroup size="small">
+              <Button 
+                startIcon={<IconCalendar size={16} />}
+                sx={{ borderColor: '#e0e0e0' }}
+              >
+                May 21, 2025 → Jun 19, 2025
+              </Button>
+              <Button sx={{ borderColor: '#e0e0e0' }}>
+                <IconCalendar size={16} />
+              </Button>
+            </ButtonGroup>
+            <FormControl size="small" sx={{ minWidth: 120 }}>
+              <Select value="day" displayEmpty>
+                <MenuItem value="day">Shown by day</MenuItem>
+                <MenuItem value="week">Shown by week</MenuItem>
+                <MenuItem value="month">Shown by month</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl size="small" sx={{ minWidth: 120 }}>
+              <Select value="earnings" displayEmpty>
+                <MenuItem value="earnings">Net earnings</MenuItem>
+                <MenuItem value="gross">Gross earnings</MenuItem>
+              </Select>
+            </FormControl>
+            <Button variant="outlined" startIcon={<IconFilter size={16} />} size="small">
+              Filters
+            </Button>
+          </Box>
+        </Box>
+
+        {/* Tabs */}
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+          <Tabs value={activeTab} onChange={(e, val) => setActiveTab(val)}>
+            <Tab label="Overview" />
+            <Tab label="Creator performance" />
+          </Tabs>
+        </Box>
+
+        {/* Earnings Summary Section */}
+        <Typography variant="h6" fontWeight={600} sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+          Earnings summary
+          <Box sx={{ width: 16, height: 16, borderRadius: '50%', backgroundColor: '#e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography variant="caption" sx={{ fontSize: '10px' }}>?</Typography>
+          </Box>
         </Typography>
 
-        {/* Top Metrics Row - 4 cards in a row like the example */}
-        <Grid container spacing={3} mb={3}>
-          {earningsMetrics.map((metric, index) => (
-            <Grid key={index} size={{ xs: 12, sm: 6, xl: 3 }}>
-              <CompactMetricCard {...metric} />
-            </Grid>
-          ))}
-        </Grid>
-
-        {/* Main Dashboard Grid - matching the example layout */}
-        <Grid container spacing={3}>
-          
-          {/* Left Column - Main Charts (8 columns) */}
-          <Grid size={{ xs: 12, lg: 8 }}>
-            <Grid container spacing={3}>
-              
-              {/* Revenue Updates Chart - Full width */}
-              <Grid size={{ xs: 12 }}>
-                <RevenueUpdates isLoading={isLoading} />
-              </Grid>
-              
-              {/* Yearly Breakup and Monthly Earnings - Side by side */}
-              <Grid size={{ xs: 12, md: 6 }}>
-                <YearlyBreakup isLoading={isLoading} />
-              </Grid>
-              
-              <Grid size={{ xs: 12, md: 6 }}>
-                <MonthlyEarnings isLoading={isLoading} />
-              </Grid>
-              
-            </Grid>
+        <Grid container spacing={3} sx={{ mb: 4 }}>
+          {/* Main Total Earnings Card */}
+          <Grid size={{ xs: 12, md: 3 }}>
+            <MainEarningsCard totalEarnings="$32,778.72" />
           </Grid>
 
-          {/* Right Column - Sidebar (4 columns) */}
-          <Grid size={{ xs: 12, lg: 4 }}>
+          {/* Other Earnings Cards */}
+          <Grid size={{ xs: 12, md: 9 }}>
             <Grid container spacing={3}>
-              
-              {/* Telegram News */}
-              <Grid size={{ xs: 12 }}>
-                <TelegramNews />
+              <Grid size={{ xs: 6, md: 3 }}>
+                <EarningsSummaryCard
+                  amount="$3,243.49"
+                  label="Subscriptions"
+                  icon={<IconUsers size={20} />}
+                  color="#5D87FF"
+                />
               </Grid>
-              
-              {/* Weekly Stats */}
-              <Grid size={{ xs: 12 }}>
-                <WeeklyStats isLoading={isLoading} />
+              <Grid size={{ xs: 6, md: 3 }}>
+                <EarningsSummaryCard
+                  amount="$156.00"
+                  label="Posts"
+                  icon={<IconFileStack size={20} />}
+                  color="#00D4AA"
+                />
               </Grid>
-              
+              <Grid size={{ xs: 6, md: 3 }}>
+                <EarningsSummaryCard
+                  amount="$26,553.20"
+                  label="Messages"
+                  icon={<IconMessage size={20} />}
+                  color="#9C27B0"
+                />
+              </Grid>
+              <Grid size={{ xs: 6, md: 3 }}>
+                <EarningsSummaryCard
+                  amount="$2,826.03"
+                  label="Tips"
+                  icon={<IconFlame size={20} />}
+                  color="#FF9800"
+                />
+              </Grid>
+              <Grid size={{ xs: 6, md: 3 }}>
+                <EarningsSummaryCard
+                  amount="$0.00"
+                  label="Referrals"
+                  icon={<IconUsers size={20} />}
+                  color="#FF5722"
+                />
+              </Grid>
+              <Grid size={{ xs: 6, md: 3 }}>
+                <EarningsSummaryCard
+                  amount="$0.00"
+                  label="Streams"
+                  icon={<IconFileStack size={20} />}
+                  color="#2196F3"
+                />
+              </Grid>
             </Grid>
           </Grid>
-          
-          {/* Bottom Row - Charts spanning full width */}
-          <Grid size={{ xs: 12, lg: 6 }}>
-            <EmployeeSalary isLoading={isLoading} />
-          </Grid>
-          
-          <Grid size={{ xs: 12, lg: 6 }}>
-            <TopPerformers />
-          </Grid>
-          
         </Grid>
+
+        {/* Earnings Trends Chart */}
+        <DashboardCard 
+          title="Earnings trends" 
+          subtitle=""
+          action={
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography variant="caption">?</Typography>
+            </Box>
+          }
+        >
+          <Chart
+            options={chartOptions}
+            series={chartSeries}
+            type="bar"
+            height={300}
+          />
+        </DashboardCard>
+
+        {/* Earnings by Channel */}
+        <Box sx={{ mt: 4 }}>
+          <Grid container spacing={3}>
+            <Grid size={{ xs: 12, md: 8 }}>
+              <DashboardCard title="Earnings by channel">
+                <Chart
+                  options={channelChartOptions}
+                  series={channelSeries}
+                  type="line"
+                  height={200}
+                />
+              </DashboardCard>
+            </Grid>
+            
+            <Grid size={{ xs: 12, md: 4 }}>
+              <Card sx={{ border: '1px solid #e0e0e0', height: '100%' }}>
+                <CardContent sx={{ p: 3 }}>
+                  <Stack spacing={3}>
+                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                      <Typography variant="body2" color="text.secondary">Subscriptions</Typography>
+                      <Box sx={{ textAlign: 'right' }}>
+                        <Typography variant="body2" fontWeight={600}>32.38%</Typography>
+                        <Typography variant="caption" color="text.secondary">$2587.94</Typography>
+                      </Box>
+                    </Stack>
+                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                      <Typography variant="body2" color="text.secondary">Tips</Typography>
+                      <Box sx={{ textAlign: 'right' }}>
+                        <Typography variant="body2" fontWeight={600}>5.12%</Typography>
+                        <Typography variant="caption" color="text.secondary">$409.45</Typography>
+                      </Box>
+                    </Stack>
+                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                      <Typography variant="body2" color="text.secondary">Posts</Typography>
+                      <Box sx={{ textAlign: 'right' }}>
+                        <Typography variant="body2" fontWeight={600}>0%</Typography>
+                        <Typography variant="caption" color="text.secondary">$0</Typography>
+                      </Box>
+                    </Stack>
+                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                      <Typography variant="body2" color="text.secondary">Messages</Typography>
+                      <Box sx={{ textAlign: 'right' }}>
+                        <Typography variant="body2" fontWeight={600}>62.50%</Typography>
+                        <Typography variant="caption" color="text.secondary">$4994.81</Typography>
+                      </Box>
+                    </Stack>
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </Box>
 
       </Box>
     </PageContainer>
