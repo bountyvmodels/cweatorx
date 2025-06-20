@@ -666,7 +666,7 @@ const CweatorLinksCreateDialog = ({ open, onClose, onSave, editingLink = null })
                       </Select>
                     </FormControl>
                     <Typography variant="caption" color="textSecondary">
-                      Add "I reply in less than X minutes" to the first button.
+                      Add &quot;I reply in less than X minutes&quot; to the first button.
                     </Typography>
                   </Box>
 
