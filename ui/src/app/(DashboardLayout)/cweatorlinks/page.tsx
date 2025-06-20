@@ -190,7 +190,7 @@ const CweatorLinksCreateDialog: React.FC<CweatorLinksCreateDialogProps> = ({ ope
   };
 
   const getLinkIcon = (iconType: string) => {
-    const icons = {
+    const icons: { [key: string]: JSX.Element } = {
       exclusive: <IconUsers size={16} />,
       link: <IconLink size={16} />,
       social: <IconBrandInstagram size={16} />,
