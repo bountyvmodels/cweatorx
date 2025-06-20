@@ -1,96 +1,60 @@
-// ui/src/app/(DashboardLayout)/cweatorlinks/page.tsx
-"use client";
-import React, { useState } from "react";
-import { 
-  Grid, 
-  Box, 
-  Card, 
-  CardContent, 
-  Typography, 
-  Button,
-  Chip,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TableContainer,
-  Switch,
-  IconButton,
-  Menu,
-  MenuItem,
-  Divider,
-  LinearProgress,
-  Stack,
-  Tooltip,
-  Tabs,
-  Tab,
+import React, { useState } from 'react';
+import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
+  Button,
   TextField,
   FormControlLabel,
-  Paper
-} from "@mui/material";
-import PageContainer from "@/app/components/container/PageContainer";
-import DashboardCard from "@/app/components/shared/DashboardCard";
-import { 
-  IconCopy, 
-  IconEye, 
-  IconShield, 
-  IconTrendingUp,
-  IconCalendar,
-  IconUsers,
-  IconChartLine,
-  IconDots,
-  IconEdit,
-  IconTrash,
-  IconSettings,
-  IconPlus,
-  IconDownload,
-  IconFilter,
-  IconSearch,
+  Switch,
+  Box,
+  Typography,
+  Tab,
+  Tabs,
+  Grid,
+  Card,
+  CardContent,
+  Stack,
+  Chip,
+  IconButton,
+  Divider,
+  Avatar,
+  Alert,
+  RadioGroup,
+  Radio,
+  FormControl,
+  FormLabel,
+  MenuItem,
+  Select,
+  InputLabel,
+  Slider
+} from '@mui/material';
+import {
   IconLink,
-  IconShieldCheck
-} from "@tabler/icons-react";
-import dynamic from "next/dynamic";
-
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
-
-// Sample link data
-const sampleLinks = [
-  {
-    id: 1,
-    url: "https://getallmylinks.com/itstillyreign",
-    description: "Main Profile",
-    type: "Direct Link",
-    shield: false,
-    isActive: true,
-    visits: 2431,
-    color: "#4CAF50"
-  },
-  {
-    id: 2,
-    url: "https://getallmylinks.com/walfustory", 
-    description: "Creative Portfolio",
-    type: "Direct Link",
-    shield: true,
-    isActive: true,
-    visits: 956,
-    color: "#9C27B0"
-  },
-  {
-    id: 3,
-    url: "https://getallmylinks.com/newfunnels",
-    description: "Marketing Funnels",
-    type: "Landing Page",
-    shield: false,
-    isActive: false,
-    visits: 245,
-    color: "#009688"
-  }
-];
+  IconShield,
+  IconPlus,
+  IconX,
+  IconCopy,
+  IconCheck,
+  IconUsers,
+  IconBarrierBlock,
+  IconGlobe,
+  IconDeviceMobile,
+  IconDeviceDesktop,
+  IconBrandInstagram,
+  IconBrandTwitter,
+  IconBrandTelegram,
+  IconMail,
+  IconPhone,
+  IconMapPin,
+  IconCalendar,
+  IconMusic,
+  IconVideo,
+  IconPhoto,
+  IconFile,
+  IconExternalLink
+} from '@tabler/icons-react';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -100,572 +64,671 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`cweatorlinks-tabpanel-${index}`}
-      aria-labelledby={`cweatorlinks-tab-${index}`}
+      id={`create-link-tabpanel-${index}`}
+      aria-labelledby={`create-link-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 0 }}>{children}</Box>}
     </div>
   );
 }
 
-const MetricCard = ({ 
-  number, 
-  title, 
-  subtitle,
-  bgColor, 
-  textColor = "#000",
-  icon 
-}: {
-  number: string;
-  title: string;
-  subtitle?: string;
-  bgColor: string;
-  textColor?: string;
-  icon?: React.ReactNode;
-}) => (
-  <Card 
-    sx={{ 
-      backgroundColor: bgColor,
-      minHeight: '160px',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: '16px',
-      border: '1px solid rgba(0,0,0,0.08)',
-      cursor: 'pointer',
-      transition: 'transform 0.2s',
-      '&:hover': {
-        transform: 'scale(1.02)'
-      }
-    }}
-  >
-    <CardContent sx={{ textAlign: 'center', p: 2 }}>
-      {icon && (
-        <Box sx={{ mb: 1, color: textColor }}>
-          {icon}
-        </Box>
-      )}
-      <Typography 
-        variant="h2" 
-        sx={{ 
-          fontWeight: 'bold', 
-          color: textColor,
-          mb: 1,
-          lineHeight: 1
-        }}
-      >
-        {number}
-      </Typography>
-      <Typography 
-        variant="h6" 
-        sx={{ 
-          fontWeight: 'medium', 
-          color: textColor,
-          mb: 0.5
-        }}
-      >
-        {title}
-      </Typography>
-      {subtitle && (
-        <Typography 
-          variant="body2" 
-          sx={{ 
-            color: textColor,
-            opacity: 0.8
-          }}
-        >
-          {subtitle}
-        </Typography>
-      )}
-    </CardContent>
-  </Card>
-);
+const CweatorLinksCreateDialog = ({ open, onClose, onSave, editingLink = null }) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [linkType, setLinkType] = useState('direct'); // 'direct' or 'landing'
+  const [deeplink, setDeeplink] = useState(editingLink?.url?.replace('https://clickallmylinks.com/', '') || '');
+  const [destinationUrl, setDestinationUrl] = useState(editingLink?.destinationUrl || '');
+  const [shieldProtection, setShieldProtection] = useState(editingLink?.shield || false);
+  
+  // Landing page specific states
+  const [templateType, setTemplateType] = useState('default');
+  const [textColor, setTextColor] = useState('light');
+  const [buttonStyle, setButtonStyle] = useState('round');
+  const [profileName, setProfileName] = useState(editingLink?.profileName || '');
+  const [bio, setBio] = useState(editingLink?.bio || '');
+  const [backgroundType, setBackgroundType] = useState('dark');
+  const [links, setLinks] = useState([
+    { id: 1, name: 'Exclusive Content', url: 'https://onlyfans.com/alexandra/c1', icon: 'exclusive' }
+  ]);
+  const [socialLinks, setSocialLinks] = useState({
+    instagram: 'https://www.instagram.com/alexandra',
+    twitter: 'https://twitter.com/alexandra',
+    telegram: 'https://t.me/alexandra',
+    youtube: 'https://www.youtube.com/@alexandra'
+  });
 
-const OverviewTab = () => {
-  const totalVisits = sampleLinks.reduce((sum, link) => sum + link.visits, 0);
-  const activeLinks = sampleLinks.filter(link => link.isActive).length;
-  const protectedLinks = sampleLinks.filter(link => link.shield).length;
+  // Advanced settings
+  const [responseTime, setResponseTime] = useState('');
+  const [promotion, setPromotion] = useState('80% OFF');
+  const [geoLocalization, setGeoLocalization] = useState(false);
+  const [onlineIndicator, setOnlineIndicator] = useState(true);
+  const [googleAnalytics, setGoogleAnalytics] = useState('');
+  const [facebookPixel, setFacebookPixel] = useState('');
 
-  const chartData = {
-    series: [{
-      name: 'Visits',
-      data: [30, 25, 35, 20, 30, 40, 35, 25, 30, 35, 25, 40, 30, 35, 25, 30, 40, 35, 30, 25, 35, 40, 30, 25, 35, 30, 40, 35, 25, 30]
-    }],
-    options: {
-      chart: {
-        type: 'area' as const,
-        height: 300,
-        toolbar: { show: false },
-        sparkline: { enabled: false }
-      },
-      stroke: {
-        width: 3,
-        curve: 'smooth' as const
-      },
-      colors: ['#5D87FF'],
-      fill: {
-        type: 'gradient',
-        gradient: {
-          shadeIntensity: 1,
-          opacityFrom: 0.4,
-          opacityTo: 0.1,
-          stops: [0, 90, 100]
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
+
+  const handleSave = () => {
+    const linkData = {
+      id: editingLink?.id || Date.now(),
+      url: `https://clickallmylinks.com/${deeplink}`,
+      description: linkType === 'landing' ? `Landing Page - ${profileName}` : 'Direct Link',
+      type: linkType === 'landing' ? 'Landing Page' : 'Direct Link',
+      shield: shieldProtection,
+      isActive: true,
+      visits: editingLink?.visits || 0,
+      color: linkType === 'landing' ? '#9C27B0' : '#4CAF50',
+      destinationUrl: linkType === 'direct' ? destinationUrl : null,
+      // Landing page data
+      ...(linkType === 'landing' && {
+        profileName,
+        bio,
+        templateType,
+        textColor,
+        buttonStyle,
+        backgroundType,
+        links,
+        socialLinks,
+        settings: {
+          responseTime,
+          promotion,
+          geoLocalization,
+          onlineIndicator,
+          googleAnalytics,
+          facebookPixel
         }
-      },
-      xaxis: {
-        categories: Array.from({length: 30}, (_, i) => `${i + 1}`),
-        title: { text: 'Last 30 Days' }
-      },
-      yaxis: {
-        title: { text: 'Visits' }
-      },
-      grid: {
-        borderColor: '#f1f1f1'
-      }
-    }
+      })
+    };
+    
+    onSave(linkData);
+    onClose();
   };
 
-  return (
-    <Box>
-      {/* Metrics Cards */}
-      <Grid container spacing={3} mb={4}>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <MetricCard 
-            number="43"
-            title="My Deeplinks"
-            subtitle="Active Links"
-            bgColor="#E3F2FD"
-            textColor="#1976D2"
-            icon={<IconLink size={28} />}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <MetricCard 
-            number="16"
-            title="Shield Protection"
-            subtitle="Protected Links"
-            bgColor="#FFF3E0"
-            textColor="#F57C00"
-            icon={<IconShield size={28} />}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <MetricCard 
-            number="6,924"
-            title="June Analytics"
-            subtitle="Visitors in June 2025"
-            bgColor="#F3E5F5"
-            textColor="#7B1FA2"
-            icon={<IconChartLine size={28} />}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <MetricCard 
-            number="234,381"
-            title="All Time Analytics"
-            subtitle="Total Visitors"
-            bgColor="#E8F5E8"
-            textColor="#388E3C"
-            icon={<IconTrendingUp size={28} />}
-          />
-        </Grid>
-      </Grid>
-
-      {/* Analytics Chart */}
-      <DashboardCard title="Traffic Analytics" subtitle="Visits over the last 30 days">
-        <Chart 
-          options={chartData.options} 
-          series={chartData.series} 
-          type="area" 
-          height={300} 
-        />
-      </DashboardCard>
-    </Box>
-  );
-};
-
-const MyLinksTab = () => {
-  const [links, setLinks] = useState(sampleLinks);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [editingLink, setEditingLink] = useState<any>(null);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedLinkId, setSelectedLinkId] = useState<number | null>(null);
-
-  const handleMenuClick = (event: React.MouseEvent<HTMLElement>, linkId: number) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedLinkId(linkId);
+  const addLink = () => {
+    const newLink = {
+      id: Date.now(),
+      name: '',
+      url: '',
+      icon: 'link'
+    };
+    setLinks([...links, newLink]);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    setSelectedLinkId(null);
-  };
-
-  const handleCreateLink = () => {
-    setEditingLink(null);
-    setOpenDialog(true);
-  };
-
-  const handleEditLink = (link: any) => {
-    setEditingLink(link);
-    setOpenDialog(true);
-    handleMenuClose();
-  };
-
-  const handleDeleteLink = (linkId: number) => {
-    setLinks(links.filter(link => link.id !== linkId));
-    handleMenuClose();
-  };
-
-  const handleToggleActive = (linkId: number) => {
+  const updateLink = (id, field, value) => {
     setLinks(links.map(link => 
-      link.id === linkId ? { ...link, isActive: !link.isActive } : link
+      link.id === id ? { ...link, [field]: value } : link
     ));
   };
 
-  const handleToggleShield = (linkId: number) => {
-    setLinks(links.map(link => 
-      link.id === linkId ? { ...link, shield: !link.shield } : link
-    ));
+  const removeLink = (id) => {
+    setLinks(links.filter(link => link.id !== id));
   };
 
-  const copyToClipboard = (url: string) => {
-    navigator.clipboard.writeText(url);
+  const getLinkIcon = (iconType) => {
+    const icons = {
+      exclusive: <IconUsers size={16} />,
+      link: <IconLink size={16} />,
+      social: <IconBrandInstagram size={16} />,
+      email: <IconMail size={16} />,
+      phone: <IconPhone size={16} />,
+      location: <IconMapPin size={16} />,
+      calendar: <IconCalendar size={16} />,
+      music: <IconMusic size={16} />,
+      video: <IconVideo size={16} />,
+      photo: <IconPhoto size={16} />,
+      file: <IconFile size={16} />
+    };
+    return icons[iconType] || icons.link;
   };
 
   return (
-    <Box>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
-        <Typography variant="h5">My Deeplinks</Typography>
+    <Dialog 
+      open={open} 
+      onClose={onClose} 
+      maxWidth="lg" 
+      fullWidth
+      PaperProps={{
+        sx: { height: '90vh' }
+      }}
+    >
+      <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <IconLink color="#5D87FF" />
+          <Typography variant="h6">
+            {editingLink ? 'Edit Deeplink' : 'Create New Deeplink'}
+          </Typography>
+        </Box>
+        <IconButton onClick={onClose} size="small">
+          <IconX />
+        </IconButton>
+      </DialogTitle>
+
+      <DialogContent sx={{ p: 0, overflow: 'hidden' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', px: 3 }}>
+          <Tabs value={activeTab} onChange={handleTabChange}>
+            <Tab 
+              label="Link Type" 
+              icon={<IconLink size={20} />} 
+              iconPosition="start"
+            />
+            {linkType === 'landing' && (
+              <>
+                <Tab 
+                  label="Templates" 
+                  icon={<IconDeviceMobile size={20} />} 
+                  iconPosition="start"
+                />
+                <Tab 
+                  label="Information" 
+                  icon={<IconUsers size={20} />} 
+                  iconPosition="start"
+                />
+                <Tab 
+                  label="Links" 
+                  icon={<IconPlus size={20} />} 
+                  iconPosition="start"
+                />
+                <Tab 
+                  label="Socials" 
+                  icon={<IconBrandInstagram size={20} />} 
+                  iconPosition="start"
+                />
+                <Tab 
+                  label="Advanced" 
+                  icon={<IconShield size={20} />} 
+                  iconPosition="start"
+                />
+              </>
+            )}
+          </Tabs>
+        </Box>
+
+        <Box sx={{ height: 'calc(90vh - 200px)', overflow: 'auto', p: 3 }}>
+          <TabPanel value={activeTab} index={0}>
+            <Stack spacing={3}>
+              <Typography variant="h6">Choose Link Type</Typography>
+              
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={6}>
+                  <Card 
+                    sx={{ 
+                      cursor: 'pointer', 
+                      border: linkType === 'landing' ? '2px solid #5D87FF' : '2px solid transparent',
+                      '&:hover': { transform: 'scale(1.02)' } 
+                    }}
+                    onClick={() => setLinkType('landing')}
+                  >
+                    <CardContent sx={{ textAlign: 'center', p: 3 }}>
+                      <IconDeviceMobile size={48} color={linkType === 'landing' ? '#5D87FF' : '#666'} />
+                      <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>Landing Page</Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Create a beautiful landing page with all your custom links and socials.
+                      </Typography>
+                      {linkType === 'landing' && (
+                        <Chip label="Selected" color="primary" size="small" sx={{ mt: 2 }} />
+                      )}
+                    </CardContent>
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Card 
+                    sx={{ 
+                      cursor: 'pointer', 
+                      border: linkType === 'direct' ? '2px solid #5D87FF' : '2px solid transparent',
+                      '&:hover': { transform: 'scale(1.02)' } 
+                    }}
+                    onClick={() => setLinkType('direct')}
+                  >
+                    <CardContent sx={{ textAlign: 'center', p: 3 }}>
+                      <IconExternalLink size={48} color={linkType === 'direct' ? '#5D87FF' : '#666'} />
+                      <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>Direct Link</Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Redirect users directly to any website without an intermediary page.
+                      </Typography>
+                      {linkType === 'direct' && (
+                        <Chip label="Selected" color="primary" size="small" sx={{ mt: 2 }} />
+                      )}
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+
+              <Box>
+                <Typography variant="subtitle1" fontWeight={600} mb={1}>
+                  Deeplink URL
+                </Typography>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography variant="body2" color="textSecondary">
+                    https://clickallmylinks.com/
+                  </Typography>
+                  <TextField
+                    placeholder="your-slug"
+                    value={deeplink}
+                    onChange={(e) => setDeeplink(e.target.value)}
+                    size="small"
+                    sx={{ flex: 1 }}
+                  />
+                </Stack>
+                <Typography variant="caption" color="textSecondary">
+                  The deeplink URL you will share on your Instagram bio.
+                </Typography>
+              </Box>
+
+              {linkType === 'direct' && (
+                <Box>
+                  <Typography variant="subtitle1" fontWeight={600} mb={1}>
+                    Destination URL
+                  </Typography>
+                  <TextField
+                    placeholder="https://onlyfans.com/alexandra/c1"
+                    value={destinationUrl}
+                    onChange={(e) => setDestinationUrl(e.target.value)}
+                    fullWidth
+                    size="small"
+                  />
+                  <Typography variant="caption" color="textSecondary">
+                    The website visitors will be redirected to when clicking on your link.
+                  </Typography>
+                </Box>
+              )}
+
+              <Box>
+                <FormControlLabel
+                  control={
+                    <Switch 
+                      checked={shieldProtection} 
+                      onChange={(e) => setShieldProtection(e.target.checked)}
+                    />
+                  }
+                  label={
+                    <Box>
+                      <Typography variant="subtitle2">Enable Shield Protection</Typography>
+                      <Typography variant="caption" color="textSecondary">
+                        To protect your social account, Shield Protection provides an additional layer of security.
+                      </Typography>
+                    </Box>
+                  }
+                />
+              </Box>
+            </Stack>
+          </TabPanel>
+
+          {linkType === 'landing' && (
+            <>
+              <TabPanel value={activeTab} index={1}>
+                <Stack spacing={3}>
+                  <Typography variant="h6">Choose Template</Typography>
+                  
+                  <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                      <Card sx={{ textAlign: 'center', cursor: 'pointer' }}>
+                        <CardContent>
+                          <Typography variant="body2">Default</Typography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  </Grid>
+
+                  <Typography variant="h6" mt={3}>Text Color</Typography>
+                  <RadioGroup
+                    value={textColor}
+                    onChange={(e) => setTextColor(e.target.value)}
+                    row
+                  >
+                    <FormControlLabel value="light" control={<Radio />} label="Light Texts" />
+                  </RadioGroup>
+
+                  <Typography variant="h6">Button Style</Typography>
+                  <RadioGroup
+                    value={buttonStyle}
+                    onChange={(e) => setButtonStyle(e.target.value)}
+                    row
+                  >
+                    <FormControlLabel value="round" control={<Radio />} label="Round Buttons" />
+                  </RadioGroup>
+                </Stack>
+              </TabPanel>
+
+              <TabPanel value={activeTab} index={2}>
+                <Stack spacing={3}>
+                  <Typography variant="h6">Profile Information</Typography>
+                  
+                  <Grid container spacing={3}>
+                    <Grid item xs={6}>
+                      <Typography variant="subtitle2" mb={1}>Profile Picture (max 4MB)</Typography>
+                      <Button variant="outlined" fullWidth>
+                        Choose File - No file chosen
+                      </Button>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography variant="subtitle2" mb={1}>Background Image (max 4MB)</Typography>
+                      <Button variant="outlined" fullWidth>
+                        Choose File - No file chosen
+                      </Button>
+                    </Grid>
+                  </Grid>
+
+                  <Box>
+                    <Typography variant="subtitle2" mb={1}>Name</Typography>
+                    <TextField
+                      placeholder="Alexandra Lancaster"
+                      value={profileName}
+                      onChange={(e) => setProfileName(e.target.value)}
+                      fullWidth
+                      size="small"
+                    />
+                  </Box>
+
+                  <Box>
+                    <Typography variant="subtitle2" mb={1}>Bio</Typography>
+                    <TextField
+                      placeholder="Check my exclusive content! 🔥"
+                      value={bio}
+                      onChange={(e) => setBio(e.target.value)}
+                      fullWidth
+                      multiline
+                      rows={2}
+                      size="small"
+                    />
+                  </Box>
+
+                  <Box>
+                    <Typography variant="subtitle2" mb={1}>Background Color</Typography>
+                    <FormControl fullWidth size="small">
+                      <Select
+                        value={backgroundType}
+                        onChange={(e) => setBackgroundType(e.target.value)}
+                      >
+                        <MenuItem value="dark">Dark Background</MenuItem>
+                        <MenuItem value="light">Light Background</MenuItem>
+                        <MenuItem value="gradient">Gradient</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Stack>
+              </TabPanel>
+
+              <TabPanel value={activeTab} index={3}>
+                <Stack spacing={3}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant="h6">Links</Typography>
+                    <Button 
+                      variant="contained" 
+                      startIcon={<IconPlus />}
+                      onClick={addLink}
+                      size="small"
+                    >
+                      Add a link
+                    </Button>
+                  </Box>
+                  
+                  {links.map((link, index) => (
+                    <Card key={link.id} variant="outlined">
+                      <CardContent>
+                        <Stack spacing={2}>
+                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Typography variant="subtitle2">Link {index + 1}</Typography>
+                            {links.length > 1 && (
+                              <IconButton 
+                                size="small" 
+                                color="error"
+                                onClick={() => removeLink(link.id)}
+                              >
+                                <IconX size={16} />
+                              </IconButton>
+                            )}
+                          </Box>
+                          
+                          <TextField
+                            label="Link name"
+                            placeholder="Exclusive Content"
+                            value={link.name}
+                            onChange={(e) => updateLink(link.id, 'name', e.target.value)}
+                            fullWidth
+                            size="small"
+                          />
+                          
+                          <TextField
+                            label="Link URL"
+                            placeholder="https://onlyfans.com/alexandra/c1"
+                            value={link.url}
+                            onChange={(e) => updateLink(link.id, 'url', e.target.value)}
+                            fullWidth
+                            size="small"
+                          />
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </Stack>
+              </TabPanel>
+
+              <TabPanel value={activeTab} index={4}>
+                <Stack spacing={3}>
+                  <Typography variant="h6">Social Media Links</Typography>
+                  
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <TextField
+                        label="Instagram"
+                        placeholder="https://www.instagram.com/alexandra"
+                        value={socialLinks.instagram}
+                        onChange={(e) => setSocialLinks({...socialLinks, instagram: e.target.value})}
+                        fullWidth
+                        size="small"
+                        InputProps={{
+                          startAdornment: <IconBrandInstagram size={20} style={{ marginRight: 8 }} />
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={6}>
+                      <TextField
+                        label="TikTok"
+                        placeholder="https://www.tiktok.com/@alexandra"
+                        fullWidth
+                        size="small"
+                        InputProps={{
+                          startAdornment: <IconVideo size={20} style={{ marginRight: 8 }} />
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={6}>
+                      <TextField
+                        label="Twitter"
+                        placeholder="https://twitter.com/alexandra"
+                        value={socialLinks.twitter}
+                        onChange={(e) => setSocialLinks({...socialLinks, twitter: e.target.value})}
+                        fullWidth
+                        size="small"
+                        InputProps={{
+                          startAdornment: <IconBrandTwitter size={20} style={{ marginRight: 8 }} />
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={6}>
+                      <TextField
+                        label="Snapchat"
+                        placeholder="https://www.snapchat.com/add/alexandra"
+                        fullWidth
+                        size="small"
+                        InputProps={{
+                          startAdornment: <IconPhoto size={20} style={{ marginRight: 8 }} />
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={6}>
+                      <TextField
+                        label="Telegram"
+                        placeholder="https://t.me/alexandra"
+                        value={socialLinks.telegram}
+                        onChange={(e) => setSocialLinks({...socialLinks, telegram: e.target.value})}
+                        fullWidth
+                        size="small"
+                        InputProps={{
+                          startAdornment: <IconBrandTelegram size={20} style={{ marginRight: 8 }} />
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={6}>
+                      <TextField
+                        label="YouTube"
+                        placeholder="https://www.youtube.com/@alexandra"
+                        value={socialLinks.youtube}
+                        onChange={(e) => setSocialLinks({...socialLinks, youtube: e.target.value})}
+                        fullWidth
+                        size="small"
+                        InputProps={{
+                          startAdornment: <IconVideo size={20} style={{ marginRight: 8 }} />
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                </Stack>
+              </TabPanel>
+
+              <TabPanel value={activeTab} index={5}>
+                <Stack spacing={3}>
+                  <Typography variant="h6">Advanced Settings</Typography>
+                  
+                  <Grid container spacing={3}>
+                    <Grid item xs={6}>
+                      <Stack spacing={2}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <Box sx={{ 
+                            width: 12, 
+                            height: 12, 
+                            borderRadius: '50%', 
+                            bgcolor: onlineIndicator ? '#4CAF50' : '#f44336' 
+                          }} />
+                          <Typography variant="subtitle2">Online</Typography>
+                        </Box>
+                        <Typography variant="caption" color="textSecondary">
+                          Using an Online indicator can boost clicks on your exclusive content link.
+                        </Typography>
+                        
+                        <FormControlLabel
+                          control={
+                            <Switch 
+                              checked={geoLocalization} 
+                              onChange={(e) => setGeoLocalization(e.target.checked)}
+                            />
+                          }
+                          label="🌍 City"
+                        />
+                        <Typography variant="caption" color="textSecondary">
+                          Using a GeoIP localizer makes fans feel closer to you.
+                        </Typography>
+                      </Stack>
+                    </Grid>
+                    
+                    <Grid item xs={6}>
+                      <Stack spacing={2}>
+                        <Typography variant="subtitle2">Promotion</Typography>
+                        <TextField
+                          placeholder="80% OFF"
+                          value={promotion}
+                          onChange={(e) => setPromotion(e.target.value)}
+                          fullWidth
+                          size="small"
+                        />
+                        <Typography variant="caption" color="textSecondary">
+                          Highlight a special offer with a countdown to attract more fans.
+                        </Typography>
+                      </Stack>
+                    </Grid>
+                  </Grid>
+
+                  <Box>
+                    <Typography variant="subtitle2" mb={1}>Response Time</Typography>
+                    <FormControl fullWidth size="small">
+                      <Select
+                        value={responseTime}
+                        onChange={(e) => setResponseTime(e.target.value)}
+                        displayEmpty
+                      >
+                        <MenuItem value="">Nothing selected</MenuItem>
+                        <MenuItem value="instant">Instant</MenuItem>
+                        <MenuItem value="5min">5 minutes</MenuItem>
+                        <MenuItem value="1hour">1 hour</MenuItem>
+                        <MenuItem value="1day">1 day</MenuItem>
+                      </Select>
+                    </FormControl>
+                    <Typography variant="caption" color="textSecondary">
+                      Add "I reply in less than X minutes" to the first button.
+                    </Typography>
+                  </Box>
+
+                  <Box>
+                    <Typography variant="subtitle2" mb={1}>Google Analytics (GA4)</Typography>
+                    <TextField
+                      placeholder="G-XXXXXXX"
+                      value={googleAnalytics}
+                      onChange={(e) => setGoogleAnalytics(e.target.value)}
+                      fullWidth
+                      size="small"
+                    />
+                    <Typography variant="caption" color="textSecondary">
+                      Enter your Google Analytics tracking code to analyze your traffic.
+                    </Typography>
+                  </Box>
+
+                  <Box>
+                    <Typography variant="subtitle2" mb={1}>Facebook Pixel ID</Typography>
+                    <TextField
+                      placeholder="1234567890123456"
+                      value={facebookPixel}
+                      onChange={(e) => setFacebookPixel(e.target.value)}
+                      fullWidth
+                      size="small"
+                    />
+                    <Typography variant="caption" color="textSecondary">
+                      Add your Facebook Pixel to build an audience.
+                    </Typography>
+                  </Box>
+
+                  <FormControlLabel
+                    control={<Switch />}
+                    label="Disable Link Logos"
+                  />
+                  <Typography variant="caption" color="textSecondary">
+                    Hide the logos in your link buttons (like the OF logo).
+                  </Typography>
+                </Stack>
+              </TabPanel>
+            </>
+          )}
+        </Box>
+      </DialogContent>
+
+      <DialogActions sx={{ p: 3, borderTop: 1, borderColor: 'divider' }}>
+        <Button onClick={onClose} variant="outlined">
+          Cancel
+        </Button>
         <Button 
-          variant="contained" 
-          startIcon={<IconPlus />}
-          onClick={handleCreateLink}
+          onClick={handleSave} 
+          variant="contained"
+          disabled={!deeplink || (linkType === 'direct' && !destinationUrl)}
           sx={{
             bgcolor: '#5D87FF',
             '&:hover': { bgcolor: '#4570EA' }
           }}
         >
-          Create Deeplink
+          {editingLink ? 'Update' : 'Create'}
         </Button>
-      </Stack>
-
-      <DashboardCard>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell><Typography variant="subtitle2" fontWeight={600}>Link</Typography></TableCell>
-                <TableCell><Typography variant="subtitle2" fontWeight={600}>Description</Typography></TableCell>
-                <TableCell><Typography variant="subtitle2" fontWeight={600}>Type</Typography></TableCell>
-                <TableCell><Typography variant="subtitle2" fontWeight={600}>Shield</Typography></TableCell>
-                <TableCell><Typography variant="subtitle2" fontWeight={600}>Status</Typography></TableCell>
-                <TableCell><Typography variant="subtitle2" fontWeight={600}>Analytics</Typography></TableCell>
-                <TableCell><Typography variant="subtitle2" fontWeight={600}>Actions</Typography></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {links.map((link) => (
-                <TableRow key={link.id}>
-                  <TableCell>
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                      <Typography variant="body2" sx={{ maxWidth: 200 }} noWrap>
-                        {link.url}
-                      </Typography>
-                      <Tooltip title="Copy Link">
-                        <IconButton size="small" onClick={() => copyToClipboard(link.url)}>
-                          <IconCopy size={16} />
-                        </IconButton>
-                      </Tooltip>
-                    </Stack>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="body2">{link.description}</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Chip 
-                      label={link.type}
-                      size="small"
-                      color={link.type === 'Landing Page' ? 'secondary' : 'primary'}
-                      variant="outlined"
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                      <Switch 
-                        checked={link.shield} 
-                        onChange={() => handleToggleShield(link.id)}
-                        size="small"
-                      />
-                      {link.shield ? (
-                        <Chip label="Safe Page" size="small" color="warning" />
-                      ) : (
-                        <Typography variant="body2" color="textSecondary">No</Typography>
-                      )}
-                    </Stack>
-                  </TableCell>
-                  <TableCell>
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                      <Switch 
-                        checked={link.isActive} 
-                        onChange={() => handleToggleActive(link.id)}
-                        size="small"
-                      />
-                      <Typography variant="body2" color={link.isActive ? 'success.main' : 'text.secondary'}>
-                        {link.isActive ? 'Active' : 'Inactive'}
-                      </Typography>
-                    </Stack>
-                  </TableCell>
-                  <TableCell>
-                    <Button size="small" startIcon={<IconEye />} variant="outlined">
-                      {link.visits.toLocaleString()}
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    <IconButton onClick={(e) => handleMenuClick(e, link.id)}>
-                      <IconDots />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </DashboardCard>
-
-      {/* Menu */}
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleMenuClose}
-      >
-        <MenuItem onClick={() => handleEditLink(links.find(l => l.id === selectedLinkId))}>
-          <IconEdit size={16} style={{ marginRight: 8 }} />
-          Edit
-        </MenuItem>
-        <MenuItem onClick={() => selectedLinkId && handleDeleteLink(selectedLinkId)} sx={{ color: 'error.main' }}>
-          <IconTrash size={16} style={{ marginRight: 8 }} />
-          Delete
-        </MenuItem>
-      </Menu>
-
-      {/* Create/Edit Dialog */}
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>
-          {editingLink ? 'Edit Deeplink' : 'Create New Deeplink'}
-        </DialogTitle>
-        <DialogContent>
-          <Stack spacing={3} sx={{ mt: 1 }}>
-            <TextField
-              label="Link URL"
-              fullWidth
-              defaultValue={editingLink?.url || ''}
-              placeholder="https://getallmylinks.com/yourname"
-            />
-            <TextField
-              label="Description"
-              fullWidth
-              defaultValue={editingLink?.description || ''}
-              placeholder="Enter a description for this link"
-            />
-            <FormControlLabel
-              control={<Switch defaultChecked={editingLink?.shield || false} />}
-              label="Enable Shield Protection"
-            />
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
-          <Button variant="contained" onClick={() => setOpenDialog(false)}>
-            {editingLink ? 'Update' : 'Create'}
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+      </DialogActions>
+    </Dialog>
   );
 };
 
-const ShieldProtectionTab = () => {
-  return (
-    <Box>
-      <Typography variant="h4" mb={3} fontWeight={600}>
-        Information about Shield Protection
-      </Typography>
-
-      <Grid container spacing={4}>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <DashboardCard>
-            <Stack spacing={3}>
-              <Box display="flex" alignItems="center" gap={2}>
-                <IconShieldCheck size={32} color="#4CAF50" />
-                <Typography variant="h5" fontWeight={600}>
-                  What is Shield Protection?
-                </Typography>
-              </Box>
-              
-              <Typography variant="body1" color="textSecondary">
-                Shield Protection is an optimal strategy for safely directing users from Instagram to pages, 
-                such as OnlyFans or affiliate platforms. It leverages sophisticated technology and machine 
-                learning (AI) to identify moderators and bots, displaying a safe page instead of the 
-                destination page if such entities are detected.
-              </Typography>
-
-              <Divider />
-
-              <Box>
-                <Typography variant="h6" fontWeight={600} mb={2}>
-                  What is a Safe Page?
-                </Typography>
-                <Typography variant="body1" color="textSecondary">
-                  A safe page is a webpage, similar to Linktree, where moderators and bots are redirected. 
-                  It is advisable to configure an alternate Instagram account and link it on your safe page.
-                </Typography>
-              </Box>
-
-              <Divider />
-
-              <Box>
-                <Typography variant="h6" fontWeight={600} mb={2}>
-                  How do I enable Shield Protection?
-                </Typography>
-                <Typography variant="body1" color="textSecondary">
-                  To enable Shield Protection, you must subscribe to a Creator or Agency plan. Each time 
-                  you create a new link, you will have the option to activate Shield Protection.
-                </Typography>
-              </Box>
-            </Stack>
-          </DashboardCard>
-        </Grid>
-
-        <Grid size={{ xs: 12, md: 6 }}>
-          <DashboardCard>
-            <Stack spacing={3}>
-              <Typography variant="h6" fontWeight={600}>
-                How does a shielded link work?
-              </Typography>
-
-              <Box>
-                <Typography variant="subtitle1" fontWeight={600} mb={1}>
-                  1 - Link Placement on Instagram:
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Place a shielded link (a GetAllMyLinks link) in your Instagram profile bio.
-                </Typography>
-              </Box>
-
-              <Box>
-                <Typography variant="subtitle1" fontWeight={600} mb={1}>
-                  2 - User Interaction:
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  When a user on Instagram clicks on this shielded link, the request is first sent to 
-                  the shield protection software&apos;s server instead of directly to the final destination URL.
-                </Typography>
-              </Box>
-
-              <Box>
-                <Typography variant="subtitle1" fontWeight={600} mb={1}>
-                  3 - Detection and Redirection by Shield Protection Software:
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  The shield protection Software detects the request, including important information 
-                  such as the user&apos;s device type, location, and the fact that the request originated 
-                  from the Instagram app on a mobile device.
-                </Typography>
-              </Box>
-
-              <Box>
-                <Typography variant="subtitle1" fontWeight={600} mb={1}>
-                  4 - Customized Redirection:
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Based on the detected information and predefined rules, the software decides the most 
-                  appropriate version of the destination URL to which the user should be redirected. 
-                  The final destination URL (private platforms, affiliate platform...etc) or the safe 
-                  page with your social medias.
-                </Typography>
-              </Box>
-
-              <Box>
-                <Typography variant="subtitle1" fontWeight={600} mb={1}>
-                  5 - Final User Destination:
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  The shield protection software redirects the user to the chosen destination URL using 
-                  the mobile browser after processing the request. This redirection is usually done so 
-                  the user overlooks the intermediate steps – they find themselves on the final page 
-                  as intended.
-                </Typography>
-              </Box>
-            </Stack>
-          </DashboardCard>
-        </Grid>
-      </Grid>
-    </Box>
-  );
-};
-
-export default function CweatorLinks() {
-  const [activeTab, setActiveTab] = useState(0);
-
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
-  };
-
-  return (
-    <PageContainer title="CweatorLinks" description="Manage your deeplinks and analytics">
-      <Box sx={{ width: '100%' }}>
-        {/* Header */}
-        <Stack direction="row" alignItems="center" spacing={2} mb={3}>
-          <IconLink size={32} color="#5D87FF" />
-          <Typography variant="h3" fontWeight={600} color="#5D87FF">
-            CweatorLinks
-          </Typography>
-        </Stack>
-
-        {/* Tabs */}
-        <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
-          <Tabs value={activeTab} onChange={handleTabChange}>
-            <Tab 
-              label="Overview" 
-              icon={<IconChartLine size={20} />} 
-              iconPosition="start"
-            />
-            <Tab 
-              label="My Links" 
-              icon={<IconLink size={20} />} 
-              iconPosition="start"
-            />
-            <Tab 
-              label="Shield Protection" 
-              icon={<IconShield size={20} />} 
-              iconPosition="start"
-            />
-          </Tabs>
-        </Box>
-
-        {/* Tab Panels */}
-        <TabPanel value={activeTab} index={0}>
-          <OverviewTab />
-        </TabPanel>
-        <TabPanel value={activeTab} index={1}>
-          <MyLinksTab />
-        </TabPanel>
-        <TabPanel value={activeTab} index={2}>
-          <ShieldProtectionTab />
-        </TabPanel>
-      </Box>
-    </PageContainer>
-  );
-}
+export default CweatorLinksCreateDialog;
