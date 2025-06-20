@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   Box, 
@@ -30,34 +29,35 @@ import {
   MenuItem
 } from '@mui/material';
 import { 
-  Play, 
-  Pause, 
-  Heart, 
-  MessageCircle, 
-  Share2, 
-  MoreVertical,
-  Upload,
-  Video,
-  ImageIcon,
-  Lock,
-  Unlock,
-  Eye,
-  EyeOff,
-  Filter,
-  Music,
-  Scissors,
-  Palette,
-  Sparkles,
-  Users,
-  DollarSign,
-  TrendingUp,
-  Camera,
-  Edit,
-  Save,
-  Settings,
-  Crown,
-  Zap
-} from 'lucide-react';
+  IconPlayerPlay, 
+  IconPlayerPause, 
+  IconHeart, 
+  IconMessage, 
+  IconShare,
+  IconDots,
+  IconUpload,
+  IconVideo,
+  IconPhoto,
+  IconLock,
+  IconLockOpen,
+  IconEye,
+  IconEyeOff,
+  IconFilter,
+  IconMusic,
+  IconCut,
+  IconPalette,
+  IconSparkles,
+  IconUsers,
+  IconCurrencyDollar,
+  IconTrendingUp,
+  IconCamera,
+  IconEdit,
+  IconDeviceFloppy,
+  IconSettings,
+  IconCrown,
+  IconBolt
+} from '@tabler/icons-react';
+import PageContainer from '@/app/components/container/PageContainer';
 
 // Mock data for posts
 const mockPosts = [
@@ -135,12 +135,12 @@ const mockPosts = [
 ];
 
 // Modern Post Component
-const PostCard = ({ post, onLike, onComment, onShare, onUnlock }) => {
+const PostCard = ({ post, onLike, onComment, onShare, onUnlock }: any) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [liked, setLiked] = useState(false);
   const [showUnlockDialog, setShowUnlockDialog] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState(null);
-  const videoRef = useRef(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const handlePlayPause = () => {
     if (post.isLocked) {
@@ -189,7 +189,7 @@ const PostCard = ({ post, onLike, onComment, onShare, onUnlock }) => {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             badgeContent={
               post.user.isPremium ? (
-                <Crown size={16} style={{ color: '#FFD700' }} />
+                <IconCrown size={16} style={{ color: '#FFD700' }} />
               ) : null
             }
           >
@@ -208,7 +208,7 @@ const PostCard = ({ post, onLike, onComment, onShare, onUnlock }) => {
                 {post.user.name}
               </Typography>
               {post.user.verified && (
-                <Zap size={16} style={{ color: '#ff9edb' }} />
+                <IconBolt size={16} style={{ color: '#ff9edb' }} />
               )}
             </Box>
             <Typography variant="body2" color="text.secondary">
@@ -216,8 +216,8 @@ const PostCard = ({ post, onLike, onComment, onShare, onUnlock }) => {
             </Typography>
           </Box>
         </Box>
-        <IconButton onClick={(e) => setMenuAnchor(e.currentTarget)}>
-          <MoreVertical size={20} />
+        <IconButton onClick={(e: any) => setMenuAnchor(e.currentTarget)}>
+          <IconDots size={20} />
         </IconButton>
       </Box>
 
@@ -267,11 +267,11 @@ const PostCard = ({ post, onLike, onComment, onShare, onUnlock }) => {
               }}
             >
               {post.isLocked ? (
-                <Lock size={32} color="white" />
+                <IconLock size={32} color="white" />
               ) : isPlaying ? (
-                <Pause size={32} color="white" />
+                <IconPlayerPause size={32} color="white" />
               ) : (
-                <Play size={32} color="white" />
+                <IconPlayerPlay size={32} color="white" />
               )}
             </Box>
 
@@ -304,7 +304,7 @@ const PostCard = ({ post, onLike, onComment, onShare, onUnlock }) => {
                   textAlign: 'center'
                 }}
               >
-                <Lock size={24} style={{ marginBottom: 8 }} />
+                <IconLock size={24} style={{ marginBottom: 8 }} />
                 <Typography variant="h6" fontWeight={600}>
                   Unlock for ${post.unlockPrice}
                 </Typography>
@@ -356,7 +356,7 @@ const PostCard = ({ post, onLike, onComment, onShare, onUnlock }) => {
                   color: 'white'
                 }}
               >
-                <Lock size={48} style={{ marginBottom: 16 }} />
+                <IconLock size={48} style={{ marginBottom: 16 }} />
                 <Typography variant="h5" fontWeight={600} mb={1}>
                   Unlock for ${post.unlockPrice}
                 </Typography>
@@ -387,21 +387,21 @@ const PostCard = ({ post, onLike, onComment, onShare, onUnlock }) => {
                 transition: 'all 0.2s ease'
               }}
             >
-              <Heart size={24} fill={liked ? '#ff9edb' : 'none'} />
+              <IconHeart size={24} style={{ fill: liked ? '#ff9edb' : 'none' }} />
             </IconButton>
             <Typography variant="body2" fontWeight={500}>
               {(post.likes + (liked ? 1 : 0)).toLocaleString()}
             </Typography>
             
             <IconButton onClick={() => onComment(post.id)} sx={{ ml: 2 }}>
-              <MessageCircle size={24} />
+              <IconMessage size={24} />
             </IconButton>
             <Typography variant="body2" fontWeight={500}>
               {post.comments.toLocaleString()}
             </Typography>
 
             <IconButton onClick={() => onShare(post.id)} sx={{ ml: 2 }}>
-              <Share2 size={24} />
+              <IconShare size={24} />
             </IconButton>
             <Typography variant="body2" fontWeight={500}>
               {post.shares.toLocaleString()}
@@ -410,7 +410,7 @@ const PostCard = ({ post, onLike, onComment, onShare, onUnlock }) => {
 
           {/* Tags */}
           <Box sx={{ display: 'flex', gap: 1 }}>
-            {post.tags.slice(0, 2).map((tag, index) => (
+            {post.tags.slice(0, 2).map((tag: string, index: number) => (
               <Chip
                 key={index}
                 label={`#${tag}`}
@@ -497,7 +497,7 @@ const PostCard = ({ post, onLike, onComment, onShare, onUnlock }) => {
 };
 
 // Create Content Dialog
-const CreateContentDialog = ({ open, onClose, onPost }) => {
+const CreateContentDialog = ({ open, onClose, onPost }: any) => {
   const [contentType, setContentType] = useState('reel');
   const [caption, setCaption] = useState('');
   const [isLocked, setIsLocked] = useState(false);
@@ -536,7 +536,7 @@ const CreateContentDialog = ({ open, onClose, onPost }) => {
         alignItems: 'center',
         gap: 1
       }}>
-        <Sparkles size={24} />
+        <IconSparkles size={24} />
         Create New Content
       </DialogTitle>
       <DialogContent sx={{ p: 3 }}>
@@ -560,7 +560,7 @@ const CreateContentDialog = ({ open, onClose, onPost }) => {
                 value="reel" 
                 label={
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Video size={20} />
+                    <IconVideo size={20} />
                     Reel
                   </Box>
                 } 
@@ -569,7 +569,7 @@ const CreateContentDialog = ({ open, onClose, onPost }) => {
                 value="image" 
                 label={
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <ImageIcon size={20} />
+                    <IconPhoto size={20} />
                     Image
                   </Box>
                 } 
@@ -591,7 +591,7 @@ const CreateContentDialog = ({ open, onClose, onPost }) => {
               }
             }}
           >
-            <Upload size={48} style={{ color: '#ff9edb', marginBottom: 16 }} />
+            <IconUpload size={48} style={{ color: '#ff9edb', marginBottom: 16 }} />
             <Typography variant="h6" mb={1}>
               Drop your {contentType} here
             </Typography>
@@ -635,7 +635,7 @@ const CreateContentDialog = ({ open, onClose, onPost }) => {
               }
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Lock size={20} />
+                  <IconLock size={20} />
                   Lock content for premium access
                 </Box>
               }
@@ -648,7 +648,7 @@ const CreateContentDialog = ({ open, onClose, onPost }) => {
                 </Typography>
                 <Slider
                   value={price}
-                  onChange={(e, val) => setPrice(val)}
+                  onChange={(e, val) => setPrice(val as number)}
                   min={1}
                   max={50}
                   step={0.5}
@@ -713,24 +713,24 @@ const CreateContentDialog = ({ open, onClose, onPost }) => {
 };
 
 // Main CweatorHub Component
-const CweatorHub = () => {
+export default function CweatorHubPage() {
   const [posts, setPosts] = useState(mockPosts);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
 
-  const handleLike = (postId) => {
+  const handleLike = (postId: number) => {
     console.log('Liked post:', postId);
   };
 
-  const handleComment = (postId) => {
+  const handleComment = (postId: number) => {
     console.log('Comment on post:', postId);
   };
 
-  const handleShare = (postId) => {
+  const handleShare = (postId: number) => {
     console.log('Share post:', postId);
   };
 
-  const handleUnlock = (postId, price) => {
+  const handleUnlock = (postId: number, price: number) => {
     console.log(`Unlocked post ${postId} for $${price}`);
     // Update post to show as unlocked
     setPosts(posts.map(post => 
@@ -738,139 +738,139 @@ const CweatorHub = () => {
     ));
   };
 
-  const handleCreatePost = (postData) => {
+  const handleCreatePost = (postData: any) => {
     console.log('Created new post:', postData);
     // Add new post logic here
   };
 
   const tabItems = [
-    { label: 'For You', icon: <TrendingUp size={20} /> },
-    { label: 'Following', icon: <Users size={20} /> },
-    { label: 'Trending', icon: <Sparkles size={20} /> }
+    { label: 'For You', icon: <IconTrendingUp size={20} /> },
+    { label: 'Following', icon: <IconUsers size={20} /> },
+    { label: 'Trending', icon: <IconSparkles size={20} /> }
   ];
 
   return (
-    <Box sx={{ 
-      minHeight: '100vh', 
-      backgroundColor: '#fafafa',
-      pb: 8
-    }}>
-      {/* Header */}
-      <Paper
-        elevation={2}
-        sx={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 100,
-          borderRadius: 0,
-          background: 'linear-gradient(135deg, #ff9edb 0%, #ff7dc7 100%)',
-          color: 'white'
-        }}
-      >
-        <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography variant="h4" fontWeight={700} sx={{ letterSpacing: '0.1em' }}>
-            CWEATORHUB
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <IconButton sx={{ color: 'white' }}>
-              <Settings size={24} />
-            </IconButton>
-            <Avatar sx={{ width: 40, height: 40 }} />
+    <PageContainer title="CweatorHub | CWEATORS" description="Create. Share. Earn.">
+      <Box sx={{ 
+        minHeight: '100vh', 
+        backgroundColor: '#fafafa',
+        pb: 8
+      }}>
+        {/* Header */}
+        <Paper
+          elevation={2}
+          sx={{
+            position: 'sticky',
+            top: 0,
+            zIndex: 100,
+            borderRadius: 0,
+            background: 'linear-gradient(135deg, #ff9edb 0%, #ff7dc7 100%)',
+            color: 'white'
+          }}
+        >
+          <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Typography variant="h4" fontWeight={700} sx={{ letterSpacing: '0.1em' }}>
+              CWEATORHUB
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <IconButton sx={{ color: 'white' }}>
+                <IconSettings size={24} />
+              </IconButton>
+              <Avatar sx={{ width: 40, height: 40 }} />
+            </Box>
+          </Box>
+
+          {/* Navigation Tabs */}
+          <Box sx={{ px: 2, pb: 1 }}>
+            <Tabs 
+              value={activeTab} 
+              onChange={(e, val) => setActiveTab(val)}
+              sx={{
+                '& .MuiTab-root': {
+                  color: 'rgba(255,255,255,0.7)',
+                  '&.Mui-selected': {
+                    color: 'white'
+                  }
+                },
+                '& .MuiTabs-indicator': {
+                  backgroundColor: 'white'
+                }
+              }}
+            >
+              {tabItems.map((item, index) => (
+                <Tab
+                  key={index}
+                  label={
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      {item.icon}
+                      {item.label}
+                    </Box>
+                  }
+                />
+              ))}
+            </Tabs>
+          </Box>
+        </Paper>
+
+        {/* Main Content */}
+        <Box sx={{ 
+          maxWidth: 600, 
+          mx: 'auto', 
+          p: 2
+        }}>
+          {/* Posts Feed */}
+          {posts.map(post => (
+            <PostCard
+              key={post.id}
+              post={post}
+              onLike={handleLike}
+              onComment={handleComment}
+              onShare={handleShare}
+              onUnlock={handleUnlock}
+            />
+          ))}
+
+          {/* Load More */}
+          <Box sx={{ textAlign: 'center', mt: 4 }}>
+            <Button
+              variant="outlined"
+              sx={{
+                borderColor: '#ff9edb',
+                color: '#ff9edb',
+                '&:hover': {
+                  backgroundColor: '#ff9edb',
+                  color: 'white'
+                }
+              }}
+            >
+              Load More Posts
+            </Button>
           </Box>
         </Box>
 
-        {/* Navigation Tabs */}
-        <Box sx={{ px: 2, pb: 1 }}>
-          <Tabs 
-            value={activeTab} 
-            onChange={(e, val) => setActiveTab(val)}
-            sx={{
-              '& .MuiTab-root': {
-                color: 'rgba(255,255,255,0.7)',
-                '&.Mui-selected': {
-                  color: 'white'
-                }
-              },
-              '& .MuiTabs-indicator': {
-                backgroundColor: 'white'
-              }
-            }}
-          >
-            {tabItems.map((item, index) => (
-              <Tab
-                key={index}
-                label={
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    {item.icon}
-                    {item.label}
-                  </Box>
-                }
-              />
-            ))}
-          </Tabs>
-        </Box>
-      </Paper>
+        {/* Floating Action Button */}
+        <Fab
+          onClick={() => setCreateDialogOpen(true)}
+          sx={{
+            position: 'fixed',
+            bottom: 24,
+            right: 24,
+            backgroundColor: '#ff9edb',
+            '&:hover': { backgroundColor: '#ff7dc7' },
+            width: 64,
+            height: 64
+          }}
+        >
+          <IconCamera size={28} />
+        </Fab>
 
-      {/* Main Content */}
-      <Box sx={{ 
-        maxWidth: 600, 
-        mx: 'auto', 
-        p: 2
-      }}>
-        {/* Posts Feed */}
-        {posts.map(post => (
-          <PostCard
-            key={post.id}
-            post={post}
-            onLike={handleLike}
-            onComment={handleComment}
-            onShare={handleShare}
-            onUnlock={handleUnlock}
-          />
-        ))}
-
-        {/* Load More */}
-        <Box sx={{ textAlign: 'center', mt: 4 }}>
-          <Button
-            variant="outlined"
-            sx={{
-              borderColor: '#ff9edb',
-              color: '#ff9edb',
-              '&:hover': {
-                backgroundColor: '#ff9edb',
-                color: 'white'
-              }
-            }}
-          >
-            Load More Posts
-          </Button>
-        </Box>
+        {/* Create Content Dialog */}
+        <CreateContentDialog
+          open={createDialogOpen}
+          onClose={() => setCreateDialogOpen(false)}
+          onPost={handleCreatePost}
+        />
       </Box>
-
-      {/* Floating Action Button */}
-      <Fab
-        onClick={() => setCreateDialogOpen(true)}
-        sx={{
-          position: 'fixed',
-          bottom: 24,
-          right: 24,
-          backgroundColor: '#ff9edb',
-          '&:hover': { backgroundColor: '#ff7dc7' },
-          width: 64,
-          height: 64
-        }}
-      >
-        <Camera size={28} />
-      </Fab>
-
-      {/* Create Content Dialog */}
-      <CreateContentDialog
-        open={createDialogOpen}
-        onClose={() => setCreateDialogOpen(false)}
-        onPost={handleCreatePost}
-      />
-    </Box>
+    </PageContainer>
   );
-};
-
-export default CweatorHub;
+}
