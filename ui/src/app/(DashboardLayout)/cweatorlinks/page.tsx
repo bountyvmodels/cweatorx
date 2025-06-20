@@ -90,7 +90,14 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const CweatorLinksCreateDialog = ({ open, onClose, onSave, editingLink = null }) => {
+interface CweatorLinksCreateDialogProps {
+  open: boolean;
+  onClose: () => void;
+  onSave: (linkData: any) => void;
+  editingLink?: any;
+}
+
+const CweatorLinksCreateDialog: React.FC<CweatorLinksCreateDialogProps> = ({ open, onClose, onSave, editingLink = null }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [linkType, setLinkType] = useState('direct'); // 'direct' or 'landing'
   const [deeplink, setDeeplink] = useState(editingLink?.url?.replace('https://clickallmylinks.com/', '') || '');
