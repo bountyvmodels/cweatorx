@@ -57,7 +57,7 @@ const AgencyMenuItems: MenuitemsType[] = [
     id: uniqueId(),
     title: "CWEATORHUB",
     icon: IconUsers,
-    href: "/cweators",
+    href: "/cweatorshub",
   },
   {
     id: uniqueId(),
@@ -121,6 +121,14 @@ const CweatorMenuItems: MenuitemsType[] = [
   {
     navlabel: true,
     subheader: "Creator Tools",
+  },
+  {
+  id: uniqueId(),
+  title: "CweatorHub",
+  icon: IconUsers, // or IconBrandInstagram for a more social feel
+  href: "/cweatorhub",
+  chip: "New",
+  chipColor: "secondary",
   },
   {
     id: uniqueId(),
